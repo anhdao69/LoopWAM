@@ -8,7 +8,8 @@ import torch
 
 from fastwam.loop.data import ManifestDataset, build_split_manifest, manifest_indices, save_manifest
 from fastwam.loop.sampler import DistributedWindowSampler, configurations_for_step, resolve_mode
-from fastwam.loop.trainer import EMA, GradientCoverage, WarmupConstantLR, build_parameter_groups, deepspeed_config, optimizer_update
+from fastwam.loop.trainer import (EMA, GradientCoverage, WarmupConstantLR, build_parameter_groups,
+                                 deepspeed_config, optimizer_update, teacher_identity, validate_resume_contract)
 
 
 def synthetic_dataset(tmp_path):
@@ -230,3 +231,25 @@ def test_gradient_coverage_detects_disconnected_trainable_parameters():
     assert report['missing'] == ['lora_unused']
     assert report['groups']['lora']['observed'] == 0
     assert report['groups']['shared_or_inherited']['observed'] == 2
+
+
+def test_resume_teacher_identity_and_explicit_fork_contract(tmp_path):
+    teacher = tmp_path / 'teacher.pt'
+    teacher.write_bytes(b'original-teacher')
+    old_output, new_output = tmp_path / 'stage1', tmp_path / 'stage2'
+    expected = dict(stats_sha256='stats', manifest_sha256='split', seed=42, loss='L3', world_size=4,
+                    global_batch=128, teacher_identity=teacher_identity(teacher), mode='fixed',
+                    stage2_mode='coupled', stage3_mode='decoupled')
+    saved = copy.deepcopy(expected)
+    validate_resume_contract(saved, expected, state_root=old_output / 'state', output=old_output)
+    expected['mode'] = 'coupled'
+    with pytest.raises(ValueError, match='Same-output resume'):
+        validate_resume_contract(saved, expected, state_root=old_output / 'state', output=old_output)
+    validate_resume_contract(saved, expected, state_root=old_output / 'state', output=new_output)
+    teacher.write_bytes(b'different-teacher')
+    expected['teacher_identity'] = teacher_identity(teacher)
+    with pytest.raises(ValueError, match='teacher_identity'):
+        validate_resume_contract(saved, expected, state_root=old_output / 'state', output=new_output)
+    del saved['teacher_identity']
+    with pytest.raises(ValueError, match='teacher_identity'):
+        validate_resume_contract(saved, expected, state_root=old_output / 'state', output=new_output)

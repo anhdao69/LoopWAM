@@ -183,6 +183,12 @@ def build_dataset(manifest: dict, split: str, *, stats: str | Path = DEFAULT_STA
     cfg.pretrained_norm_stats = str(Path(stats).resolve())
     cfg.val_set_proportion = 0.0
     cfg.is_training_set = split == 'train'
+    cfg.skip_padding_as_possible = False
+    if (cfg.num_frames != 33 or cfg.global_sample_stride != 1 or cfg.action_video_freq_ratio != 4
+            or list(cfg.video_size) != [224, 448] or cfg.concat_multi_camera != 'horizontal'
+            or [entry.key for entry in cfg.shape_meta.images] != ['image', 'wrist_image']
+            or cfg.processor.norm_default_mode != 'min/max'):
+        raise ValueError('LoopWAM requires the teacher libero_2cam preprocessing contract')
     cfg.text_embedding_cache_dir = str(Path(text_cache).resolve())
     kwargs = OmegaConf.to_container(cfg, resolve=True)
     kwargs.pop('_target_')

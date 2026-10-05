@@ -10,6 +10,7 @@ import signal
 import time
 from collections import defaultdict
 from contextlib import contextmanager
+from datetime import timedelta
 from pathlib import Path
 
 import numpy as np
@@ -271,12 +272,29 @@ def save_training_state(engine, ema, sampler, output: Path, metadata: dict, *, k
     return destination
 
 
+def teacher_identity(checkpoint: str | Path) -> dict:
+    """Immutable file identity without reading a multi-gigabyte teacher on every rank."""
+    path = Path(checkpoint).resolve(strict=True)
+    info = path.stat()
+    return {'path': str(path), 'size': info.st_size, 'mtime_ns': info.st_mtime_ns}
+
+
+def validate_resume_contract(metadata: dict, expected: dict, *, state_root: str | Path, output: str | Path) -> None:
+    for name in ('stats_sha256', 'manifest_sha256', 'seed', 'loss', 'world_size', 'global_batch', 'teacher_identity'):
+        if name not in metadata or metadata[name] != expected[name]:
+            raise ValueError(f'Resume mismatch for {name}: {metadata.get(name)!r} != {expected[name]!r}')
+    # A branch into a different output directory is an explicit stage fork.
+    # Continuing the same output must preserve its sampling experiment.
+    if Path(state_root).resolve() == (Path(output).resolve() / 'state'):
+        for name in ('mode', 'stage2_mode', 'stage3_mode'):
+            if metadata.get(name) != expected[name]:
+                raise ValueError(f'Same-output resume cannot change {name}; use a new --output for an explicit fork')
+
+
 def load_training_state(engine, ema, sampler, state_root: str | Path, expected: dict) -> dict:
     state_root = Path(state_root)
     metadata = json.loads((state_root / 'latest.json').read_text())
-    for name in ('stats_sha256', 'manifest_sha256', 'seed', 'loss', 'world_size', 'global_batch'):
-        if metadata[name] != expected[name]:
-            raise ValueError(f'Resume mismatch for {name}: {metadata[name]} != {expected[name]}')
+    validate_resume_contract(metadata, expected, state_root=state_root, output=expected['output'])
     tag = metadata['tag']
     loaded, client_state = engine.load_checkpoint(str(state_root), tag=tag, load_module_strict=True,
                                                 load_optimizer_states=True, load_lr_scheduler_states=True)
@@ -337,7 +355,8 @@ def train(args) -> dict:
     torch.set_num_threads(args.cpu_threads)
     # torchrun initializes rendezvous; DeepSpeed receives an already initialized PG.
     if not dist.is_initialized():
-        dist.init_process_group('nccl', device_id=torch.device('cuda', local_rank))
+        # Rank-zero open-loop diagnostics intentionally leave peers at a barrier.
+        dist.init_process_group('nccl', device_id=torch.device('cuda', local_rank), timeout=timedelta(minutes=30))
     rank, world_size = dist.get_rank(), dist.get_world_size()
     device = torch.device('cuda', local_rank)
     if args.grad_accum is None:
@@ -355,6 +374,17 @@ def train(args) -> dict:
     from fastwam.utils.misc import register_work_dir
     register_work_dir(output)
     manifest = build_split_manifest(args.data_root, args.split_seed, verify_parquet=rank == 0)
+    base_metadata = {'version': 2, 'init': str(Path(args.init).resolve()), 'loss': args.loss, 'seed': args.seed,
+                     'output': str(output),
+                     'mode': args.mode, 'stage2_mode': args.stage2_mode, 'stage3_mode': args.stage3_mode,
+                     'stats_sha256': file_sha256(args.stats), 'manifest_sha256': manifest_digest(manifest),
+                     'world_size': world_size, 'global_batch': 128, 'max_steps': args.max_steps,
+                     'dataset_counts': manifest['counts'], 'teacher': str(Path(args.teacher).resolve()),
+                     'teacher_identity': teacher_identity(args.teacher),
+                     'micro_batch': args.micro_batch, 'grad_accum': args.grad_accum, 'zero_stage': args.zero_stage}
+    if args.resume:
+        saved_metadata = json.loads((Path(args.resume) / 'latest.json').read_text())
+        validate_resume_contract(saved_metadata, base_metadata, state_root=args.resume, output=output)
     if rank == 0:
         save_manifest(manifest, args.manifest or output / 'split_manifest.json')
         save_manifest(manifest, output / 'split_manifest.json')
@@ -362,6 +392,8 @@ def train(args) -> dict:
         atomic_json(config, output / 'deepspeed_config.json')
     dist.barrier()
     dataset = build_dataset(manifest, 'train', stats=args.stats, text_cache=args.text_cache)
+    if rank == 0:
+        print(f'[startup] dataset ready after {time.monotonic() - job_started:.2f}s', flush=True)
     validation = ManifestDataset(dataset.dataset, manifest, 'validation') if rank == 0 and args.diagnostic_every else None
     sampler = DistributedWindowSampler(len(dataset), rank=rank, world_size=world_size, seed=args.seed)
     loader = DataLoader(dataset, batch_size=args.micro_batch, sampler=sampler, num_workers=args.workers,
@@ -377,6 +409,8 @@ def train(args) -> dict:
                        teacher_checkpoint=args.teacher if args.loss == 'L3' else None,
                        loss_recipe=args.loss, mode=args.mode, seed=args.seed,
                        gradient_checkpointing=args.gradient_checkpointing)
+    if rank == 0:
+        print(f'[startup] model and teacher ready after {time.monotonic() - job_started:.2f}s', flush=True)
     bad = [n for n, p in model.named_parameters() if p.requires_grad and p.dtype != torch.float32]
     if bad:
         raise ValueError(f'Trainable master parameters must be float32: {bad[:5]}')
@@ -389,12 +423,6 @@ def train(args) -> dict:
                                                    config=config, dist_init_required=False)
     ema = EMA(model, decay=.999)
     coverage = GradientCoverage(model)
-    base_metadata = {'version': 1, 'init': str(Path(args.init).resolve()), 'loss': args.loss, 'seed': args.seed,
-                     'mode': args.mode, 'stage2_mode': args.stage2_mode, 'stage3_mode': args.stage3_mode,
-                     'stats_sha256': file_sha256(args.stats), 'manifest_sha256': manifest_digest(manifest),
-                     'world_size': world_size, 'global_batch': 128, 'max_steps': args.max_steps,
-                     'dataset_counts': manifest['counts'], 'teacher': str(Path(args.teacher).resolve()),
-                     'micro_batch': args.micro_batch, 'grad_accum': args.grad_accum, 'zero_stage': args.zero_stage}
     step = 0
     if args.resume:
         saved = load_training_state(engine, ema, sampler, args.resume, base_metadata)
@@ -413,6 +441,9 @@ def train(args) -> dict:
     old_handlers = {sig: signal.signal(sig, request_stop) for sig in (signal.SIGTERM, signal.SIGINT, signal.SIGUSR1)}
     torch.cuda.synchronize(device)
     started = time.monotonic()
+    initialization_seconds = started - job_started
+    if rank == 0:
+        print(f'[startup] training ready after {initialization_seconds:.2f}s', flush=True)
     start_step, checkpoint_seconds, diagnostic_seconds = step, 0., 0.
     warmup_seconds, warmup_completed = 0., 0
     metric_sums, metric_counts = {}, {}
@@ -548,6 +579,7 @@ def train(args) -> dict:
         measured_seconds = train_seconds - warmup_seconds
         timing = {**final_metadata, 'start_step': start_step, 'steps': completed, 'steps_completed': completed,
                   'training_seconds': train_seconds, 'checkpoint_seconds': checkpoint_seconds,
+                  'initialization_seconds': initialization_seconds,
                   'diagnostic_seconds': diagnostic_seconds,
                   'seconds_per_step': measured_seconds / measured_steps if measured_steps else None,
                   'mean_seconds_per_step': train_seconds / completed if completed else None,
