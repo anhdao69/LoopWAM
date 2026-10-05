@@ -4,7 +4,7 @@ tokenizer_model_id: Wan-AI/Wan2.1-T2V-1.3B
 tokenizer_max_len: 128
 load_text_encoder: false
 proprio_dim: ${data.train.processor.proprio_output_dim}
-redirect_common_files: true
+redirect_common_files: false
 mot_checkpoint_mixed_attn: false
 compile_training_denoise: false
 action_idm_prob: 0.5
