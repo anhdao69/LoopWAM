@@ -6,6 +6,7 @@ registered as a student child module, so train()/DeepSpeed cannot mutate it.
 """
 from __future__ import annotations
 import os
+from contextlib import nullcontext
 from pathlib import Path
 import torch
 from torch import nn
@@ -14,6 +15,7 @@ from fastwam.models.wan22.mot import MoT
 from fastwam.models.wan22.schedulers.scheduler_continuous import WanContinuousFlowMatchScheduler
 from .mot import LoopMoT
 from .losses import action_loss, assert_shifts
+from .schedule import PAIRS
 
 
 class LoopWAM(FastWAM):
@@ -93,7 +95,13 @@ class LoopWAM(FastWAM):
             raise ValueError('LoopWAM inference shift must be 5.0')
         if Kv is not None or Ka is not None:
             self.set_budget(self.mot.kv if Kv is None else Kv,self.mot.ka if Ka is None else Ka)
-        return super().infer_action(prompt,input_image,action_horizon,proprio,context,context_mask,negative_prompt,text_cfg_scale,num_inference_steps,5.,seed,rand_device,tiled,compile_action_infer)
+        # Dynamo's default eight guards per frame cannot hold ten action
+        # budgets. Scope this allowance to the compiled call and restore the
+        # caller's configuration afterward, including on compilation failure.
+        scope=(torch._dynamo.config.patch(cache_size_limit=max(torch._dynamo.config.cache_size_limit,len(PAIRS)))
+               if compile_action_infer else nullcontext())
+        with scope:
+            return super().infer_action(prompt,input_image,action_horizon,proprio,context,context_mask,negative_prompt,text_cfg_scale,num_inference_steps,5.,seed,rand_device,tiled,compile_action_infer)
 
     def _inputs(self,sample):
         move=lambda x,dtype=None:x.to(device=self.device,dtype=dtype,non_blocking=True)

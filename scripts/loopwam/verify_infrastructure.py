@@ -46,6 +46,7 @@ def main():
     parser.add_argument('--junit', required=True)
     parser.add_argument('--validation-root', default='runs/loopwam_validation')
     parser.add_argument('--conversion-audit', default='outputs/loopwam_v1/conversion_audit.json')
+    parser.add_argument('--overfit', help='Passing warmup-diagnostic protocol, required to launch the campaign')
     parser.add_argument('--output', default='outputs/loopwam_v1/infrastructure.json')
     args = parser.parse_args()
     cases = list(ET.parse(args.junit).getroot().iter('testcase'))
@@ -82,6 +83,12 @@ def main():
                   generated_at=time.time(), executed_pytest_cases=len(cases), junit=artifact(args.junit),
                   production_evidence=[artifact(path) for path in paths],
                   commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip())
+    if args.overfit:
+        from check_overfit import evaluate_record
+        measured = evaluate_record(args.overfit)
+        require(measured['status'] == 'pass' and json.loads(Path(args.overfit).read_text()).get('status') == 'pass',
+                'Overfit near-zero gate has not passed')
+        record['overfit_evidence'] = dict(status='pass', **artifact(args.overfit))
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = output.with_suffix('.json.tmp')
