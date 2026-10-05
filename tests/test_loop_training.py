@@ -9,7 +9,8 @@ import torch
 from fastwam.loop.data import ManifestDataset, build_split_manifest, manifest_indices, save_manifest
 from fastwam.loop.sampler import DistributedWindowSampler, configurations_for_step, resolve_mode
 from fastwam.loop.trainer import (EMA, GradientCoverage, WarmupConstantLR, build_parameter_groups,
-                                 deepspeed_config, optimizer_update, teacher_identity, validate_resume_contract)
+                                 deepspeed_config, gradient_group_name, grouped_gradient_norms,
+                                 optimizer_update, teacher_identity, validate_resume_contract)
 
 
 def synthetic_dataset(tmp_path):
@@ -253,3 +254,25 @@ def test_resume_teacher_identity_and_explicit_fork_contract(tmp_path):
     del saved['teacher_identity']
     with pytest.raises(ValueError, match='teacher_identity'):
         validate_resume_contract(saved, expected, state_root=old_output / 'state', output=new_output)
+
+
+def test_grouped_gradient_norms_cover_all_parameters_and_match_total():
+    model = torch.nn.Module()
+    model.meta = {'arch': 'loopwam'}
+    model.mot = torch.nn.Module()
+    model.mot.mixtures = torch.nn.ModuleDict()
+    for stream in ('video', 'action'):
+        expert = torch.nn.Module()
+        expert.blocks = torch.nn.ModuleList([torch.nn.Linear(3, 3) for _ in range(12)])
+        model.mot.mixtures[stream] = expert
+    model.proprio_encoder = torch.nn.Linear(3, 3)
+    for parameter in model.parameters():
+        parameter.grad = torch.ones_like(parameter)
+    norms = grouped_gradient_norms(model, distributed=False)
+    expected = torch.linalg.vector_norm(torch.cat([p.grad.flatten() for p in model.parameters()]))
+    torch.testing.assert_close(torch.stack(list(norms.values())).square().sum().sqrt(), expected)
+    assert gradient_group_name(model, 'mot.mixtures.video.blocks.0.weight') == 'video/prelude'
+    assert gradient_group_name(model, 'mot.mixtures.action.blocks.5.weight') == 'action/core_base'
+    assert gradient_group_name(model, 'mot.mixtures.video.blocks.10.weight') == 'video/coda'
+    assert gradient_group_name(model, 'mot.mixtures.video.blocks.5.norm_q.weight') == 'video/slot'
+    assert gradient_group_name(model, 'mot.mixtures.action.blocks.5.lora_a') == 'action/lora'

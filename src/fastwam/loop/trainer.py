@@ -5,6 +5,7 @@ import argparse
 import json
 import os
 import random
+import re
 import shutil
 import signal
 import time
@@ -168,6 +169,55 @@ def build_parameter_groups(model: torch.nn.Module, lr: float = 5e-5, new_lr: flo
     if not groups:
         raise ValueError('No trainable parameters')
     return list(groups.values())
+
+
+def gradient_group_name(model, name: str) -> str:
+    if name.startswith('proprio_encoder.'):
+        return 'proprio'
+    match = re.match(r'mot\.mixtures\.(video|action)\.(.*)', name)
+    if match is None:
+        return 'other'
+    stream, suffix = match.groups()
+    block = re.match(r'blocks\.(\d+)\.', suffix)
+    if block is None:
+        return f'{stream}/global'
+    index = int(block.group(1))
+    if 'lora' in suffix:
+        return f'{stream}/lora'
+    looped = getattr(model, 'meta', {}).get('arch') == 'loopwam'
+    if 'delta' in suffix or (looped and 3 <= index < 9 and 'norm' in suffix):
+        return f'{stream}/slot'
+    blocks = model.mot.mixtures[stream].blocks
+    section = 'prelude' if index < 3 else 'coda' if index >= len(blocks) - 3 else 'core_base'
+    return f'{stream}/{section}'
+
+
+@torch.no_grad()
+def grouped_gradient_norms(model, *, distributed: bool = True) -> dict[str, torch.Tensor]:
+    """Global accumulated, averaged, pre-clipping norms for ZeRO-1/2.
+
+    DeepSpeed 0.18.7 exposes the local, non-overlapping gradient fragments via
+    each parameter's HP mapping after backward. Summing only their squared norms
+    avoids materializing/all-gathering every full gradient. One small vector
+    all-reduce reconstructs the exact global group norms.
+    """
+    named = [(name, p) for name, p in model.named_parameters() if p.requires_grad and p.numel()]
+    device = named[0][1].device
+    groups = {gradient_group_name(model, name) for name, _ in named}
+    sums = {name: torch.zeros((), device=device) for name in sorted(groups)}
+    for name, parameter in named:
+        if hasattr(parameter, '_hp_mapping'):
+            mapping = parameter._hp_mapping
+            gradient = None if mapping is None else mapping.get_lp_grad_fragment(parameter._index_in_param_group)
+        else:
+            gradient = parameter.grad
+        if gradient is not None:
+            sums[gradient_group_name(model, name)] += torch.linalg.vector_norm(gradient.detach().float()).square()
+    keys = list(sums)
+    values = torch.stack([sums[name] for name in keys])
+    if distributed:
+        dist.all_reduce(values, op=dist.ReduceOp.SUM)
+    return dict(zip(keys, values.sqrt().unbind()))
 
 
 def optimizer_update(model, optimizer, *, ema=None, scheduler=None, clip_grad: float = 1.) -> None:
@@ -446,6 +496,7 @@ def train(args) -> dict:
         print(f'[startup] training ready after {initialization_seconds:.2f}s', flush=True)
     start_step, checkpoint_seconds, diagnostic_seconds = step, 0., 0.
     warmup_seconds, warmup_completed = 0., 0
+    total_data_wait, warmup_data_wait = 0., 0.
     metric_sums, metric_counts = {}, {}
     interval_start, interval_step = started, step
     overfit_samples = []
@@ -469,12 +520,16 @@ def train(args) -> dict:
                 else:
                     restore_rng(overfit_rng)
             step_metrics = {}
+            group_norms = None
+            step_data_wait = 0.
             finite = torch.ones((), dtype=torch.bool, device=device)
             for micro in range(args.grad_accum):
                 if args.overfit_one_batch and len(overfit_samples) == args.grad_accum:
                     sample = overfit_samples[micro]
                 else:
+                    data_start = time.monotonic()
                     sample = next(iterator)
+                    step_data_wait += time.monotonic() - data_start
                     if args.overfit_one_batch:
                         overfit_samples.append(sample)
                 sample = to_device(sample, device)
@@ -492,6 +547,8 @@ def train(args) -> dict:
                     dist.all_reduce(finite, op=dist.ReduceOp.MIN)
                     if not finite.item():
                         raise FloatingPointError(f'Nonfinite loss at absolute step {step}; last committed checkpoint is valid')
+                    if step == 0 or (step + 1) % 100 == 0:
+                        group_norms = grouped_gradient_norms(model)
                 engine.step()
             # engine.step performs an optimizer update only at the accumulation boundary.
             step += 1
@@ -515,19 +572,29 @@ def train(args) -> dict:
             if step - start_step <= args.timing_warmup_steps:
                 warmup_completed = step - start_step
                 warmup_seconds = time.monotonic() - started - checkpoint_seconds - diagnostic_seconds
+                warmup_data_wait += step_data_wait
+            total_data_wait += step_data_wait
+            step_metrics['data_wait_seconds_per_step'] = torch.tensor(step_data_wait, device=device)
+            if group_norms is not None:
+                step_metrics.update({f'gradient_norm/{name}': value for name, value in group_norms.items()})
             for key, value in step_metrics.items():
                 metric_sums[key] = metric_sums.get(key, 0) + value
                 metric_counts[key] = metric_counts.get(key, 0) + 1
-            if step % args.log_every == 0 or step == args.max_steps:
+            if step % args.log_every == 0 or step == args.max_steps or group_norms is not None:
                 keys = sorted(metric_sums)
                 values = torch.stack([metric_sums[k] / metric_counts[k] for k in keys])
                 dist.all_reduce(values, op=dist.ReduceOp.SUM)
-                logged = dict(zip(keys, (values / world_size).cpu().tolist()))
+                max_wait = (metric_sums['data_wait_seconds_per_step'] / metric_counts['data_wait_seconds_per_step']).clone()
+                dist.all_reduce(max_wait, op=dist.ReduceOp.MAX)
+                logged = dict(zip(keys + ['max_rank_data_wait_seconds_per_step'],
+                                  torch.cat((values / world_size, max_wait[None])).cpu().tolist()))
                 now = time.monotonic()
                 record = {**logged, 'global_step': step, 'lr': scheduler.get_last_lr()[0],
                           'mode': model.mode, 'seconds_per_step': (now - interval_start) / (step - interval_step),
                           'samples_seen': step * 128, 'epoch_equivalent': step * 128 / len(dataset),
                           'elapsed_seconds': now - started, 'max_memory_allocated_gb': torch.cuda.max_memory_allocated(device) / 1e9}
+                if group_norms is not None:
+                    record['gradient_norm_scope'] = 'global_accumulated_pre_clip'
                 if rank == 0:
                     with (output / 'metrics.jsonl').open('a') as handle:
                         handle.write(json.dumps(record, sort_keys=True) + '\n')
@@ -577,6 +644,10 @@ def train(args) -> dict:
         completed = step - start_step
         measured_steps = completed - warmup_completed
         measured_seconds = train_seconds - warmup_seconds
+        data_wait = torch.tensor((total_data_wait - warmup_data_wait) / max(measured_steps, 1), device=device)
+        max_data_wait = data_wait.clone()
+        dist.all_reduce(data_wait, op=dist.ReduceOp.SUM)
+        dist.all_reduce(max_data_wait, op=dist.ReduceOp.MAX)
         timing = {**final_metadata, 'start_step': start_step, 'steps': completed, 'steps_completed': completed,
                   'training_seconds': train_seconds, 'checkpoint_seconds': checkpoint_seconds,
                   'initialization_seconds': initialization_seconds,
@@ -585,7 +656,10 @@ def train(args) -> dict:
                   'mean_seconds_per_step': train_seconds / completed if completed else None,
                   'timing_warmup_steps': warmup_completed, 'timing_measured_steps': measured_steps,
                   'timing_measured_seconds': measured_seconds,
-                  'samples_per_second': completed * 128 / train_seconds if train_seconds else None,
+                  'samples_per_second': measured_steps * 128 / measured_seconds if measured_steps and measured_seconds else None,
+                  'mean_samples_per_second': completed * 128 / train_seconds if train_seconds else None,
+                  'data_wait_seconds_per_step': float(data_wait / world_size) if measured_steps else None,
+                  'max_rank_data_wait_seconds_per_step': float(max_data_wait) if measured_steps else None,
                   'max_memory_allocated_gb': torch.cuda.max_memory_allocated(device) / 1e9,
                   'raw_checkpoint': str(output / 'raw.pt'), 'ema_checkpoint': str(output / 'ema.pt'),
                   'state_path': str(output / 'state')}
