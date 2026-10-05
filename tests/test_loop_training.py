@@ -276,3 +276,149 @@ def test_grouped_gradient_norms_cover_all_parameters_and_match_total():
     assert gradient_group_name(model, 'mot.mixtures.video.blocks.10.weight') == 'video/coda'
     assert gradient_group_name(model, 'mot.mixtures.video.blocks.5.norm_q.weight') == 'video/slot'
     assert gradient_group_name(model, 'mot.mixtures.action.blocks.5.lora_a') == 'action/lora'
+
+
+def make_tiny_latent_cache(tmp_path):
+    from fastwam.loop.data import (CACHE_FORMAT, LATENT_SHAPE, file_sha256, manifest_digest,
+                                  tensor_payload_digest, window_identity, write_cache_contexts,
+                                  write_cache_record)
+    root = tmp_path / 'latents'
+    manifest = {'episodes': [
+        {'episode_id': 0, 'task_id': 0, 'task': 'first', 'window_start': 0, 'window_stop': 2, 'windows': 2},
+        {'episode_id': 1, 'task_id': 1, 'task': 'second', 'window_start': 2, 'window_stop': 4, 'windows': 2}],
+        'train_window_ids': [0, 1], 'validation_window_ids': [2, 3]}
+    contexts = {task: {'context': torch.full((128, 4096), float(task + 1), dtype=torch.bfloat16),
+                       'context_mask': torch.ones(128, dtype=torch.bool), 'prompt': f'prompt {task}'}
+                for task in range(2)}
+    for sample in contexts.values():
+        sample['context'][90:] = 0  # zero original masked T5 rows, retain all-ones returned mask
+    metadata = {'format': CACHE_FORMAT, 'manifest_sha256': manifest_digest(manifest), 'stats_sha256': 'stats-v1',
+                'expected_windows': 4, 'contexts': {str(task): {
+                    'processed_sha256': tensor_payload_digest(sample), 'prompt': sample['prompt']}
+                    for task, sample in contexts.items()}}
+    metadata['cache_id'] = manifest_digest(metadata)
+    save_manifest(metadata, root / 'metadata.json')
+    write_cache_contexts(root, metadata, contexts)
+    samples = {}
+    for window_id in range(4):
+        sample = {**window_identity(manifest, window_id),
+                  'input_latents': torch.full(LATENT_SHAPE, window_id / 8, dtype=torch.bfloat16),
+                  'action': torch.arange(224, dtype=torch.float32).reshape(32, 7) + window_id,
+                  'proprio': torch.arange(256, dtype=torch.float32).reshape(32, 8) - window_id,
+                  'image_is_pad': torch.arange(9) >= (1 if window_id % 2 else 9),
+                  'action_is_pad': torch.arange(32) >= (1 if window_id % 2 else 32),
+                  'proprio_is_pad': torch.arange(33) >= (1 if window_id % 2 else 33)}
+        samples[window_id] = copy.deepcopy(sample)
+        write_cache_record(root, metadata, sample)
+    save_manifest({'cache_id': metadata['cache_id'], 'metadata_sha256': file_sha256(root / 'metadata.json'),
+                   'completed_windows': 4, 'window_ids_sha256': manifest_digest([0, 1, 2, 3])}, root / 'complete.json')
+    return root, manifest, metadata, samples, contexts
+
+
+def test_latent_cache_preserves_original_windows_features_padding_context_and_rng(tmp_path, monkeypatch):
+    import fastwam.loop.data as data
+    root, manifest, metadata, samples, contexts = make_tiny_latent_cache(tmp_path)
+    monkeypatch.setattr(data, 'build_dataset', lambda *args, **kwargs: pytest.fail('Cache attempted raw image/data loading'))
+    state = torch.get_rng_state().clone()
+    train = data.CachedLatentDataset(root, manifest, 'train', metadata)
+    validation = train.for_split('validation')
+    assert train.indices == [0, 1] and validation.indices == [2, 3]
+    assert data.manifest_indices(manifest, 'all') == [0, 1, 2, 3]
+    # Includes adjacent episode boundaries and both end-padded windows.
+    for dataset in (train, validation):
+        for index, window_id in enumerate(dataset.indices):
+            actual = dataset[index]
+            assert 'video' not in actual
+            for key, expected in samples[window_id].items():
+                if isinstance(expected, torch.Tensor):
+                    assert torch.equal(actual[key], expected)
+                    assert actual[key].dtype == expected.dtype
+                else:
+                    assert actual[key] == expected
+            assert torch.equal(actual['context'], contexts[actual['task_id']]['context'])
+            assert actual['context_mask'].all() and not actual['context'][90:].any()
+            assert actual['prompt'] == f"prompt {actual['task_id']}"
+    assert torch.equal(state, torch.get_rng_state())
+
+
+def test_latent_cache_rejects_incomplete_changed_sources_missing_and_corrupt_records(tmp_path):
+    from fastwam.loop.data import CachedLatentDataset, cache_record_path, validate_complete_cache
+    root, manifest, metadata, *_ = make_tiny_latent_cache(tmp_path)
+    changed = copy.deepcopy(metadata)
+    changed['stats_sha256'] = 'different'
+    with pytest.raises(ValueError, match='provenance'):
+        CachedLatentDataset(root, manifest, 'train', changed)
+    complete = json.loads((root / 'complete.json').read_text())
+    (root / 'complete.json').unlink()
+    with pytest.raises(FileNotFoundError):
+        CachedLatentDataset(root, manifest, 'train', metadata)
+    (root / 'complete.json').write_text(json.dumps({**complete, 'window_ids_sha256': 'wrong-ids-same-count'}))
+    with pytest.raises(ValueError, match='incomplete'):
+        validate_complete_cache(root, metadata)
+    (root / 'complete.json').write_text(json.dumps(complete))
+    dataset = CachedLatentDataset(root, manifest, 'train', metadata)
+    cache_record_path(root, 0).unlink()
+    with pytest.raises(FileNotFoundError):
+        dataset[0]
+    payload = torch.load(cache_record_path(root, 1), weights_only=True)
+    payload['sample']['action'][0, 0] += 1
+    torch.save(payload, cache_record_path(root, 1))
+    with pytest.raises(ValueError, match='checksum'):
+        dataset[1]
+
+
+def test_latent_cache_rejects_wrong_episode_and_context_even_with_self_consistent_checksums(tmp_path):
+    from fastwam.loop.data import CachedLatentDataset, cache_record_path, tensor_payload_digest
+    root, manifest, metadata, *_ = make_tiny_latent_cache(tmp_path)
+    dataset = CachedLatentDataset(root, manifest, 'train', metadata)
+    payload = torch.load(cache_record_path(root, 1), weights_only=True)
+    payload['sample']['task_id'] = 1
+    payload['sha256'] = tensor_payload_digest(payload['sample'])
+    torch.save(payload, cache_record_path(root, 1))
+    with pytest.raises(ValueError, match='identity'):
+        dataset[1]
+    context_path = root / 'contexts/task_00.pt'
+    payload = torch.load(context_path, weights_only=True)
+    payload['sample']['context'][0, 0] += 1
+    payload['sha256'] = tensor_payload_digest(payload['sample'])
+    torch.save(payload, context_path)
+    with pytest.raises(ValueError, match='context checksum'):
+        CachedLatentDataset(root, manifest, 'train', metadata)
+
+
+def test_cached_records_compact_contiguous_views_before_serialization(tmp_path):
+    from fastwam.loop.data import LATENT_SHAPE, cache_record_path, write_cache_record
+    root, manifest, metadata, samples, _ = make_tiny_latent_cache(tmp_path)
+    sample = samples[0]
+    # A contiguous view still retains its much larger backing storage in torch.save.
+    sample['input_latents'] = torch.zeros((8, *LATENT_SHAPE), dtype=torch.bfloat16)[3]
+    sample['action'] = torch.zeros((128, 32, 7), dtype=torch.float32)[7]
+    assert sample['action'].is_contiguous()
+    assert sample['action'].untyped_storage().nbytes() > sample['action'].numel() * sample['action'].element_size()
+    write_cache_record(root, metadata, sample)
+    serialized = torch.load(cache_record_path(root, 0), weights_only=True)['sample']
+    for value in serialized.values():
+        if isinstance(value, torch.Tensor):
+            assert value.untyped_storage().nbytes() == value.numel() * value.element_size()
+
+
+def test_latent_cache_forbids_random_preprocessing_and_live_cache_resume_switch(tmp_path):
+    from fastwam.loop.data import validate_deterministic_preprocessing
+    config = {'use_text_embed_cache': True, 'context_len': 128, 'processor': {
+        'train_transforms': [{'_target_': 'fastwam.datasets.lerobot.transforms.image.ToTensor'},
+                             {'_target_': 'torchvision.transforms.Resize', 'size': [224, 224]}]}}
+    config['processor']['val_transforms'] = copy.deepcopy(config['processor']['train_transforms'])
+    validate_deterministic_preprocessing(config)
+    for name, value in [('drop_high_level_prob', .5), ('action_state_transforms', []),
+                        ('train_transforms', [{'_target_': 'torchvision.transforms.RandomCrop', 'size': 224}])]:
+        changed = copy.deepcopy(config)
+        changed['processor'][name] = value
+        with pytest.raises(ValueError, match='deterministic'):
+            validate_deterministic_preprocessing(changed)
+    metadata = dict(stats_sha256='s', manifest_sha256='m', seed=42, loss='L2', world_size=4,
+                    global_batch=128, teacher_identity={'size': 1}, latent_cache_identity={'cache_id': 'one'})
+    validate_resume_contract(metadata, metadata, state_root=tmp_path / 'old/state', output=tmp_path / 'new')
+    for identity in (None, {'cache_id': 'two'}):
+        with pytest.raises(ValueError, match='latent_cache_identity'):
+            validate_resume_contract(metadata, {**metadata, 'latent_cache_identity': identity},
+                                     state_root=tmp_path / 'old/state', output=tmp_path / 'new')

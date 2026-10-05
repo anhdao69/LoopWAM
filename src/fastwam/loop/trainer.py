@@ -19,8 +19,8 @@ import torch
 import torch.distributed as dist
 from torch.utils.data import DataLoader
 
-from .data import (DEFAULT_DATA_ROOT, DEFAULT_STATS, DEFAULT_TEXT_CACHE, ManifestDataset, build_dataset,
-                   build_split_manifest, file_sha256, manifest_digest, save_manifest)
+from .data import (DEFAULT_DATA_ROOT, DEFAULT_STATS, DEFAULT_TEXT_CACHE, CachedLatentDataset, build_dataset,
+                   build_split_manifest, cache_provenance, file_sha256, manifest_digest, save_manifest)
 from .sampler import DistributedWindowSampler, MODES, resolve_mode
 
 
@@ -333,6 +333,8 @@ def validate_resume_contract(metadata: dict, expected: dict, *, state_root: str 
     for name in ('stats_sha256', 'manifest_sha256', 'seed', 'loss', 'world_size', 'global_batch', 'teacher_identity'):
         if name not in metadata or metadata[name] != expected[name]:
             raise ValueError(f'Resume mismatch for {name}: {metadata.get(name)!r} != {expected[name]!r}')
+    if metadata.get('latent_cache_identity') != expected.get('latent_cache_identity'):
+        raise ValueError('Resume mismatch for latent_cache_identity; cached and live latent streams cannot be interchanged')
     # A branch into a different output directory is an explicit stage fork.
     # Continuing the same output must preserve its sampling experiment.
     if Path(state_root).resolve() == (Path(output).resolve() / 'state'):
@@ -386,6 +388,7 @@ def parser() -> argparse.ArgumentParser:
     p.add_argument('--gradient-checkpointing', action='store_true')
     p.add_argument('--data-root', default=DEFAULT_DATA_ROOT)
     p.add_argument('--text-cache', default=DEFAULT_TEXT_CACHE)
+    p.add_argument('--latent-cache', help='Complete offline per-window VAE cache; missing/corrupt records fail immediately')
     p.add_argument('--manifest', help='Immutable split file; defaults to output/split_manifest.json')
     p.add_argument('--split-seed', type=int, default=42, help='Fixed across training seeds')
     p.add_argument('--time-budget-seconds', type=float, default=None)
@@ -423,7 +426,14 @@ def train(args) -> dict:
         raise ValueError('Output already contains training state; pass --resume to continue it')
     from fastwam.utils.misc import register_work_dir
     register_work_dir(output)
-    manifest = build_split_manifest(args.data_root, args.split_seed, verify_parquet=rank == 0)
+    manifest = build_split_manifest(args.data_root, args.split_seed, verify_parquet=rank == 0 and not args.latent_cache)
+    dataset = None
+    if args.latent_cache:
+        message = [None]
+        if rank == 0:
+            message[0], _ = cache_provenance(manifest, stats=args.stats, text_cache=args.text_cache)
+        dist.broadcast_object_list(message, src=0)
+        dataset = CachedLatentDataset(args.latent_cache, manifest, 'train', message[0])
     base_metadata = {'version': 2, 'init': str(Path(args.init).resolve()), 'loss': args.loss, 'seed': args.seed,
                      'output': str(output),
                      'mode': args.mode, 'stage2_mode': args.stage2_mode, 'stage3_mode': args.stage3_mode,
@@ -431,6 +441,7 @@ def train(args) -> dict:
                      'world_size': world_size, 'global_batch': 128, 'max_steps': args.max_steps,
                      'dataset_counts': manifest['counts'], 'teacher': str(Path(args.teacher).resolve()),
                      'teacher_identity': teacher_identity(args.teacher),
+                     'latent_cache_identity': dataset.identity if dataset is not None else None,
                      'micro_batch': args.micro_batch, 'grad_accum': args.grad_accum, 'zero_stage': args.zero_stage}
     if args.resume:
         saved_metadata = json.loads((Path(args.resume) / 'latest.json').read_text())
@@ -441,10 +452,11 @@ def train(args) -> dict:
         atomic_json(vars(args), output / 'train_args.json')
         atomic_json(config, output / 'deepspeed_config.json')
     dist.barrier()
-    dataset = build_dataset(manifest, 'train', stats=args.stats, text_cache=args.text_cache)
+    if dataset is None:
+        dataset = build_dataset(manifest, 'train', stats=args.stats, text_cache=args.text_cache)
     if rank == 0:
         print(f'[startup] dataset ready after {time.monotonic() - job_started:.2f}s', flush=True)
-    validation = ManifestDataset(dataset.dataset, manifest, 'validation') if rank == 0 and args.diagnostic_every else None
+    validation = dataset.for_split('validation') if rank == 0 and args.diagnostic_every else None
     sampler = DistributedWindowSampler(len(dataset), rank=rank, world_size=world_size, seed=args.seed)
     loader = DataLoader(dataset, batch_size=args.micro_batch, sampler=sampler, num_workers=args.workers,
                         pin_memory=True, persistent_workers=args.workers > 0,
