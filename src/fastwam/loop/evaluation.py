@@ -6,10 +6,12 @@ error has no success rate; all ten complete tasks are required for a summary.
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
 import hashlib
 import json
 import math
 import os
+import signal
 from pathlib import Path
 import subprocess
 import sys
@@ -21,6 +23,85 @@ PROTOCOL = dict(suite="libero_10", tasks=10, initial_states=50, initial_state_in
                 action_horizon=32, euler_steps=10, sigma_shift=5.0, replan_steps=10,
                 max_steps=700, num_steps_wait=30, compiled=True, text_cfg_scale=1.0,
                 binarize_gripper=True, weights="stage_end_ema")
+
+
+def check_deadline(deadline):
+    if deadline is not None and time.time() >= deadline:
+        raise TimeoutError("Allocation deadline reached; completed task files are preserved")
+
+
+def stop_process_groups(processes, grace_seconds=10):
+    """Terminate every descendant in sessions created with start_new_session."""
+    for process in processes:
+        try:
+            os.killpg(process.pid, signal.SIGTERM)
+        except ProcessLookupError:
+            pass
+    until = time.monotonic() + grace_seconds
+    while time.monotonic() < until and any(p.poll() is None for p in processes):
+        time.sleep(.05)
+    # Kill groups even when their leader exited: a compiler/simulator child
+    # may have outlived the Python process that started it.
+    for process in processes:
+        try:
+            os.killpg(process.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+        process.wait()
+
+
+def run_process_group(command, *, deadline=None, on_tick=None, **kwargs):
+    check_deadline(deadline)
+    process = subprocess.Popen(command, start_new_session=True, **kwargs)
+    try:
+        while process.poll() is None:
+            check_deadline(deadline)
+            if on_tick is not None:
+                on_tick()
+            time.sleep(.1)
+        if process.returncode:
+            raise subprocess.CalledProcessError(process.returncode, command)
+        return process.returncode
+    finally:
+        stop_process_groups([process])
+
+
+def profile_cache_key(args):
+    """Weights share an architecture profile; runtime/code changes invalidate it."""
+    from importlib.metadata import version
+    device = subprocess.run(["nvidia-smi", "--query-gpu=name,driver_version", "--format=csv,noheader",
+                             "--id=" + args.gpus.split(",")[0]],
+                            capture_output=True, text=True, check=True, timeout=10).stdout.strip()
+    digest = hashlib.sha256()
+    for path in sorted((ROOT / "src/fastwam").rglob("*.py")):
+        digest.update(str(path.relative_to(ROOT)).encode())
+        digest.update(path.read_bytes())
+    return dict(architecture=args.profile_architecture, device_driver=device, torch_version=version("torch"),
+                source_sha256=digest.hexdigest(), stats_sha256=sha256_file(args.stats), protocol=PROTOCOL)
+
+
+def reusable_profile(profile, key):
+    if (profile.get("cache_key") != key or profile.get("status") != "complete"
+            or profile.get("warmup") != 50 or profile.get("calls") != 500):
+        return False
+    return all(isinstance(profile.get(mode, {}).get(metric), (int, float))
+               and math.isfinite(profile[mode][metric]) and profile[mode][metric] > 0
+               for mode in ("eager", "compiled") for metric in ("p50_ms", "p90_ms", "p99_ms"))
+
+
+@contextmanager
+def allocation_signals():
+    """Let manager finally blocks clean up worker sessions on SIGTERM/SIGINT."""
+    def interrupted(signum, frame):
+        # An external cancellation is not evidence of an allocation timeout.
+        # In particular, cancelling a job must never authorize another one.
+        raise InterruptedError(f"Process interrupted by signal {signum}")
+    previous = {sig: signal.signal(sig, interrupted) for sig in (signal.SIGTERM, signal.SIGINT)}
+    try:
+        yield
+    finally:
+        for sig, handler in previous.items():
+            signal.signal(sig, handler)
 
 
 def atomic_json(path: Path, value):
@@ -248,7 +329,7 @@ def worker(args):
             raise
 
 
-def evaluate(args):
+def _evaluate(args, tick):
     output = Path(args.output).resolve()
     output.mkdir(parents=True, exist_ok=True)
     protocol = dict(PROTOCOL, seed=args.seed, kv=args.kv, ka=args.ka, teacher=args.teacher,
@@ -278,11 +359,27 @@ def evaluate(args):
         base_env = os.environ.copy()
         base_env.setdefault("OMP_NUM_THREADS", "1")
         started = time.monotonic()
+        deadline = args.deadline - args.deadline_reserve_seconds if args.deadline is not None else None
+        cache_path = Path(args.profile_cache) if getattr(args, "profile_cache", None) else None
+        cache_key = None
+        if args.profile and cache_path is not None and not (output / "latency.json").exists():
+            cache_key = profile_cache_key(args)
+            if cache_path.exists():
+                cached = json.loads(cache_path.read_text())
+                if reusable_profile(cached, cache_key):
+                    cached.update(reused_from=str(cache_path.resolve()),
+                                  reused_for_checkpoint=file_identity(args.checkpoint))
+                    atomic_json(output / "latency.json", cached)
         if args.profile and not (output / "latency.json").exists():
             env = dict(base_env, CUDA_VISIBLE_DEVICES=gpu_ids[0])
             with (output / "profile.log").open("a") as log:
-                subprocess.run(cmd + ["--profile-only", "--worker", "profile"], cwd=ROOT,
-                               env=env, stdout=log, stderr=subprocess.STDOUT, check=True)
+                run_process_group(cmd + ["--profile-only", "--worker", "profile"], cwd=ROOT,
+                    env=env, stdout=log, stderr=subprocess.STDOUT, deadline=deadline, on_tick=tick)
+            if cache_path is not None:
+                measured = json.loads((output / "latency.json").read_text())
+                measured["cache_key"] = cache_key
+                atomic_json(output / "latency.json", measured)
+                atomic_json(cache_path, measured)
         if had_summary:
             return
         pending = []
@@ -299,12 +396,16 @@ def evaluate(args):
             stale.rmdir()
         workers = []
         try:
+            check_deadline(deadline)
             for index, gpu in enumerate(gpu_ids[:len(pending)]):
                 log = (output / f"worker_{index}.log").open("a")
                 proc = subprocess.Popen(cmd + ["--worker", str(index)], cwd=ROOT,
-                        env=dict(base_env, CUDA_VISIBLE_DEVICES=gpu), stdout=log, stderr=subprocess.STDOUT)
+                        env=dict(base_env, CUDA_VISIBLE_DEVICES=gpu), stdout=log, stderr=subprocess.STDOUT,
+                        start_new_session=True)
                 workers.append((proc, log))
             while any(proc.poll() is None for proc, _ in workers):
+                check_deadline(deadline)
+                tick()
                 failures = [proc.returncode for proc, _ in workers if proc.poll() not in (None, 0)]
                 if failures:
                     raise RuntimeError(f"Evaluation worker failed: {failures}; see {output}")
@@ -312,23 +413,48 @@ def evaluate(args):
             if any(proc.returncode != 0 for proc, _ in workers):
                 raise RuntimeError(f"Evaluation worker failed; see {output}")
         finally:
+            stop_process_groups([proc for proc, _ in workers])
             for proc, log in workers:
-                if proc.poll() is None:
-                    proc.terminate()
-            for proc, log in workers:
-                try:
-                    proc.wait(timeout=30)
-                except subprocess.TimeoutExpired:
-                    proc.kill()
-                    proc.wait()
                 log.close()
         tasks = [json.loads((output / f"task_{i}.json").read_text()) for i in range(10)]
         summary = summarize_tasks(tasks, args.seed)
-        summary.update(protocol=protocol, wall_seconds=time.monotonic() - started,
+        past = output / "attempts.jsonl"
+        past_seconds = sum(json.loads(line)["wall_seconds"] for line in past.read_text().splitlines()) if past.exists() else 0
+        elapsed = time.monotonic() - started
+        summary.update(protocol=protocol, wall_seconds=past_seconds + elapsed, invocation_wall_seconds=elapsed,
                        initial_state_sha256={str(t["task_id"]): t["initial_state_sha256"] for t in tasks})
         atomic_json(output / "summary.json", summary)
         (output / "episodes.jsonl").write_text("".join(json.dumps(r) + "\n" for r in summary["outcomes"]))
         print(json.dumps({k: v for k, v in summary.items() if k != "outcomes"}, indent=2))
+
+
+def evaluate(args):
+    output = Path(args.output).resolve()
+    output.mkdir(parents=True, exist_ok=True)
+    started = time.time()
+    updated = 0
+    state = dict(status="running", started_at=started, deadline=args.deadline,
+                 job_id=os.environ.get("SLURM_JOB_ID"), wall_seconds=0, completed_tasks=0)
+    def tick(force=False):
+        nonlocal updated
+        now = time.time()
+        if force or now - updated >= 5:
+            state.update(wall_seconds=now-started, updated_at=now,
+                         completed_tasks=sum((output / f"task_{i}.json").exists() for i in range(10)))
+            atomic_json(output / "runtime.json", state)
+            updated = now
+    tick(True)
+    try:
+        with allocation_signals():
+            _evaluate(args, tick)
+        state["status"] = "complete"
+    except BaseException as exc:
+        state.update(status="interrupted" if isinstance(exc, TimeoutError) else "error", error=str(exc))
+        raise
+    finally:
+        tick(True)
+        with (output / "attempts.jsonl").open("a") as stream:
+            stream.write(json.dumps(state, allow_nan=False) + "\n")
 
 
 def main(argv=None):
@@ -344,14 +470,26 @@ def main(argv=None):
     parser.add_argument("--teacher", action="store_true")
     parser.add_argument("--profile", action="store_true")
     parser.add_argument("--profile-only", action="store_true")
+    parser.add_argument("--profile-cache", help="Reuse one measured architecture/budget profile with provenance")
+    parser.add_argument("--profile-architecture", help="Architecture plus initialization identity; required with cache")
     parser.add_argument("--worker")
+    parser.add_argument("--deadline", type=float, help="Allocation end epoch; manager stops before its reserve")
+    parser.add_argument("--deadline-reserve-seconds", type=float, default=180)
     args = parser.parse_args(argv)
     if args.ka > args.kv:
         parser.error("ka must be <= kv")
+    if args.deadline_reserve_seconds < 0:
+        parser.error("Deadline reserve must be nonnegative")
+    if args.profile_cache and not args.profile_architecture:
+        parser.error("--profile-cache requires --profile-architecture")
     if args.worker is not None:
         worker(args)
     else:
-        evaluate(args)
+        try:
+            evaluate(args)
+        except TimeoutError as exc:
+            print(str(exc), file=sys.stderr)
+            raise SystemExit(3) from exc
 
 
 if __name__ == "__main__":

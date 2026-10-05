@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 import csv
 from dataclasses import asdict, dataclass, field
+from datetime import datetime
 import json
 import math
 import os
@@ -17,11 +18,76 @@ import subprocess
 import sys
 import time
 
-from .evaluation import ROOT, PROTOCOL, atomic_json, file_identity, sha256_file, wilson
+from .evaluation import (ROOT, PROTOCOL, atomic_json, file_identity, sha256_file, wilson,
+                         run_process_group, allocation_signals)
 
 ALL_PAIRS = tuple((v, a) for v in range(1, 5) for a in range(1, v + 1))
 FIVE_PAIRS = ((4, 4), (4, 2), (4, 1), (2, 2), (1, 1))
 COUPLED_PAIRS = ((1, 1), (2, 2), (4, 4))
+ARCHITECTURES = ("loopwam", "untied30", "untied12", "untied_v30a12")
+
+
+def resolve_batches(value=None, default_micro=8, grad_accum=None):
+    """Resolve per-architecture micro batches with exact global batch128."""
+    def valid(micro):
+        if type(micro) is not int or micro <= 0 or 32 % micro:
+            raise ValueError("Micro batches must be positive integer divisors of32 on four GPUs")
+        return dict(micro_batch=micro, grad_accum=32 // micro)
+    base = valid(default_micro)
+    if grad_accum is not None and grad_accum != base["grad_accum"]:
+        raise ValueError("Default micro batch and grad accumulation must give global batch128")
+    overrides = {}
+    if value:
+        if isinstance(value, dict):
+            overrides = value
+        elif value.lstrip().startswith("{"):
+            def unique(pairs):
+                result = {}
+                for key, val in pairs:
+                    if key in result:
+                        raise ValueError(f"Duplicate architecture: {key}")
+                    result[key] = val
+                return result
+            overrides = json.loads(value, object_pairs_hook=unique)
+        else:
+            for item in value.split(","):
+                key, micro = item.strip().split("=", 1)
+                if key in overrides:
+                    raise ValueError(f"Duplicate architecture: {key}")
+                overrides[key] = int(micro)
+    unknown = set(overrides) - set(ARCHITECTURES)
+    if unknown:
+        raise ValueError(f"Unknown architectures: {sorted(unknown)}")
+    return {arch: valid(overrides.get(arch, default_micro)) for arch in ARCHITECTURES}
+
+
+def resolve_deadline(explicit):
+    if explicit is not None:
+        if not math.isfinite(explicit) or explicit <= 0:
+            raise ValueError("Deadline must be a positive epoch timestamp")
+        return float(explicit)
+    job_id = os.environ.get("SLURM_JOB_ID")
+    if not job_id:
+        return None
+    result = subprocess.run(["scontrol", "show", "job", job_id, "-o"],
+                            capture_output=True, text=True, check=True, timeout=10)
+    fields = dict(item.split("=", 1) for item in result.stdout.split() if "=" in item)
+    end = fields.get("EndTime")
+    if not end or end in ("Unknown", "N/A", "None", "UNLIMITED"):
+        raise ValueError("Slurm EndTime unavailable; provide --deadline epoch explicitly")
+    # scontrol emits cluster-local wall time; timestamp() uses the same node timezone.
+    return datetime.fromisoformat(end).timestamp()
+
+
+def remaining_training_seconds(deadline, *, now=None, reserve=180):
+    if reserve < 180:
+        raise ValueError("Checkpoint reserve must be at least180 seconds")
+    if deadline is None:
+        return None
+    remaining = deadline - (time.time() if now is None else now) - 30
+    if remaining <= reserve:
+        raise TimeoutError("Insufficient allocation time for training plus checkpoint reserve")
+    return remaining
 
 
 @dataclass(frozen=True)
@@ -52,7 +118,7 @@ def run_matrix():
         Run("S2-base", mode="coupled", start=8000, end=14000, fork="S1*", pairs=COUPLED_PAIRS),
         Run("S3-coupled", mode="coupled", start=14000, end=22000, fork="S2*", pairs=FIVE_PAIRS),
         Run("S3-late", mode="decoupled", start=14000, end=22000, fork="S2*", pairs=FIVE_PAIRS),
-        Run("S3-Konly", mode="konly", start=8000, end=22000, fork="S1*", pairs=FIVE_PAIRS[:3]),
+        Run("S3-Konly", mode="konly", start=8000, end=22000, fork="S1*", pairs=FIVE_PAIRS[:4]),
         Run("S3-2stage", mode="decoupled", start=8000, end=22000, fork="S1*", pairs=FIVE_PAIRS),
         Run("F-Long-s1", mode="three_stage", end=22000, pairs=ALL_PAIRS, seed_offset=1),
         Run("F-Long-s2", mode="three_stage", end=22000, pairs=ALL_PAIRS, seed_offset=2),
@@ -216,16 +282,23 @@ class GateStopped(RuntimeError):
     pass
 
 
+def stop_kind(error):
+    if isinstance(error, TimeoutError) or (isinstance(error, subprocess.CalledProcessError) and error.returncode == 3):
+        return "allocation_end"
+    return "gate_failed" if isinstance(error, GateStopped) else "error"
+
+
 class Campaign:
     def __init__(self, args):
         self.args = args
         self.root = Path(args.output).resolve()
         self.root.mkdir(parents=True, exist_ok=True)
         self.matrix = {run.id: run for run in run_matrix()}
+        self.batches = resolve_batches(args.micro_batch_map, args.micro_batch, args.grad_accum)
         protocol = dict(matrix=[asdict(r) for r in run_matrix()], evaluation=PROTOCOL,
             teacher=file_identity(args.teacher), stats_sha256=sha256_file(args.stats),
             training_seed=args.seed, evaluation_seeds=args.eval_seeds, batch=128,
-            micro_batch=args.micro_batch, grad_accum=args.grad_accum, gpus=args.gpus,
+            batches=self.batches, gradient_checkpointing=args.gradient_checkpointing, gpus=args.gpus,
             zero_stage=args.zero_stage, well_above_pp=args.well_above_pp,
             converted_dir=str(Path(args.converted_dir).resolve()),
             latency_match_tolerance=args.latency_match_tolerance,
@@ -234,13 +307,22 @@ class Campaign:
         # JSON normalization avoids tuple/list differences on resume.
         self.manifest = Manifest(self.root / "manifest.json", json.loads(json.dumps(protocol)))
         self.decisions = self.manifest.data["decisions"]
+        self.deadline = args.deadline
+        self.manifest.data["allocation"] = dict(job_id=os.environ.get("SLURM_JOB_ID"),
+            deadline=self.deadline, checkpoint_reserve_seconds=args.checkpoint_reserve_seconds,
+            started_at=time.time())
+        # Per-allocation deadlines and derived options must not constrain a later resume.
+        self.manifest.data["launch_arguments"] = {k: v for k, v in vars(args).items()
+            if k not in ("deadline", "plan", "report_only")}
+        self.manifest.save()
 
     def command(self, cmd, log):
         log.parent.mkdir(parents=True, exist_ok=True)
         print("RUN", shlex.join(map(str, cmd)), flush=True)
         with log.open("a") as stream:
-            subprocess.run(list(map(str, cmd)), cwd=ROOT, env=dict(os.environ,
-                CUDA_VISIBLE_DEVICES=self.args.gpus), stdout=stream, stderr=subprocess.STDOUT, check=True)
+            run_process_group(list(map(str, cmd)), cwd=ROOT, env=dict(os.environ,
+                CUDA_VISIBLE_DEVICES=self.args.gpus), stdout=stream, stderr=subprocess.STDOUT,
+                deadline=self.deadline - 30 if self.deadline is not None else None)
 
     def init_checkpoint(self, arch):
         name = "loopwam_r32" if arch == "loopwam" else arch
@@ -275,12 +357,18 @@ class Campaign:
             if metadata.get("global_step", metadata.get("step")) != run.start:
                 raise ValueError(f"Fork {run_id} requires absolute step {run.start}: {resume}")
         loss = run.loss if run.loss != "recipe" else self.decisions["S1*"]["loss"]
+        batch = self.batches[run.arch]
+        budget = remaining_training_seconds(self.deadline, reserve=self.args.checkpoint_reserve_seconds)
         cmd = ["torchrun", "--standalone", "--nproc_per_node=4", "scripts/loopwam/train.py",
                "--init", init, "--output", output, "--mode", run.mode,
                "--loss", loss, "--max-steps", run.end, "--seed", self.args.seed + run.seed_offset,
-               "--micro-batch", self.args.micro_batch, "--grad-accum", self.args.grad_accum,
+               "--micro-batch", batch["micro_batch"], "--grad-accum", batch["grad_accum"],
                "--zero-stage", self.args.zero_stage, "--workers", self.args.workers,
                "--stats", self.args.stats, "--teacher", self.args.teacher]
+        if self.args.gradient_checkpointing:
+            cmd += ["--gradient-checkpointing"]
+        if budget is not None:
+            cmd += ["--time-budget-seconds", budget, "--checkpoint-reserve-seconds", self.args.checkpoint_reserve_seconds]
         if resume:
             cmd += ["--resume", resume]
         if run.mode == "three_stage":
@@ -290,12 +378,22 @@ class Campaign:
             cmd += ["--stage2-mode", stage2, "--stage3-mode", stage3]
         self.manifest.update_run(run_id, status="training", command=list(map(str, cmd)),
                                  fork=str(resume) if resume else None, loss=loss)
+        command_started = time.time()
         try:
             self.command(cmd, output / "train.log")
             self._validate_trained(run)
             self.manifest.update_run(run_id, status="trained", step=run.end)
         except BaseException as exc:
             self.manifest.update_run(run_id, status="interrupted", error=str(exc))
+            # torchrun wraps a worker's exit3 in its own exit1. Accept only a
+            # fresh committed deadline-stop artifact, not an old partial run.
+            timing_path = output / "timing.json"
+            if isinstance(exc, subprocess.CalledProcessError) and budget is not None and timing_path.exists():
+                timing = json.loads(timing_path.read_text())
+                if (timing_path.stat().st_mtime >= command_started and timing.get("interrupted")
+                        and not timing.get("complete") and timing.get("signal") is None
+                        and self.deadline - time.time() <= self.args.checkpoint_reserve_seconds + 60):
+                    raise TimeoutError(f"{run_id} saved its checkpoint before allocation end") from exc
             raise
 
     def _validate_trained(self, run):
@@ -321,11 +419,20 @@ class Campaign:
                "--stats", self.args.stats, "--output", output, "--seed", seed,
                "--kv", pair[0], "--ka", pair[1], "--gpus", self.args.gpus,
                "--text-cache", self.args.text_cache]
+        if self.deadline is not None:
+            cmd += ["--deadline", self.deadline, "--deadline-reserve-seconds", self.args.checkpoint_reserve_seconds]
         if run_id == "teacher":
             cmd += ["--teacher"]
         # Profiles are independent of eval seed and exclude concurrent rollout load.
         if seed == self.args.eval_seeds[0]:
             cmd += ["--profile"]
+            arch = "teacher" if run_id == "teacher" else self.matrix[run_id].arch
+            initialization = (file_identity(self.args.teacher) if arch == "teacher"
+                              else self.manifest.data.get("initial_checkpoints", {}).get(arch))
+            if initialization is not None:
+                key = json.dumps(dict(arch=arch, initialization=initialization, pair=pair), sort_keys=True)
+                cmd += ["--profile-cache", self.root / "latency" / f"{arch}_kv{pair[0]}_ka{pair[1]}.json",
+                        "--profile-architecture", key]
         self.command(cmd, output / "manager.log")
         self.read_evidence(run_id, [pair], [seed])
         self.write_tables()
@@ -435,7 +542,7 @@ class Campaign:
         eligible = []
         checks = {}
         for run_id in ("S3-late", "S3-coupled", "S3-2stage", "S3-Konly"):
-            pair_constraints = [(4,4)] if run_id == "S3-Konly" else [(4,4), (2,2)]
+            pair_constraints = [(4,4), (2,2)]
             check = combine(run_id, {str(p): minimum(self.evidence(run_id, p, seeds), coupled[p], -1.5)
                                      for p in pair_constraints})
             checks[run_id] = check
@@ -464,7 +571,7 @@ class Campaign:
             elif abs(comparison["gap_pp"]) < 2 and run_id == "S3-coupled":
                 winner = run_id  # fewer sampling components, subject to the two named exceptions
         return dict(status="pass", winner=winner, constraints=checks,
-                    konly_constraint="(2,2) not applicable to Konly; full grid measured for selected winner")
+                    konly_constraint="Both (4,4) and (2,2) retention constraints apply to every candidate")
 
     def latency_values(self, winner):
         values, profiles = {}, []
@@ -477,10 +584,16 @@ class Campaign:
             if data.get("status") != "complete" or data.get("warmup") != 50 or data.get("calls") != 500:
                 return {}
             values[key] = data["compiled"]["p50_ms"]
-            profiles.append((data["device"], data["torch_version"], data["scope"], data["protocol"]))
+            profiles.append((data["device"], data["torch_version"], data["scope"], data["protocol"],
+                             data.get("cache_key", {}).get("source_sha256"),
+                             data.get("cache_key", {}).get("device_driver")))
         return values if all(p == profiles[0] for p in profiles) else {}
 
     def run(self):
+        self.manifest.data["status"] = "running"
+        for key in ("stop_kind", "stop_reason", "stopped_at"):
+            self.manifest.data.pop(key, None)
+        self.manifest.save()
         proof = json.loads(Path(self.args.infrastructure).read_text())
         infrastructure_passed = proof.get("status") == "pass" and proof.get("all_14_tests_passed") is True
         if not infrastructure_passed:
@@ -505,12 +618,15 @@ class Campaign:
         self.manifest.save()
         if self.decisions["P0-R"]["status"] != "pass":
             raise GateStopped("P0-R Long teacher reproduction failed; diagnose before student screening")
-        for run_id in ("C1", "C2", "C3", "S1-L2", "S1-L3"):
+        self.train("C1")
+        self.evaluate("C1", (4,4), self.args.eval_seeds[0])
+        self.manifest.update_run("C1", status="complete")
+        self.resolve("G0", {"C1": [(4,4)], "teacher": [(4,4)]}, lambda s:
+            gate_g0(self.evidence("C1", (4,4), s), self.evidence("teacher", (4,4), s), infrastructure_passed))
+        for run_id in ("C2", "C3", "S1-L2", "S1-L3"):
             self.train(run_id)
             self.evaluate(run_id, (4,4), self.args.eval_seeds[0])
             self.manifest.update_run(run_id, status="complete")
-        self.resolve("G0", {"C1": [(4,4)], "teacher": [(4,4)]}, lambda s:
-            gate_g0(self.evidence("C1", (4,4), s), self.evidence("teacher", (4,4), s), infrastructure_passed))
         selected = self.resolve("S1*", {"S1-L2": [(4,4)], "S1-L3": [(4,4)]}, self.select_stage1)
         winner = selected["winner"]
         self.resolve("G1", {r: [(4,4)] for r in (winner, "C1", "C2")}, lambda s:
@@ -554,6 +670,9 @@ class Campaign:
                     self.evaluate(run_id, pair, seed)
             self.manifest.update_run(run_id, status="complete")
         self.manifest.data["status"] = "complete"
+        self.manifest.data.pop("stop_kind", None)
+        self.manifest.data.pop("stop_reason", None)
+        self.manifest.data.pop("stopped_at", None)
         self.manifest.save()
         self.write_tables()
 
@@ -566,13 +685,19 @@ class Campaign:
             run_id = path.parents[3].name
             latency = path.parent / "latency.json"
             profile = json.loads(latency.read_text()).get("compiled", {}) if latency.exists() else {}
-            rows.append(dict(run=run_id, pair=path.parents[1].name, seed=data["seed"],
+            rows.append(dict(run=run_id, status=self.manifest.runs.get(run_id, {}).get("status", "evaluated"),
+                pair=path.parents[1].name, seed=data["seed"],
                 success_pct=data["success_pct"], episodes=data["episodes"],
                 wilson_low=data["wilson95_pct"][0], wilson_high=data["wilson95_pct"][1],
                 p50_ms=profile.get("p50_ms", ""), p90_ms=profile.get("p90_ms", ""),
                 p99_ms=profile.get("p99_ms", ""), eval_wall_seconds=data.get("wall_seconds", "")))
-        columns = ["run", "pair", "seed", "success_pct", "episodes", "wilson_low", "wilson_high",
+        columns = ["run", "status", "pair", "seed", "success_pct", "episodes", "wilson_low", "wilson_high",
                    "p50_ms", "p90_ms", "p99_ms", "eval_wall_seconds"]
+        measured_runs = {row["run"] for row in rows}
+        for run in self.matrix.values():
+            if run.id not in measured_runs:
+                rows.append(dict({key: "" for key in columns}, run=run.id,
+                    status=self.manifest.runs.get(run.id, {}).get("status", "pending")))
         with (self.root / "results.csv").open("w", newline="") as stream:
             writer = csv.DictWriter(stream, fieldnames=columns)
             writer.writeheader()
@@ -582,9 +707,19 @@ class Campaign:
                  "component latency splits and RTX 4090 profiles are not part of this first pass.", "",
                  f"G2 'well above' means at least {self.args.well_above_pp:g} pp at both K=1 and K=2. "
                  f"Matched latency means within {100*self.args.latency_match_tolerance:g}% of measured C2 p50.", "",
+                 "| Training run | Architecture | Absolute steps | Status | Micro batch × accumulation × GPUs |",
+                 "|---|---|---|---|---|"]
+        for run in self.matrix.values():
+            batch = self.batches[run.arch]
+            state = self.manifest.runs.get(run.id, {}).get("status", "pending")
+            lines.append(f"| {run.id} | {run.arch} | {run.start}→{run.end} | {state} | "
+                         f"{batch['micro_batch']} × {batch['grad_accum']} ×4 |")
+        lines += ["", "## Evaluation results", "",
                  "| Run | Budget | Eval seed | Success | Wilson 95% | Episodes | p50 / p90 / p99 ms |",
                  "|---|---|---:|---:|---|---:|---|"]
         for row in rows:
+            if row["success_pct"] == "":
+                continue
             latency = " / ".join(f"{row[k]:.2f}" if isinstance(row[k], (int,float)) else "—"
                                   for k in ("p50_ms", "p90_ms", "p99_ms"))
             lines.append(f"| {row['run']} | {row['pair']} | {row['seed']} | {row['success_pct']:.1f}% | "
@@ -635,7 +770,7 @@ class Campaign:
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", default="outputs/loopwam_v1")
+    parser.add_argument("--output", default="outputs/loopwam_v1/campaign")
     parser.add_argument("--teacher", default="checkpoints/fastwam_release/libero_uncond_2cam224.pt")
     parser.add_argument("--stats", default="checkpoints/fastwam_release/libero_uncond_2cam224_dataset_stats.json")
     parser.add_argument("--text-cache", default="data/text_embeds_cache/libero")
@@ -644,8 +779,12 @@ def main(argv=None):
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--eval-seeds", type=int, nargs=2, default=[42,43])
     parser.add_argument("--gpus", default="0,1,2,3")
-    parser.add_argument("--micro-batch", type=int, default=1)
-    parser.add_argument("--grad-accum", type=int, default=32)
+    parser.add_argument("--micro-batch", type=int, default=8)
+    parser.add_argument("--micro-batch-map", help='JSON object or arch=N list; e.g. loopwam=16,untied30=8')
+    parser.add_argument("--grad-accum", type=int, default=None, help="Default auto-computed for global batch128")
+    parser.add_argument("--gradient-checkpointing", action="store_true")
+    parser.add_argument("--deadline", type=float, help="Allocation end as epoch seconds; default Slurm EndTime")
+    parser.add_argument("--checkpoint-reserve-seconds", type=float, default=180)
     parser.add_argument("--zero-stage", type=int, choices=[1,2], default=1)
     parser.add_argument("--workers", type=int, default=2)
     parser.add_argument("--well-above-pp", type=float, default=3)
@@ -656,23 +795,30 @@ def main(argv=None):
     if args.plan:
         print(json.dumps([dict(asdict(r), training_steps=r.steps) for r in run_matrix()], indent=2))
         return
-    if len(args.gpus.split(",")) != 4 or args.micro_batch * args.grad_accum * 4 != 128:
+    if len(set(args.gpus.split(","))) != 4:
         parser.error("The registered training protocol requires 4 GPUs and global batch 128")
+    try:
+        resolve_batches(args.micro_batch_map, args.micro_batch, args.grad_accum)
+        if args.checkpoint_reserve_seconds < 180:
+            raise ValueError("Checkpoint reserve must be at least180 seconds")
+        args.deadline = resolve_deadline(args.deadline)
+    except (ValueError, subprocess.SubprocessError) as exc:
+        parser.error(str(exc))
     if len(set(args.eval_seeds)) != 2:
         parser.error("Two distinct paired evaluation seeds are required")
     if not args.report_only and not args.infrastructure:
         parser.error("--infrastructure is required before any success-rate evaluation")
     campaign = Campaign(args)
     import fcntl
-    with (campaign.root / "campaign.lock").open("w") as lock:
+    with allocation_signals(), (campaign.root / "campaign.lock").open("w") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         try:
-            if args.report_only:
-                campaign.write_tables()
-            else:
+            campaign.write_tables()
+            if not args.report_only:
                 campaign.run()
-        except (GateStopped, subprocess.CalledProcessError, ValueError) as exc:
-            campaign.manifest.data.update(status="stopped", stop_reason=str(exc))
+        except Exception as exc:
+            campaign.manifest.data.update(status="stopped", stop_kind=stop_kind(exc), stop_reason=str(exc),
+                                          stopped_at=time.time())
             campaign.manifest.save()
             campaign.write_tables()
             raise SystemExit(str(exc)) from exc
