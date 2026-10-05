@@ -90,6 +90,28 @@ def remaining_training_seconds(deadline, *, now=None, reserve=180):
     return remaining
 
 
+def latent_cache_identity(directory):
+    """Freeze cache provenance only after its complete marker matches metadata.
+
+    The trainer additionally validates source equivalence and window records.
+    """
+    if directory is None:
+        return None
+    root=Path(directory).resolve()
+    metadata_path,complete_path=root/'metadata.json',root/'complete.json'
+    if not metadata_path.is_file() or not complete_path.is_file():
+        raise ValueError(f'Latent cache must have metadata.json and complete.json: {root}')
+    metadata=json.loads(metadata_path.read_text())
+    complete=json.loads(complete_path.read_text())
+    if (metadata.get('format')!='loopwam_latent_cache_v1' or not metadata.get('cache_id')
+            or complete.get('cache_id')!=metadata['cache_id']
+            or type(metadata.get('expected_windows')) is not int or metadata['expected_windows']<=0
+            or complete.get('completed_windows')!=metadata['expected_windows']):
+        raise ValueError('Latent cache metadata and complete marker disagree')
+    return dict(path=str(root),metadata_sha256=sha256_file(metadata_path),cache_id=metadata['cache_id'],
+                complete_sha256=sha256_file(complete_path),source_metadata=metadata)
+
+
 @dataclass(frozen=True)
 class Run:
     id: str
@@ -299,6 +321,7 @@ class Campaign:
             teacher=file_identity(args.teacher), stats_sha256=sha256_file(args.stats),
             training_seed=args.seed, evaluation_seeds=args.eval_seeds, batch=128,
             batches=self.batches, gradient_checkpointing=args.gradient_checkpointing, gpus=args.gpus,
+            latent_cache=latent_cache_identity(getattr(args,'latent_cache',None)),
             zero_stage=args.zero_stage, well_above_pp=args.well_above_pp,
             converted_dir=str(Path(args.converted_dir).resolve()),
             latency_match_tolerance=args.latency_match_tolerance,
@@ -364,7 +387,9 @@ class Campaign:
                "--loss", loss, "--max-steps", run.end, "--seed", self.args.seed + run.seed_offset,
                "--micro-batch", batch["micro_batch"], "--grad-accum", batch["grad_accum"],
                "--zero-stage", self.args.zero_stage, "--workers", self.args.workers,
-               "--stats", self.args.stats, "--teacher", self.args.teacher]
+               "--stats", self.args.stats, "--teacher", self.args.teacher, "--text-cache", self.args.text_cache]
+        if getattr(self.args,'latent_cache',None):
+            cmd += ['--latent-cache',str(Path(self.args.latent_cache).resolve())]
         if self.args.gradient_checkpointing:
             cmd += ["--gradient-checkpointing"]
         if budget is not None:
@@ -704,7 +729,8 @@ class Campaign:
             writer.writerows(rows)
         lines = ["# LoopWAM initial 14-run campaign", "", "LIBERO-Long selection evidence only. "
                  "Teacher reproduction is Long only; full-suite reproduction, delay-injected evaluation, "
-                 "component latency splits and RTX 4090 profiles are not part of this first pass.", "",
+                 "and RTX 4090 profiles are not part of this first pass. CUDA component intervals are measured "
+                 "in a separate pass and stored in each latency.json; primary latency remains the uninstrumented wall time.", "",
                  f"G2 'well above' means at least {self.args.well_above_pp:g} pp at both K=1 and K=2. "
                  f"Matched latency means within {100*self.args.latency_match_tolerance:g}% of measured C2 p50.", "",
                  "| Training run | Architecture | Absolute steps | Status | Micro batch × accumulation × GPUs |",
@@ -774,6 +800,7 @@ def main(argv=None):
     parser.add_argument("--teacher", default="checkpoints/fastwam_release/libero_uncond_2cam224.pt")
     parser.add_argument("--stats", default="checkpoints/fastwam_release/libero_uncond_2cam224_dataset_stats.json")
     parser.add_argument("--text-cache", default="data/text_embeds_cache/libero")
+    parser.add_argument("--latent-cache", help="Optional complete frozen-VAE cache directory; validated by trainer")
     parser.add_argument("--converted-dir", default="checkpoints/loopwam_v1")
     parser.add_argument("--infrastructure", help="P0-T JSON evidence: status=pass, all_14_tests_passed=true")
     parser.add_argument("--seed", type=int, default=42)

@@ -19,6 +19,9 @@ import time
 import traceback
 
 ROOT = Path(__file__).resolve().parents[3]
+PROFILE_VERSION = 2
+COMPONENT_WARMUP = 50
+COMPONENT_CALLS = 100
 PROTOCOL = dict(suite="libero_10", tasks=10, initial_states=50, initial_state_indices=list(range(50)),
                 action_horizon=32, euler_steps=10, sigma_shift=5.0, replan_steps=10,
                 max_steps=700, num_steps_wait=30, compiled=True, text_cfg_scale=1.0,
@@ -76,17 +79,186 @@ def profile_cache_key(args):
     for path in sorted((ROOT / "src/fastwam").rglob("*.py")):
         digest.update(str(path.relative_to(ROOT)).encode())
         digest.update(path.read_bytes())
-    return dict(architecture=args.profile_architecture, device_driver=device, torch_version=version("torch"),
+    architecture=args.profile_architecture
+    try:
+        parsed=json.loads(architecture)
+        if isinstance(parsed,dict):
+            parsed.pop('pair',None)  # budget has its own field below
+            architecture=parsed
+    except (TypeError,json.JSONDecodeError):
+        pass
+    return dict(profile_version=PROFILE_VERSION, architecture=architecture, budget=[args.kv,args.ka],
+                device_driver=device, torch_version=version("torch"),
                 source_sha256=digest.hexdigest(), stats_sha256=sha256_file(args.stats), protocol=PROTOCOL)
 
 
 def reusable_profile(profile, key):
     if (profile.get("cache_key") != key or profile.get("status") != "complete"
-            or profile.get("warmup") != 50 or profile.get("calls") != 500):
+            or profile.get("warmup") != 50 or profile.get("calls") != 500 or not complete_components(profile)):
         return False
     return all(isinstance(profile.get(mode, {}).get(metric), (int, float))
                and math.isfinite(profile[mode][metric]) and profile[mode][metric] > 0
                for mode in ("eager", "compiled") for metric in ("p50_ms", "p90_ms", "p99_ms"))
+
+
+def percentile_summary(values):
+    ordered = sorted(values)
+    if not ordered or any(not math.isfinite(x) or x < 0 for x in ordered):
+        raise ValueError("Latency samples must be finite nonnegative values")
+    def percentile(fraction):
+        position = (len(ordered)-1)*fraction
+        lower = int(position)
+        upper = min(lower+1,len(ordered)-1)
+        return ordered[lower] + (ordered[upper]-ordered[lower])*(position-lower)
+    return dict(samples=len(ordered),p50_ms=percentile(.5),p90_ms=percentile(.9),p99_ms=percentile(.99))
+
+
+def aggregate_components(samples):
+    """Aggregate per-call intervals; action sums and decode spans are different."""
+    required = {'vae_encode_gpu_ms','video_prefill_gpu_ms','action_steps_gpu_ms',
+                'action_decode_10_gpu_ms','total_gpu_timeline_ms','total_wall_ms'}
+    metrics = {key: [] for key in ('vae_encode_gpu','video_prefill_gpu','action_step_gpu',
+               'action_denoise_10_gpu','action_decode_10_gpu','total_gpu_timeline','total_wall',
+               'unattributed_gpu_timeline','wall_minus_gpu_timeline','unattributed_wall')}
+    per_step = [[] for _ in range(10)]
+    if not samples:
+        raise ValueError('No component observations')
+    for row in samples:
+        if set(row) != required or len(row['action_steps_gpu_ms']) != 10:
+            raise ValueError('Missing component boundary or expected ten action denoises')
+        steps = row['action_steps_gpu_ms']
+        values = steps + [v for k,v in row.items() if k!='action_steps_gpu_ms']
+        if any(not isinstance(v,(int,float)) or not math.isfinite(v) or v < 0 for v in values):
+            raise ValueError('Nonfinite or negative component latency')
+        denoise_sum = sum(steps)
+        attributed = row['vae_encode_gpu_ms'] + row['video_prefill_gpu_ms'] + row['action_decode_10_gpu_ms']
+        # Allow only sub-resolution event arithmetic; all ranges share one stream.
+        if (row['action_decode_10_gpu_ms']+.05 < denoise_sum
+                or row['total_gpu_timeline_ms']+.05 < attributed
+                or row['total_wall_ms']+.05 < row['total_gpu_timeline_ms']):
+            raise ValueError('Overlapping or inconsistent component intervals')
+        for key in ('vae_encode_gpu','video_prefill_gpu','action_decode_10_gpu','total_gpu_timeline','total_wall'):
+            metrics[key].append(row[key+'_ms'])
+        metrics['action_step_gpu'].extend(steps)
+        metrics['action_denoise_10_gpu'].append(denoise_sum)
+        metrics['unattributed_gpu_timeline'].append(max(0.,row['total_gpu_timeline_ms']-attributed))
+        metrics['wall_minus_gpu_timeline'].append(max(0.,row['total_wall_ms']-row['total_gpu_timeline_ms']))
+        metrics['unattributed_wall'].append(max(0.,row['total_wall_ms']-attributed))
+        for index,value in enumerate(steps):
+            per_step[index].append(value)
+    return dict(status='complete',calls=len(samples),denoise_steps=10,
+                metrics={key:percentile_summary(values) for key,values in metrics.items()},
+                action_steps_by_index=[percentile_summary(values) for values in per_step])
+
+
+def complete_components(profile):
+    if profile.get('profile_version') != PROFILE_VERSION or not isinstance(profile.get('components'),dict):
+        return False
+    required = ('vae_encode_gpu','video_prefill_gpu','action_step_gpu','action_denoise_10_gpu',
+                'action_decode_10_gpu','total_gpu_timeline','total_wall','unattributed_gpu_timeline',
+                'wall_minus_gpu_timeline','unattributed_wall')
+    for mode in ('eager','compiled'):
+        value = profile['components'].get(mode,{})
+        if (value.get('status')!='complete' or value.get('calls')!=COMPONENT_CALLS
+                or value.get('warmup')!=COMPONENT_WARMUP or value.get('denoise_steps')!=10):
+            return False
+        for name in required:
+            stats = value.get('metrics',{}).get(name,{})
+            count = COMPONENT_CALLS*10 if name=='action_step_gpu' else COMPONENT_CALLS
+            if stats.get('samples')!=count or any(not isinstance(stats.get(k),(int,float))
+                or not math.isfinite(stats[k]) or stats[k]<0 for k in ('p50_ms','p90_ms','p99_ms')):
+                return False
+    return True
+
+
+def measure_components(model, call, mode):
+    """Wrap Python boundaries outside compiled graphs, then restore each method.
+
+    CUDA events describe elapsed stream intervals, including CPU enqueue gaps;
+    they are not sums of kernel execution times. The decode span includes all
+    ten denoises, Euler updates and intervening timestep preparation.
+    """
+    import torch
+    saved = []
+    events = {}
+    active = False
+    scheduler_steps = 0
+    decode_end = None
+
+    def replace(owner,name,function):
+        saved.append((owner,name,name in vars(owner),getattr(owner,name)))
+        setattr(owner,name,function)
+
+    def wrap(owner,name,label):
+        original=getattr(owner,name)
+        def timed(*args,**kwargs):
+            if not active:
+                return original(*args,**kwargs)
+            begin,end=torch.cuda.Event(enable_timing=True),torch.cuda.Event(enable_timing=True)
+            begin.record()
+            result=original(*args,**kwargs)
+            end.record()
+            events.setdefault(label,[]).append((begin,end))
+            return result
+        replace(owner,name,timed)
+
+    scheduler=model.infer_action_scheduler
+    original_step=scheduler.step
+    def timed_step(*args,**kwargs):
+        nonlocal scheduler_steps,decode_end
+        result=original_step(*args,**kwargs)
+        if active:
+            scheduler_steps+=1
+            if scheduler_steps==10:
+                decode_end=torch.cuda.Event(enable_timing=True)
+                decode_end.record()
+        return result
+
+    try:
+        wrap(model,'_encode_input_image_latents_tensor','vae')
+        if mode=='compiled':
+            # Primary profiling has already created and warmed these graphs.
+            wrap(model,'_prefill_video_cache_compiled','prefill')
+            wrap(model,'_denoise_action_with_video_cache_compiled','action')
+        else:
+            wrap(model.mot,'prefill_video_cache_tensor','prefill')
+            wrap(model,'_denoise_action_with_video_cache','action')
+        replace(scheduler,'step',timed_step)
+        for _ in range(COMPONENT_WARMUP):
+            call()
+        torch.cuda.synchronize()
+        active=True
+        samples=[]
+        for _ in range(COMPONENT_CALLS):
+            events={}; scheduler_steps=0; decode_end=None
+            begin,end=torch.cuda.Event(enable_timing=True),torch.cuda.Event(enable_timing=True)
+            wall_start=time.perf_counter()
+            begin.record()
+            call()
+            end.record()
+            torch.cuda.synchronize()  # one explicit synchronization per full call
+            wall_ms=1000*(time.perf_counter()-wall_start)
+            if ({key:len(value) for key,value in events.items()}!={'vae':1,'prefill':1,'action':10}
+                    or scheduler_steps!=10 or decode_end is None):
+                raise ValueError('Unexpected inference component boundaries; refusing partial component profile')
+            elapsed=lambda pair: pair[0].elapsed_time(pair[1])
+            samples.append(dict(vae_encode_gpu_ms=elapsed(events['vae'][0]),
+                video_prefill_gpu_ms=elapsed(events['prefill'][0]),
+                action_steps_gpu_ms=[elapsed(pair) for pair in events['action']],
+                action_decode_10_gpu_ms=events['action'][0][0].elapsed_time(decode_end),
+                total_gpu_timeline_ms=begin.elapsed_time(end),total_wall_ms=wall_ms))
+        result=aggregate_components(samples)
+        result.update(warmup=COMPONENT_WARMUP,method='CUDA events on the current stream, isolated after primary wall profiling',
+            action_decode_scope='First denoise start through tenth Euler update end',
+            unattributed_scope='Context/proprio/video preparation, cache clones, transfers and CPU enqueue gaps; not pure CPU time',
+            note='Component instrumentation overhead is excluded from the primary500-call wall profile')
+        return result
+    finally:
+        for owner,name,owned,original in reversed(saved):
+            if owned:
+                setattr(owner,name,original)
+            else:
+                delattr(owner,name)
 
 
 @contextmanager
@@ -263,10 +435,11 @@ def profile(args, upstream, cfg, model, processor):
         kwargs = dict(prompt=upstream.DEFAULT_PROMPT.format(task=description), input_image=image,
                       proprio=proprio, action_horizon=32, num_inference_steps=10,
                       sigma_shift=5.0, seed=args.seed, rand_device="cpu")
-        result = dict(status="complete", device=torch.cuda.get_device_name(), batch=1,
+        result = dict(status="wall_complete_components_pending", profile_version=PROFILE_VERSION,
+                      device=torch.cuda.get_device_name(), batch=1,
                       warmup=50, calls=500, initial_state_sha256=state_hash,
                       scope="infer_action total: VAE + video prefill + 10 action steps",
-                      components="not independently instrumented", torch_version=torch.__version__,
+                      components={}, torch_version=torch.__version__,
                       protocol=PROTOCOL, kv=args.kv, ka=args.ka, checkpoint=file_identity(args.checkpoint))
         with torch.inference_mode():
             for mode in ("eager", "compiled"):
@@ -285,6 +458,18 @@ def profile(args, upstream, cfg, model, processor):
                 result[mode] = dict(zip(("p50_ms", "p90_ms", "p99_ms"),
                                         map(float, np.percentile(times, [50, 90, 99]))))
                 result[mode]["peak_memory_bytes"] = torch.cuda.max_memory_allocated()
+            # Finish BOTH primary wall profiles before any component wrapper is installed.
+            atomic_json(Path(args.output) / "latency.json", result)
+            try:
+                for mode in ('eager','compiled'):
+                    def component_call():
+                        return model.infer_action(**kwargs, compile_action_infer=(mode=='compiled'))
+                    result['components'][mode]=measure_components(model,component_call,mode)
+                result['status']='complete'
+            except Exception as exc:
+                result.update(status='wall_complete_components_error',component_error=str(exc))
+                atomic_json(Path(args.output) / 'latency.json',result)
+                raise
         atomic_json(Path(args.output) / "latency.json", result)
     finally:
         env.close()
@@ -344,10 +529,12 @@ def _evaluate(args, tick):
     with (output / "manager.lock").open("w") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         had_summary = (output / "summary.json").exists()
+        latency_path = output / 'latency.json'
+        profile_ready = latency_path.exists() and complete_components(json.loads(latency_path.read_text()))
         if had_summary:
             tasks = [json.loads((output / f"task_{i}.json").read_text()) for i in range(10)]
             summarize_tasks(tasks, args.seed)
-            if not args.profile or (output / "latency.json").exists():
+            if not args.profile or profile_ready:
                 return
         cmd = [sys.executable, str(ROOT / "scripts/loopwam/evaluate.py"),
                "--checkpoint", str(args.checkpoint), "--stats", str(args.stats),
@@ -362,7 +549,7 @@ def _evaluate(args, tick):
         deadline = args.deadline - args.deadline_reserve_seconds if args.deadline is not None else None
         cache_path = Path(args.profile_cache) if getattr(args, "profile_cache", None) else None
         cache_key = None
-        if args.profile and cache_path is not None and not (output / "latency.json").exists():
+        if args.profile and cache_path is not None and not profile_ready:
             cache_key = profile_cache_key(args)
             if cache_path.exists():
                 cached = json.loads(cache_path.read_text())
@@ -370,7 +557,11 @@ def _evaluate(args, tick):
                     cached.update(reused_from=str(cache_path.resolve()),
                                   reused_for_checkpoint=file_identity(args.checkpoint))
                     atomic_json(output / "latency.json", cached)
-        if args.profile and not (output / "latency.json").exists():
+                    profile_ready = True
+        if args.profile and not profile_ready:
+            if latency_path.exists():
+                old = json.loads(latency_path.read_text())
+                atomic_json(output / f"latency.previous_v{old.get('profile_version',1)}.json",old)
             env = dict(base_env, CUDA_VISIBLE_DEVICES=gpu_ids[0])
             with (output / "profile.log").open("a") as log:
                 run_process_group(cmd + ["--profile-only", "--worker", "profile"], cwd=ROOT,
@@ -380,7 +571,7 @@ def _evaluate(args, tick):
                 measured["cache_key"] = cache_key
                 atomic_json(output / "latency.json", measured)
                 atomic_json(cache_path, measured)
-        if had_summary:
+        if had_summary or getattr(args,'profile_only',False):
             return
         pending = []
         for i in range(10):
@@ -434,7 +625,8 @@ def evaluate(args):
     started = time.time()
     updated = 0
     state = dict(status="running", started_at=started, deadline=args.deadline,
-                 job_id=os.environ.get("SLURM_JOB_ID"), wall_seconds=0, completed_tasks=0)
+                 job_id=os.environ.get("SLURM_JOB_ID"), wall_seconds=0, completed_tasks=0,
+                 operation='profile' if getattr(args,'profile_only',False) else 'evaluation')
     def tick(force=False):
         nonlocal updated
         now = time.time()
@@ -457,6 +649,40 @@ def evaluate(args):
             stream.write(json.dumps(state, allow_nan=False) + "\n")
 
 
+def profile_grid(args):
+    """Phase0 all-ten-budget latency sweep; never creates rollout workers."""
+    from copy import copy
+    root=Path(args.output).resolve()
+    root.mkdir(parents=True,exist_ok=True)
+    record=dict(status='running',profile_version=PROFILE_VERSION,profiles=[],started_at=time.time())
+    try:
+        for kv in range(1,5):
+            for ka in range(1,kv+1):
+                selected=copy(args)
+                selected.kv,selected.ka=kv,ka
+                selected.profile=selected.profile_only=True
+                selected.profile_all_budgets=False
+                selected.output=str(root/f'kv{kv}_ka{ka}')
+                if args.profile_cache:
+                    cache=Path(args.profile_cache)
+                    selected.profile_cache=str(cache.with_name(f'{cache.stem}_kv{kv}_ka{ka}{cache.suffix}'))
+                evaluate(selected)
+                path=Path(selected.output)/'latency.json'
+                profile=json.loads(path.read_text())
+                if profile.get('status')!='complete' or not complete_components(profile):
+                    raise ValueError(f'Incomplete profile for budget{kv},{ka}')
+                record['profiles'].append(dict(kv=kv,ka=ka,path=str(path),
+                    eager=profile['eager'],compiled=profile['compiled']))
+                atomic_json(root/'profile_grid.json',record)
+        record['status']='complete'
+    except Exception as exc:
+        record.update(status='interrupted' if isinstance(exc,TimeoutError) else 'error',error=str(exc))
+        raise
+    finally:
+        record['wall_seconds']=time.time()-record['started_at']
+        atomic_json(root/'profile_grid.json',record)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--checkpoint", required=True)
@@ -469,7 +695,8 @@ def main(argv=None):
     parser.add_argument("--text-cache", default="data/text_embeds_cache/libero")
     parser.add_argument("--teacher", action="store_true")
     parser.add_argument("--profile", action="store_true")
-    parser.add_argument("--profile-only", action="store_true")
+    parser.add_argument("--profile-only", action="store_true", help="Measure latency without any rollouts")
+    parser.add_argument("--profile-all-budgets", action="store_true", help="With --profile-only, sweep all ten LoopWAM budgets")
     parser.add_argument("--profile-cache", help="Reuse one measured architecture/budget profile with provenance")
     parser.add_argument("--profile-architecture", help="Architecture plus initialization identity; required with cache")
     parser.add_argument("--worker")
@@ -481,12 +708,22 @@ def main(argv=None):
     if args.deadline_reserve_seconds < 0:
         parser.error("Deadline reserve must be nonnegative")
     if args.profile_cache and not args.profile_architecture:
-        parser.error("--profile-cache requires --profile-architecture")
+        if args.profile_all_budgets:
+            args.profile_architecture=json.dumps(dict(arch='loopwam',initialization=file_identity(args.checkpoint)),sort_keys=True)
+        else:
+            parser.error("--profile-cache requires --profile-architecture")
+    if args.profile_all_budgets and (not args.profile_only or args.teacher or args.worker):
+        parser.error("--profile-all-budgets requires standalone --profile-only on a LoopWAM checkpoint")
+    if args.profile_only:
+        args.profile=True
     if args.worker is not None:
         worker(args)
     else:
         try:
-            evaluate(args)
+            if args.profile_all_budgets:
+                profile_grid(args)
+            else:
+                evaluate(args)
         except TimeoutError as exc:
             print(str(exc), file=sys.stderr)
             raise SystemExit(3) from exc

@@ -295,10 +295,14 @@ def test_width_gate_stops_before_other_stage1_trainings(tmp_path, monkeypatch):
 
 
 def test_profile_reuse_requires_matching_runtime_and_complete_measurement():
-    from fastwam.loop.evaluation import reusable_profile
+    from fastwam.loop.evaluation import reusable_profile, aggregate_components
     key = dict(architecture='loopwam:r32:4,2', device_driver='H100,580', source_sha256='abc')
     result = dict(cache_key=key, status='complete', warmup=50, calls=500,
                   eager=dict(p50_ms=20,p90_ms=21,p99_ms=22), compiled=dict(p50_ms=10,p90_ms=11,p99_ms=12))
+    assert not reusable_profile(result,key)  # Legacy wall-only profiles cannot claim component support.
+    component=aggregate_components(component_samples()*50)
+    component['warmup']=50
+    result.update(profile_version=2,components={'eager':component,'compiled':component})
     assert reusable_profile(result, key)
     assert not reusable_profile(result, dict(key, source_sha256='changed'))
     assert not reusable_profile(result, dict(key, device_driver='4090,580'))
@@ -330,7 +334,7 @@ def test_continuation_script_only_queues_bounded_allocation_stops(tmp_path, kind
     scripts.mkdir(parents=True)
     output = tmp_path / 'output'
     output.mkdir()
-    (output / 'manifest.json').write_text(json.dumps(dict(launch_arguments={})))
+    (output / 'manifest.json').write_text(json.dumps(dict(status='running', launch_arguments={})))
     runner = scripts / 'run_campaign.sh'
     runner.write_text(f'#!{sys.executable}\n' + '''import json,os,sys,time
 from pathlib import Path
@@ -367,3 +371,157 @@ print('123456')
         assert command[-1] == '1'
         chain = json.loads((output/'continuation_chain.jsonl').read_text())
         assert chain['submitted_job_id'] == '123456' and chain['remaining_additional'] == 1
+
+
+@pytest.mark.parametrize('status,kind', [('complete',None), ('stopped','gate_failed'), ('stopped','error')])
+def test_prequeued_continuation_does_not_restart_finished_or_failed_campaign(tmp_path, status, kind):
+    import os
+    import subprocess
+    from fastwam.loop.evaluation import ROOT
+    output = tmp_path/'output'
+    output.mkdir()
+    (output/'manifest.json').write_text(json.dumps(dict(status=status,stop_kind=kind)))
+    result = subprocess.run(['bash',str(ROOT/'scripts/loopwam/continue_campaign.sbatch'),
+                             str(output),str(tmp_path/'proof.json'),'7'],
+        env=dict(os.environ, LOOPWAM_REPO=str(tmp_path)),capture_output=True,text=True)
+    assert result.returncode == 0, result.stderr
+    assert 'Skipping continuation' in result.stdout
+
+
+def component_samples():
+    return [dict(vae_encode_gpu_ms=2*scale, video_prefill_gpu_ms=3*scale,
+                 action_steps_gpu_ms=[i*scale for i in range(1,11)], action_decode_10_gpu_ms=60*scale,
+                 total_gpu_timeline_ms=70*scale, total_wall_ms=72*scale) for scale in (1,2)]
+
+
+def test_component_aggregation_distinguishes_single_steps_sum_and_decode_span():
+    from fastwam.loop.evaluation import aggregate_components
+    result = aggregate_components(component_samples())
+    assert result['calls'] == 2 and result['denoise_steps'] == 10
+    metrics = result['metrics']
+    assert metrics['action_step_gpu']['samples'] == 20
+    assert metrics['action_step_gpu']['p50_ms'] == 7.5
+    assert metrics['action_denoise_10_gpu']['p50_ms'] == 82.5
+    assert metrics['action_decode_10_gpu']['p50_ms'] == 90
+    assert metrics['unattributed_gpu_timeline']['p50_ms'] == 7.5
+    assert metrics['wall_minus_gpu_timeline']['p50_ms'] == 3
+
+
+@pytest.mark.parametrize('mutation', ['missing_key', 'missing_step', 'nonfinite', 'overlap'])
+def test_invalid_component_boundaries_cannot_be_reported(mutation):
+    from fastwam.loop.evaluation import aggregate_components
+    samples = component_samples()
+    if mutation == 'missing_key':
+        del samples[0]['video_prefill_gpu_ms']
+    elif mutation == 'missing_step':
+        samples[0]['action_steps_gpu_ms'].pop()
+    elif mutation == 'nonfinite':
+        samples[0]['vae_encode_gpu_ms'] = float('nan')
+    else:
+        samples[0]['action_decode_10_gpu_ms'] = 1
+    with pytest.raises(ValueError):
+        aggregate_components(samples)
+
+
+def test_profile_only_manager_never_schedules_rollouts(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    from fastwam.loop.evaluation import evaluate, atomic_json
+    checkpoint, stats = tmp_path/'model.pt', tmp_path/'stats.json'
+    checkpoint.write_bytes(b'fixture'); stats.write_text('{}')
+    output = tmp_path/'profile'
+    def profiler(command, **kwargs):
+        assert '--profile-only' in command and '--worker' in command
+        atomic_json(output/'latency.json', dict(status='complete',profile_version=2))
+    monkeypatch.setattr('fastwam.loop.evaluation.run_process_group', profiler)
+    def no_rollout(*args, **kwargs):
+        raise AssertionError('A profile-only request must never create rollout workers')
+    monkeypatch.setattr('fastwam.loop.evaluation.subprocess.Popen', no_rollout)
+    args=SimpleNamespace(checkpoint=str(checkpoint), stats=str(stats), output=str(output),seed=42,kv=4,ka=2,
+        teacher=False,text_cache=str(tmp_path),gpus='0',deadline=None,deadline_reserve_seconds=180,
+        profile=True,profile_only=True,profile_cache=None)
+    evaluate(args)
+    assert (output/'latency.json').exists()
+    assert not (output/'pending.txt').exists()
+    assert not (output/'summary.json').exists()
+
+
+def test_profile_grid_requires_all_ten_complete_component_profiles(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    from pathlib import Path
+    from fastwam.loop.evaluation import profile_grid, atomic_json, aggregate_components
+    budgets=[]
+    component=aggregate_components(component_samples()*50)
+    component['warmup']=50
+    def profile_without_gpu(args):
+        assert args.profile_only and args.profile
+        budgets.append((args.kv,args.ka))
+        atomic_json(Path(args.output)/'latency.json',dict(status='complete',profile_version=2,
+            components={'eager':component,'compiled':component},eager={'p50_ms':10},compiled={'p50_ms':5}))
+    monkeypatch.setattr('fastwam.loop.evaluation.evaluate',profile_without_gpu)
+    profile_grid(SimpleNamespace(output=str(tmp_path),profile_cache=None))
+    assert budgets == [(1,1),(2,1),(2,2),(3,1),(3,2),(3,3),(4,1),(4,2),(4,3),(4,4)]
+    record=json.loads((tmp_path/'profile_grid.json').read_text())
+    assert record['status']=='complete' and len(record['profiles'])==10
+
+
+@pytest.mark.parametrize('mode',['eager','compiled'])
+def test_component_wrappers_capture_real_boundaries_and_restore_methods(monkeypatch, mode):
+    from types import SimpleNamespace
+    import torch
+    from fastwam.loop.evaluation import measure_components
+    timer=[0.]
+    class Event:
+        def __init__(self,**kwargs): pass
+        def record(self): self.value=timer[0];timer[0]+=.001
+        def elapsed_time(self,end): return end.value-self.value
+    class Scheduler:
+        def step(self): timer[0]+=.2
+    class Model:
+        def _encode_input_image_latents_tensor(self): timer[0]+=1
+        def _denoise_action_with_video_cache(self): timer[0]+=2
+    def prefill(): timer[0]+=3
+    model=Model()
+    model.mot=SimpleNamespace(prefill_video_cache_tensor=prefill)
+    model.infer_action_scheduler=Scheduler()
+    model._prefill_video_cache_compiled=prefill
+    model._denoise_action_with_video_cache_compiled=model._denoise_action_with_video_cache
+    original_model=dict(vars(model)); original_scheduler=dict(vars(model.infer_action_scheduler))
+    monkeypatch.setattr(torch.cuda,'Event',Event)
+    monkeypatch.setattr(torch.cuda,'synchronize',lambda:None)
+    monkeypatch.setattr('fastwam.loop.evaluation.time.perf_counter',lambda:timer[0]/1000)
+    def call():
+        model._encode_input_image_latents_tensor()
+        pre=model._prefill_video_cache_compiled if mode=='compiled' else model.mot.prefill_video_cache_tensor
+        denoise=model._denoise_action_with_video_cache_compiled if mode=='compiled' else model._denoise_action_with_video_cache
+        pre()
+        for _ in range(10):
+            denoise();model.infer_action_scheduler.step()
+    result=measure_components(model,call,mode)
+    assert result['calls']==100
+    assert result['metrics']['action_step_gpu']['samples']==1000
+    assert result['metrics']['action_decode_10_gpu']['p50_ms']>result['metrics']['action_denoise_10_gpu']['p50_ms']
+    assert vars(model)==original_model
+    assert vars(model.infer_action_scheduler)==original_scheduler
+    assert model.mot.prefill_video_cache_tensor is prefill
+
+
+def test_latent_cache_requires_matching_complete_marker_and_records_source(tmp_path):
+    from fastwam.loop.campaign import latent_cache_identity
+    cache=tmp_path/'latents';cache.mkdir()
+    metadata=dict(format='loopwam_latent_cache_v1',cache_id='a'*64,expected_windows=20,
+                  manifest_sha256='split',stats_sha256='stats',vae_identity={'bytes':123})
+    (cache/'metadata.json').write_text(json.dumps(metadata))
+    with pytest.raises(ValueError,match='complete'):
+        latent_cache_identity(cache)
+    (cache/'complete.json').write_text(json.dumps(dict(cache_id='wrong',completed_windows=20)))
+    with pytest.raises(ValueError):
+        latent_cache_identity(cache)
+    (cache/'complete.json').write_text(json.dumps(dict(cache_id='a'*64,completed_windows=19)))
+    with pytest.raises(ValueError):
+        latent_cache_identity(cache)
+    (cache/'complete.json').write_text(json.dumps(dict(cache_id='a'*64,completed_windows=20)))
+    identity=latent_cache_identity(cache)
+    assert identity['cache_id']=='a'*64
+    assert identity['source_metadata']['vae_identity']=={'bytes':123}
+    assert len(identity['metadata_sha256'])==64
+    assert latent_cache_identity(None) is None

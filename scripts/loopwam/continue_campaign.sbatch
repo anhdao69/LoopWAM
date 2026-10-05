@@ -33,6 +33,12 @@ additional = int(sys.argv[3])
 if not 0 <= additional <= 7:
     raise SystemExit('MAX_ADDITIONAL must be an integer from0 through7')
 manifest = json.loads((Path(output) / 'manifest.json').read_text())
+status, kind = manifest.get('status'), manifest.get('stop_kind')
+if status == 'complete' or (status == 'stopped' and kind in ('gate_failed', 'error')):
+    print('Skipping continuation: campaign status=' + str(status) + ', stop_kind=' + str(kind), flush=True)
+    raise SystemExit(0)
+if status != 'running' and not (status in ('stopped', 'interrupted') and kind == 'allocation_end'):
+    raise SystemExit('Refusing to resume unrecognized campaign state: ' + str(status) + '/' + str(kind))
 arguments = dict(manifest['launch_arguments'], output=output, infrastructure=proof)
 # A new allocation has a new EndTime. The wrapper discovers it through scontrol.
 for key in ('deadline', 'plan', 'report_only'):
