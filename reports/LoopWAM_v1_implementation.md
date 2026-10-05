@@ -1,6 +1,6 @@
 # LoopWAM v1: implementation and LIBERO-Long screening
 
-Status (2026-10-05, 15:28 EDT): implementation on branch `LoopWAM_v1`; infrastructure validation passed and the LIBERO-Long campaign is running. P0-S has reached step 210/2,000. No completed screening result or selected recipe is claimed here. This report is updated as measured training and evaluation evidence becomes available.
+Status (2026-10-05, 16:05 EDT): implementation on branch `LoopWAM_v1`; infrastructure validation passed and the LIBERO-Long campaign is running. P0-S completed 2,000 updates, passed its finite/decreasing-loss gate, and automatically started endpoint evaluation. No completed closed-loop screening result or selected recipe is claimed here. This report is updated as measured training and evaluation evidence becomes available.
 
 ## Scope and experimental contract
 
@@ -159,7 +159,30 @@ The cached coupled probe reached 75.70 samples/s, approximately 1.91× the earli
 
 The cached Untied-30 probe reached 78.74 samples/s, approximately 2.13× its earlier uncached probe. Initialization took 142.14 seconds, training 18.28 seconds and checkpoint/export writing 51.05 seconds. Mean loader wait was 2.12 ms/update and the slowest-rank mean was 2.31 ms. Both cached probes passed finite/nonzero gradient coverage on all four ranks and durable-runtime accounting checks. Their hashed evidence is attached to `infrastructure.json` through `cached_training_evidence.json`.
 
-P0-S's first 210 production updates have held near 1.09 seconds/update at 56.02 GB allocated/GPU. This is an in-progress L2 result, not a completed training-runtime measurement. Logged `lr` is the scheduler's value for the next optimizer update, after the just-completed update; the first update itself uses `5e-5 / 500`.
+### Completed Phase-0 training
+
+P0-S completed all 2,000 updates without a restart, using L2, fixed `(4,4)`, global batch 128, microbatch 16, accumulation 2 and ZeRO stage 1. All logged losses and gradient norms were finite. Combined loss decreased from 2.7803 at the first update to 0.2588 in the final logged interval; final video/action FM losses were 0.22457/0.03427. The registered smoke gate passed: initial ten logged-interval mean 1.70659 versus final ten mean 0.26496. This verifies optimization behavior; closed-loop success remains a separate measurement.
+
+| Measured P0-S cost | Seconds | Minutes |
+| --- | ---: | ---: |
+| Training updates | 2,266.17 | 37.77 |
+| Initialization | 38.03 | 0.63 |
+| Checkpoints and endpoint exports | 51.11 | 0.85 |
+| Two EMA diagnostic callbacks | 93.69 | 1.56 |
+| Instrumented trainer wall time | 2,450.13 | 40.84 |
+
+The instrumented wall total includes 1.13 seconds of unattributed overhead. It ends when the trainer commits its runtime ledger; Python/torchrun shutdown and campaign handoff are outside that interval. The complete launch-to-next-evaluation interval was approximately 41m52s. Evaluation started automatically at 16:05:12 EDT. Warm throughput, excluding only the first cold update, was **1.12820 seconds/update or 113.455 samples/s**. Peak allocated memory was **56.0276 GB/GPU**; mean slowest-rank loader wait was 1.026 ms/update. The source of these numbers is `outputs/loopwam_v1/campaign/P0-S/timing.json`, with the durable invocation under `runtime/invocations/`.
+
+EMA diagnostics used the same fixed 20 held-out clips and noise at both checkpoints:
+
+| Update | OL1 action velocity vs teacher | OL2 first-ten action L1 | OL3 future-video velocity vs teacher |
+| --- | ---: | ---: | ---: |
+| 1,000 | 0.259878 | 0.255751 | 0.648007 |
+| 2,000 | 0.123620 | 0.150995 | 0.309448 |
+
+![Phase-0 training and held-out EMA diagnostics](figures/loopwam_phase0_training.png)
+
+The PDF is `reports/figures/loopwam_phase0_training.pdf`. Logged `lr` is the scheduler's value for the next optimizer update, after the just-completed update; the first update itself uses `5e-5 / 500`. The scientific runs retain the registered 500-update warmup.
 
 ### Measured policy latency
 
@@ -209,6 +232,23 @@ Allocation 872809 provides four H100 80GB GPUs, 16 CPUs and 512 GB RAM on evc102
 The continuation was submitted with the activated FastWAM Python 3.10 environment and `--export=ALL`, which carries that environment into subsequent jobs. The system Python 3.6 cannot run all continuation APIs. The first submission attempt failed locally before calling `sbatch`; the corrected submission created only job 873269. The unrelated pending interactive jobs were left intact.
 
 The earlier uncached planning estimate of 87–128 training hours is superseded by the cache measurements. Applying the observed 1.09–1.691 seconds/update range to 142,000 updates gives approximately **43–67 hours of training alone**. This intentionally broad extrapolation mixes measured L2 and L3 probes; it is not a measured total for every architecture/mode. Closed-loop evaluation, diagnostics, checkpoint writes, startup and Slurm queue delays are additional. A tighter full-campaign ETA will follow the first complete 500-episode evaluation. The campaign writes measured per-run timings, comparison CSV/Markdown and a runtime-estimate JSON; unknown quantities remain explicit.
+
+Fourteen training trajectories do not imply fourteen evaluation batches. If every scientific gate passes, the implemented route requires at least **92 batches × 500 episodes = 46,000 episodes**, before decision-dependent second evaluation seeds:
+
+| Evaluation work | 500-episode batches |
+| --- | ---: |
+| P0-S student | 1 |
+| Released teacher, two seeds | 2 |
+| Five Stage-1 endpoints | 5 |
+| Selected Stage-1 raw-versus-EMA diagnostic | 1 |
+| Stage-2 coupled grids and selected K=3 | 7 |
+| Four Stage-3 initial grids | 19 |
+| Remaining pairs for the selected Stage-3 full grid | 5 |
+| Two confirmation training seeds × ten pairs × two evaluation seeds | 40 |
+| Two confirmation training seeds × three delayed pairs × two evaluation seeds | 12 |
+| **Minimum total** | **92** |
+
+Selecting S3-Konly adds one batch because its initial grid has four pairs. Borderline scientific comparisons add second-seed batches, while a failed gate stops later work. This count is saved in `outputs/loopwam_v1/evaluation_workload.json`, tied to the frozen executable-source hash. A first approximation is therefore `43–67 training hours + 92 × measured hours per 500 episodes`, plus startup, checkpoint, diagnostic and queue costs. The teacher, different loop budgets, success-dependent episode lengths and delayed controller can have different evaluation costs; a single P0-S batch will provide an initial range, not an exact completion date.
 
 Live artifacts: [comparison table](../outputs/loopwam_v1/campaign/results.md), [CSV](../outputs/loopwam_v1/campaign/results.csv), [manifest and decisions](../outputs/loopwam_v1/campaign/manifest.json), and [runtime estimates](../outputs/loopwam_v1/campaign/runtime_estimate.json). Tables refresh after evaluation/gate events; `manifest.json` and per-run training logs show ongoing work between those events.
 
