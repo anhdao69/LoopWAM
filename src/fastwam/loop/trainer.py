@@ -329,12 +329,23 @@ def teacher_identity(checkpoint: str | Path) -> dict:
     return {'path': str(path), 'size': info.st_size, 'mtime_ns': info.st_mtime_ns}
 
 
+def resolve_warmup_steps(overfit_one_batch: bool, overfit_warmup_steps: int | None) -> int:
+    """The benchmark always warms up for 500 updates; only overfit may override."""
+    if overfit_warmup_steps is None:
+        return 500
+    if not overfit_one_batch or overfit_warmup_steps < 0:
+        raise ValueError('--overfit-warmup-steps requires --overfit-one-batch and a nonnegative value')
+    return overfit_warmup_steps
+
+
 def validate_resume_contract(metadata: dict, expected: dict, *, state_root: str | Path, output: str | Path) -> None:
     for name in ('stats_sha256', 'manifest_sha256', 'seed', 'loss', 'world_size', 'global_batch', 'teacher_identity'):
         if name not in metadata or metadata[name] != expected[name]:
             raise ValueError(f'Resume mismatch for {name}: {metadata.get(name)!r} != {expected[name]!r}')
     if metadata.get('latent_cache_identity') != expected.get('latent_cache_identity'):
         raise ValueError('Resume mismatch for latent_cache_identity; cached and live latent streams cannot be interchanged')
+    if metadata.get('warmup_steps', 500) != expected.get('warmup_steps', 500):
+        raise ValueError('Resume mismatch for warmup_steps')
     # A branch into a different output directory is an explicit stage fork.
     # Continuing the same output must preserve its sampling experiment.
     if Path(state_root).resolve() == (Path(output).resolve() / 'state'):
@@ -395,12 +406,15 @@ def parser() -> argparse.ArgumentParser:
     p.add_argument('--checkpoint-reserve-seconds', type=float, default=180.)
     p.add_argument('--timing-warmup-steps', type=int, default=1, help='Exclude initial cold updates from seconds_per_step')
     p.add_argument('--overfit-one-batch', action='store_true', help='Reuse the first global batch for the Phase-0 overfit diagnostic')
+    p.add_argument('--overfit-warmup-steps', type=int, default=None,
+                   help='Overfit diagnostic only: nonnegative warmup override (default 500); benchmark remains 500')
     p.add_argument('--local-rank', '--local_rank', type=int, default=None)
     return p
 
 
 def train(args) -> dict:
     job_started = time.monotonic()
+    warmup_steps = resolve_warmup_steps(args.overfit_one_batch, args.overfit_warmup_steps)
     if not torch.cuda.is_available():
         raise RuntimeError('LoopWAM training requires CUDA; use CPU tests for infrastructure verification')
     local_rank = int(os.environ.get('LOCAL_RANK', args.local_rank or 0))
@@ -442,6 +456,7 @@ def train(args) -> dict:
                      'dataset_counts': manifest['counts'], 'teacher': str(Path(args.teacher).resolve()),
                      'teacher_identity': teacher_identity(args.teacher),
                      'latent_cache_identity': dataset.identity if dataset is not None else None,
+                     'warmup_steps': warmup_steps,
                      'micro_batch': args.micro_batch, 'grad_accum': args.grad_accum, 'zero_stage': args.zero_stage}
     if args.resume:
         saved_metadata = json.loads((Path(args.resume) / 'latest.json').read_text())
@@ -481,7 +496,7 @@ def train(args) -> dict:
     import deepspeed
     engine, _, _, scheduler = deepspeed.initialize(model=model, optimizer=optimizer,
                                                    model_parameters=[p for p in model.parameters() if p.requires_grad],
-                                                   lr_scheduler=lambda opt: WarmupConstantLR(opt, 500),
+                                                   lr_scheduler=lambda opt: WarmupConstantLR(opt, warmup_steps),
                                                    config=config, dist_init_required=False)
     ema = EMA(model, decay=.999)
     coverage = GradientCoverage(model)

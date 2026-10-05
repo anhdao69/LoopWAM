@@ -422,3 +422,27 @@ def test_latent_cache_forbids_random_preprocessing_and_live_cache_resume_switch(
         with pytest.raises(ValueError, match='latent_cache_identity'):
             validate_resume_contract(metadata, {**metadata, 'latent_cache_identity': identity},
                                      state_root=tmp_path / 'old/state', output=tmp_path / 'new')
+
+
+def test_overfit_warmup_override_is_isolated_from_benchmark_and_preserves_base_lr(tmp_path):
+    from fastwam.loop.trainer import resolve_warmup_steps
+    assert resolve_warmup_steps(False, None) == 500
+    assert resolve_warmup_steps(True, None) == 500
+    assert resolve_warmup_steps(True, 0) == 0
+    for overfit, warmup in ((False, 0), (False, 500), (True, -1)):
+        with pytest.raises(ValueError, match='overfit-one-batch'):
+            resolve_warmup_steps(overfit, warmup)
+    parameter = torch.nn.Parameter(torch.ones(1))
+    optimizer = torch.optim.AdamW([parameter], lr=5e-5)
+    schedule = WarmupConstantLR(optimizer, resolve_warmup_steps(True, 0))
+    assert optimizer.param_groups[0]['lr'] == 5e-5
+    schedule.step()
+    assert optimizer.param_groups[0]['lr'] == 5e-5
+    benchmark = torch.optim.AdamW([parameter], lr=5e-5)
+    WarmupConstantLR(benchmark, resolve_warmup_steps(False, None))
+    assert benchmark.param_groups[0]['lr'] == pytest.approx(1e-7)
+    metadata = dict(stats_sha256='s', manifest_sha256='m', seed=42, loss='L2', world_size=4,
+                    global_batch=128, teacher_identity={'size': 1}, warmup_steps=500)
+    with pytest.raises(ValueError, match='warmup_steps'):
+        validate_resume_contract(metadata, {**metadata, 'warmup_steps': 0},
+                                 state_root=tmp_path / 'old/state', output=tmp_path / 'new')
