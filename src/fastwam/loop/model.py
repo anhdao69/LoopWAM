@@ -98,7 +98,10 @@ class LoopWAM(FastWAM):
     def _inputs(self,sample):
         move=lambda x,dtype=None:x.to(device=self.device,dtype=dtype,non_blocking=True)
         if 'input_latents' in sample:
-            latents=move(sample['input_latents'],self.torch_dtype)
+            # Preserve the frozen encoder's output dtype. Casting cached bf16
+            # latents to fp32 changes randn_like and timestep RNG consumption,
+            # so cached training would no longer match live VAE preprocessing.
+            latents=move(sample['input_latents'])
         else:
             latents=self._encode_video_latents(move(sample['video'],self.torch_dtype))
         context=move(sample['context'],self.torch_dtype)

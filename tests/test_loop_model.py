@@ -39,6 +39,21 @@ class ModelTests(unittest.TestCase):
     def setUp(self):
         torch.set_num_threads(1);torch.manual_seed(17)
 
+    def test_cached_latents_preserve_live_dtype_and_noise_draws(self):
+        p=policy()
+        encoded=torch.randn(2,2,3,2,2,dtype=torch.bfloat16)
+        p._encode_video_latents=lambda video: encoded
+        common={'context':torch.randn(2,4,16),'context_mask':torch.ones(2,4,dtype=torch.bool),
+                'proprio':torch.randn(2,4,3),'action':torch.randn(2,4,2)}
+        live=p._inputs(dict(common,video=torch.randn(2,3,9,16,16)))[0]
+        cached=p._inputs(dict(common,input_latents=encoded.clone()))[0]
+        torch.testing.assert_close(live,cached,rtol=0,atol=0)
+        self.assertEqual(cached.dtype,torch.bfloat16)
+        torch.manual_seed(123);a=torch.randn_like(live);state_a=torch.get_rng_state()
+        torch.manual_seed(123);b=torch.randn_like(cached);state_b=torch.get_rng_state()
+        torch.testing.assert_close(a,b,rtol=0,atol=0)
+        self.assertTrue(torch.equal(state_a,state_b))
+
     def test_video_diagnostic_decodes_each_requested_exit(self):
         p=policy()
         x=torch.randn(1,2,3,2,2);a=torch.randn(1,4,2)
