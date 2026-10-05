@@ -660,4 +660,3 @@ Training in optimizer steps at global batch 128; evaluation in episodes. Stage-2
 | 5 (full LIBERO) | 2 main + 3 controls | 150k | about 114,000 across 4 suites |
 
 Evaluation, not training, dominates the screening budget. Kill a run early, without closed-loop evaluation, if its OL-1 at the stage end is more than 1.5× the best run in the same phase.
-
