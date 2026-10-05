@@ -227,6 +227,37 @@ def campaign_args(tmp_path):
         workers=2, text_cache=str(tmp_path / 'text'))
 
 
+def passing_infrastructure(tmp_path):
+    from fastwam.loop.evaluation import sha256_file
+    artifact = tmp_path / 'overfit_evidence.json'
+    artifact.write_text(json.dumps(dict(status='pass', diagnostic='fixture; no GPU training')))
+    return dict(status='pass', all_14_tests_passed=True,
+                overfit_evidence=dict(status='pass', path=str(artifact), sha256=sha256_file(artifact)))
+
+
+@pytest.mark.parametrize('problem', ['missing', 'failed', 'missing_file', 'changed_file'])
+def test_campaign_requires_hashed_passing_overfit_before_any_training(tmp_path, monkeypatch, problem):
+    from pathlib import Path
+    from fastwam.loop.campaign import Campaign, GateStopped
+    args = campaign_args(tmp_path)
+    proof = passing_infrastructure(tmp_path)
+    if problem == 'missing':
+        del proof['overfit_evidence']
+    elif problem == 'failed':
+        proof['overfit_evidence']['status'] = 'fail'
+    elif problem == 'missing_file':
+        Path(proof['overfit_evidence']['path']).unlink()
+    elif problem == 'changed_file':
+        Path(proof['overfit_evidence']['path']).write_text('{"status":"fail"}')
+    Path(args.infrastructure).write_text(json.dumps(proof))
+    campaign = Campaign(args)
+    trained = []
+    monkeypatch.setattr(campaign, 'train', trained.append)
+    with pytest.raises(GateStopped, match='overfit'):
+        campaign.run()
+    assert trained == []
+
+
 def test_new_allocation_may_resume_but_batch_or_checkpointing_changes_cannot(tmp_path):
     from fastwam.loop.campaign import Campaign
     args = campaign_args(tmp_path)
@@ -279,7 +310,7 @@ def test_expired_evaluation_keeps_finished_tasks_without_summary(tmp_path):
 def test_width_gate_stops_before_other_stage1_trainings(tmp_path, monkeypatch):
     from fastwam.loop.campaign import Campaign, Evidence, GateStopped
     args = campaign_args(tmp_path)
-    __import__('pathlib').Path(args.infrastructure).write_text(json.dumps(dict(status='pass', all_14_tests_passed=True)))
+    __import__('pathlib').Path(args.infrastructure).write_text(json.dumps(passing_infrastructure(tmp_path)))
     campaign = Campaign(args)
     smoke = campaign.root / 'P0-S/metrics.jsonl'
     smoke.parent.mkdir()

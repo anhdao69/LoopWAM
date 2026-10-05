@@ -623,8 +623,17 @@ class Campaign:
         infrastructure_passed = proof.get("status") == "pass" and proof.get("all_14_tests_passed") is True
         if not infrastructure_passed:
             raise GateStopped("P0-T infrastructure evidence must report status=pass and all_14_tests_passed=true")
+        overfit = proof.get("overfit_evidence")
+        if not isinstance(overfit, dict) or overfit.get("status") != "pass":
+            raise GateStopped("P0-S requires verified overfit evidence with status=pass before training")
+        evidence_path = overfit.get("path")
+        if not isinstance(evidence_path, str) or not evidence_path or not Path(evidence_path).is_file():
+            raise GateStopped("P0-S overfit evidence file is missing")
+        if overfit.get("sha256") != sha256_file(evidence_path):
+            raise GateStopped("P0-S overfit evidence hash differs from the verified infrastructure proof")
         self.manifest.data["infrastructure_evidence"] = dict(path=str(Path(self.args.infrastructure).resolve()),
                                                            sha256=sha256_file(self.args.infrastructure), evidence=proof)
+        self.manifest.data["overfit_evidence"] = dict(overfit, path=str(Path(evidence_path).resolve()))
         self.manifest.save()
         self.train("P0-S")
         smoke = [json.loads(line) for line in (self.root / "P0-S/metrics.jsonl").read_text().splitlines()]
@@ -802,7 +811,7 @@ def main(argv=None):
     parser.add_argument("--text-cache", default="data/text_embeds_cache/libero")
     parser.add_argument("--latent-cache", help="Optional complete frozen-VAE cache directory; validated by trainer")
     parser.add_argument("--converted-dir", default="checkpoints/loopwam_v1")
-    parser.add_argument("--infrastructure", help="P0-T JSON evidence: status=pass, all_14_tests_passed=true")
+    parser.add_argument("--infrastructure", help="P0-T proof plus passing overfit_evidence with verified path/sha256")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--eval-seeds", type=int, nargs=2, default=[42,43])
     parser.add_argument("--gpus", default="0,1,2,3")
