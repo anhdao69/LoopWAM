@@ -22,6 +22,16 @@ The production LoopWAM artifact contains1,079,946,183 parameters and occupies2,1
 
 The initial rank32 conversion captures less than30% of the residual energy in479 of480 matrix/slot combinations. This is a diagnostic warning for the recovery experiment, not evidence that the trained policy fails. Rank64 is not automatically scheduled in the initial14-run route.
 
+### Measured initialization diagnostics
+
+D1 completed on 1,000 deterministic, unpadded training clips. Mean centered linear CKA between layers in the six cycle groups is 0.9468 for video and 0.8998 for action; mean angular distances are 0.2881 and 0.6318 radians. These are similarities of token-mean teacher features, not proof that arbitrary layer replacement preserves behavior. D1 took 218.5 seconds after loading the model and dataset.
+
+D2 used the same noisy inputs for every model over 20 held-out clips and five noise times. Initial action-velocity MSE against the teacher was 0.5573 for Untied-30, 0.6018 for LoopWAM r32, and 0.6446 with its adapters temporarily disabled. The adapter-disabled result is an initialization diagnostic; no r0 training ablation was added. Production full-rank adapters were not materialized; exact full-rank folding is covered by the numerical real-Wan tests. D2 took 52.1 seconds, including student loading.
+
+![Measured teacher similarity and initial conversion fidelity](figures/loopwam_initialization.png)
+
+Source artifacts: `outputs/loopwam_v1/initialization/{provenance,d1,d2}.json`. The corresponding PDF is `reports/figures/loopwam_initialization.pdf`.
+
 ## Data and losses
 
 The dataset contains388 demonstrations and104,280 frame-start windows. A fixed task-stratified episode split reserves exactly two demonstrations per task:368 training demonstrations/98,842 windows and20 validation demonstrations/5,438 windows. Of these,87,066 and4,798 windows respectively are unpadded. The manifest records every original window ID, episode interval and metadata hash. All388 parquet index/frame/episode/task columns were checked against the manifest. End padding retains original FastWAM semantics and is masked in the losses.
@@ -31,6 +41,12 @@ Preprocessing uses two224x224 cameras concatenated horizontally,33 observation s
 L2 is action FM plus future-video FM. L3 adds action-velocity KD. Teacher and student receive the exact same noisy video/action tensors and timestep tensors; each computes its own proprio context from the same normalized raw proprio. The teacher is frozen, in eval mode and under no_grad, with bf16 autocast. KD uses the same timestep weighting and padding reduction as action FM. Augmented samples receive zero KD contribution. All student/teacher train/inference sigma shifts must be5.0; the existing action config's1.0 is explicitly overridden in this workflow.
 
 Open-loop diagnostics use a documented fixed panel of one unpadded midpoint clip from each of the20 held-out demonstrations, with saved window IDs and fixed noise. They compute OL1 against teacher action velocity at five fixed timesteps, OL2 first-ten action L1 after ten Euler steps and OL3 future-video velocity MSE. This panel is not an exhaustive evaluation of all5,438 held-out windows. Closed-loop stage-end EMA evaluation remains the primary selection metric.
+
+### Frozen preprocessing cache
+
+The dense-control probe exposed a sustained CPU bottleneck: its final two updates took 3.77–3.90 seconds, including 1.11–1.18 seconds waiting on the slowest loader rank. A shared cache of individual window encodings is therefore being added. It will retain normalized actions/proprioception, padding masks, window identity and deduplicated text contexts alongside the frozen VAE outputs. Every architecture will use the same cache, with strict dataset, preprocessing, normalization and VAE provenance.
+
+A real H100 numerical check found batch-dependent bf16 encoder rounding: batch 16 versus batch 8 differed by 0.4084% relative L2 (maximum absolute difference 0.0625). Consequently, each cached window is encoded separately with a fixed batch size of one. This makes interrupted cache construction independent of batch membership. Singleton repeat, serialization/reload, noise and timestep draws, and first-frame causality were bit-identical in the checked padded and unpadded production clips. The cache preserves bf16 latents; converting them to fp32 would change noise generation. Cached training is not claimed to be bit-identical to the earlier batched-VAE throughput probes. Evidence: `outputs/loopwam_v1/cache_encoding_equivalence.json`.
 
 ## Optimization, resumption and evaluation
 
@@ -58,8 +74,15 @@ All measurements below use four H100 80GB GPUs, ZeRO-1, fp32 student/master weig
 | LoopWAM L3 fixed, 2 updates | 8 | 4 | 3.52 s, one warm update | 50.33 GB | `runs/loopwam_validation/micro8` |
 | LoopWAM L3 fixed, 3 updates | 16 | 2 | 2.20 s, last warm update | 68.23 GB | `runs/loopwam_validation/micro16` |
 | LoopWAM L3 coupled, 10 updates | 16 | 2 | 3.235 s, mean of 9 warm updates | 70.99 GB | `runs/loopwam_validation/coupled16/timing_initial10.json` |
+| Untied-30 L3 fixed, 5 updates | 8 | 4 | 3.460 s, mean of 4 warm updates | 72.76 GB | `runs/loopwam_validation/c1_micro8/timing.json` |
 
 The coupled probe took 139.8 seconds to initialize and 31.6 seconds to save resumable state plus policy exports. Its warm throughput is 128 / 3.235 = 39.57 samples/s. The preserved initial timing artifact has an older inconsistent throughput field; the step-time numerator and denominator, and this explicit calculation, are used here. The current writer derives both fields from the same measured interval.
+
+### Measured policy latency
+
+The converted LoopWAM at `(Kv, Ka) = (4,4)` completed the production H100 profile: 50 warmups and 500 timed batch-one calls, with VAE, video prefill and ten Euler action steps included. Eager p50/p90/p99 was **307.69 / 316.10 / 327.73 ms**; compiled was **57.03 / 62.41 / 62.74 ms**. Peak allocated memory during inference was 3.80 GB. This is an initialization timing result, not a success-rate result.
+
+Separate CUDA-event measurements after the primary wall-time measurements gave compiled median VAE 4.58 ms, video prefill 5.94 ms, and full ten-step action decoding 43.87 ms. Event intervals include CPU enqueue gaps; their medians should not be added as an exact decomposition of the median end-to-end latency. The primary timings exclude instrumentation overhead. Evidence: `outputs/loopwam_v1/profile_smoke/latency.json`.
 
 ## Runtime and limitations
 
@@ -67,4 +90,4 @@ Allocation 872809 provides four H100 80GB GPUs, 16 CPUs and 512GB RAM on evc102.
 
 Multiplying the preliminary 2.20–3.235 seconds/update by 142,000 updates gives roughly 87–128 hours of training alone. This is a planning range, not a measured total: the dense controls, data-loader steady state, different elastic modes, closed-loop evaluations, startup and Slurm queue delays remain to be measured. The campaign writes measured per-run timings, comparison CSV/Markdown and a runtime-estimate JSON; unknown quantities stay unknown. A calendar completion date and a best setup require those measurements and passing gates.
 
-Only H100 measurement is available in this allocation. An RTX4090 profile, component-level latency decomposition, 1,000-clip layer-similarity diagnostics and delay-injected evaluation are not yet validated. Full LIBERO across the other suites is outside the user's first Long-only campaign. LIBERO-Long is a selection set; later headline generalization claims require benchmarks unused for selection. The requested 14-run route excludes the plan's additional 22k control continuations: the screening controls stop at 8k, so final 22k LoopWAM comparisons against them have unequal training budgets and must be labeled accordingly.
+Only H100 measurement is available in this allocation. The all-ten-budget latency grid, an RTX4090 profile and delay-injected evaluation remain outstanding. Full LIBERO across the other suites is outside the user's first Long-only campaign. LIBERO-Long is a selection set; later headline generalization claims require benchmarks unused for selection. The requested 14-run route excludes the plan's additional 22k control continuations: the screening controls stop at 8k, so final 22k LoopWAM comparisons against them have unequal training budgets and must be labeled accordingly.
