@@ -1,0 +1,41 @@
+{
+  "training_trajectories": 14,
+  "incremental_optimizer_steps": 142000,
+  "mandatory_evaluation_batches_by_stage": {
+    "phase0_student": 1,
+    "teacher_reproduction": 2,
+    "stage1": 5,
+    "selected_stage1_raw": 1,
+    "stage2": 7,
+    "stage3_initial": 19,
+    "selected_stage3_remaining_grid": 5,
+    "confirmation_primary": 40,
+    "confirmation_delay": 12
+  },
+  "mandatory_batches_if_all_gates_pass": 92,
+  "episodes_per_batch": 500,
+  "mandatory_episodes_if_all_gates_pass": 46000,
+  "extra_batch_if_S3_Konly_selected": 1,
+  "additional_second_seed_comparisons": "Decision dependent; not included in minimum",
+  "scope": "Primary EMA, required teacher reproduction, selected raw comparison, and Phase4 delay evaluations",
+  "source_sha256": "dd2c30054f41546bc3c4a592c73197d3077091ef66e0bd7ac0970d25c0a94028",
+  "unique_evaluation_batches_by_selected_recipe": {
+    "S3-coupled": {
+      "minimum": 92,
+      "all_optional_second_seeds": 122
+    },
+    "S3-late": {
+      "minimum": 92,
+      "all_optional_second_seeds": 122
+    },
+    "S3-Konly": {
+      "minimum": 93,
+      "all_optional_second_seeds": 124
+    },
+    "S3-2stage": {
+      "minimum": 92,
+      "all_optional_second_seeds": 122
+    }
+  },
+  "maximum_batches_with_all_optional_second_seeds": 124
+}

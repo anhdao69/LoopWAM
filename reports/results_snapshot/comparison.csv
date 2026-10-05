@@ -1,0 +1,15 @@
+run,status,pair,seed,success_pct,episodes,wilson_low,wilson_high,p50_ms,p90_ms,p99_ms,eval_wall_seconds
+P0-S,trained,kv4_ka4,42,17.0,500,13.962036610396117,20.541169860066333,62.107572332024574,62.29410879313946,62.64232503250241,2899.2439383752644
+C1,pending,,,,,,,,,,
+C2,pending,,,,,,,,,,
+C3,pending,,,,,,,,,,
+S1-L2,pending,,,,,,,,,,
+S1-L3,pending,,,,,,,,,,
+S2-cont,pending,,,,,,,,,,
+S2-base,pending,,,,,,,,,,
+S3-coupled,pending,,,,,,,,,,
+S3-late,pending,,,,,,,,,,
+S3-Konly,pending,,,,,,,,,,
+S3-2stage,pending,,,,,,,,,,
+F-Long-s1,pending,,,,,,,,,,
+F-Long-s2,pending,,,,,,,,,,

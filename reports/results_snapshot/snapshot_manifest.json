@@ -1,0 +1,50 @@
+{
+  "captured_at": "2026-10-05T17:06:32.721815-04:00",
+  "campaign_status": "running",
+  "completed_training_runs": [
+    "P0-S"
+  ],
+  "executable_source_sha256": "dd2c30054f41546bc3c4a592c73197d3077091ef66e0bd7ac0970d25c0a94028",
+  "files": {
+    "comparison.md": {
+      "source": "outputs/loopwam_v1/campaign/results.md",
+      "bytes": 16937,
+      "sha256": "86b063c459e3dbb65751b41790d12f84434e1e349989455470d834443c4b5171"
+    },
+    "comparison.csv": {
+      "source": "outputs/loopwam_v1/campaign/results.csv",
+      "bytes": 593,
+      "sha256": "95b6438e69da62cc6ed93272074371dc974fcfebabf5c179572d6c8a85e1b56b"
+    },
+    "forecast_after_phase0.json": {
+      "source": "outputs/loopwam_v1/forecast_after_phase0.json",
+      "bytes": 3022,
+      "sha256": "c6fc581aa35c0c93090aa9ccc6dfa55c59e444716c614b1d630f920d714500c9"
+    },
+    "evaluation_workload.json": {
+      "source": "outputs/loopwam_v1/evaluation_workload.json",
+      "bytes": 1278,
+      "sha256": "84628d7ab024bdeb79252e126e9915aa55622b8ef742d3dcf26de09f78ccebd4"
+    },
+    "phase0_summary.json": {
+      "source": "outputs/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/summary.json",
+      "bytes": 51250,
+      "sha256": "e6d9d5df717b23f9f196714f3b63ac96469ffe373bf8b22f54150cc1a6a77bfa"
+    },
+    "phase0_latency.json": {
+      "source": "outputs/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/latency.json",
+      "bytes": 11580,
+      "sha256": "a772bba6394c12fa2fc116886065328d46491d38b0cd2189576d1add0ea7fe51"
+    },
+    "phase0_training_timing.json": {
+      "source": "outputs/loopwam_v1/campaign/P0-S/timing.json",
+      "bytes": 3238,
+      "sha256": "e7ae0cf2833aa05903996c99a526c7464f327ae5e7431cb80a2688728b98caa3"
+    },
+    "validation_tests.xml": {
+      "source": "outputs/loopwam_v1/pytest_final.xml",
+      "bytes": 20604,
+      "sha256": "5ed873250b1dc9801e327f039b04ea3e1a8784b70dea615ef57db19874c98ba7"
+    }
+  }
+}

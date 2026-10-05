@@ -1,0 +1,58 @@
+{
+  "status": "planning_estimate_not_deadline",
+  "created_at": "2026-10-05T16:55:00.938810-04:00",
+  "source_sha256": "dd2c30054f41546bc3c4a592c73197d3077091ef66e0bd7ac0970d25c0a94028",
+  "evidence_sha256": {
+    "outputs/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/summary.json": "e6d9d5df717b23f9f196714f3b63ac96469ffe373bf8b22f54150cc1a6a77bfa",
+    "outputs/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/latency.json": "a772bba6394c12fa2fc116886065328d46491d38b0cd2189576d1add0ea7fe51",
+    "outputs/loopwam_v1/campaign/P0-S/timing.json": "e7ae0cf2833aa05903996c99a526c7464f327ae5e7431cb80a2688728b98caa3",
+    "outputs/loopwam_v1/cached_loop_coupled20/timing.json": "a9dc2b08f1551c26469a72493b74d84ed57b05815c26ccf60531e331f4cc3032",
+    "outputs/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/runtime.json": "0b3dd8a1c00e9680b2d11e613c2bf24fe5654774796140dca9d755c9310f6a23"
+  },
+  "observed_eval_seconds": 2905.2176628112793,
+  "profile_stage_seconds_estimate": 628.7855770587921,
+  "post_profile_seconds_estimate": 2276.432085752487,
+  "unique_architecture_budget_profiles": 14,
+  "scenarios": [
+    {
+      "name": "minimum_work_lower_training_proxy",
+      "evaluation_batches": 92,
+      "training_hours": 44.50131735232703,
+      "evaluation_hours": 58.175486635896895,
+      "profile_hours": 2.445277244117525,
+      "additional_startup_checkpoint_diagnostic_hours": 4,
+      "total_allocated_hours": 109.12208123234144,
+      "no_queue_end_local": "2026-10-10T04:30"
+    },
+    {
+      "name": "minimum_work_higher_training_proxy",
+      "evaluation_batches": 92,
+      "training_hours": 66.69270291423415,
+      "evaluation_hours": 58.175486635896895,
+      "profile_hours": 2.445277244117525,
+      "additional_startup_checkpoint_diagnostic_hours": 6,
+      "total_allocated_hours": 133.31346679424854,
+      "no_queue_end_local": "2026-10-11T04:42"
+    },
+    {
+      "name": "all_second_seeds_higher_training_proxy",
+      "evaluation_batches": 124,
+      "training_hours": 66.69270291423415,
+      "evaluation_hours": 78.41043850925233,
+      "profile_hours": 2.445277244117525,
+      "additional_startup_checkpoint_diagnostic_hours": 6,
+      "total_allocated_hours": 153.548418667604,
+      "no_queue_end_local": "2026-10-12T00:56"
+    }
+  ],
+  "assumptions": [
+    "All scientific gates pass.",
+    "One P0-S500-episode evaluation is used as a timing proxy for other models and budgets; this is not a measured bound.",
+    "Profile-stage split uses latency.json modification time relative to manager start and includes cold imports/loading.",
+    "Four to six additional hours are assumed for training initialization, checkpoints, diagnostics and handoffs.",
+    "Optional second-seed count depends on statistical comparisons.",
+    "Queue waits, unexpected recovery work and additional scientific ablations are excluded.",
+    "Teacher and other architectures/modes remain unmeasured; report a range rather than a guaranteed finish date."
+  ],
+  "observed_eval_summary_seconds": 2899.2439383752644
+}

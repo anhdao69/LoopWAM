@@ -2,6 +2,8 @@
 
 Status (2026-10-05, 16:54 EDT): implementation on branch `LoopWAM_v1`; infrastructure validation passed and the LIBERO-Long campaign is running. P0-S completed 2,000 updates and its immediate 500-episode evaluation: **85/500 successes (17.0%)**. Teacher reproduction started automatically afterward. One of the fourteen training trajectories is complete; no best recipe has been selected. This report is updated as measured training and evaluation evidence becomes available.
 
+For readers on GitHub, the [published result snapshot](results_snapshot/README.md) includes the comparison table, Phase-0 outcomes, timings, test evidence and forecast. Links to `outputs/` elsewhere in this report refer to the live cluster workspace.
+
 ## Scope and experimental contract
 
 The implementation follows `plans/LoopWAM_v1.md` (v2 architecture) and the user's smaller initial route: P0-S; C1, C2, C3, S1-L2, S1-L3; S2-cont, S2-base; S3-coupled, S3-late, S3-Konly, S3-2stage; two end-to-end confirmation seeds. This is 14 training trajectories, with stage-dependent forks and gates. It excludes the initial video-KD, alternate-LR, r0, re-injection, deep-video-supervision and alternative-alignment ablations. LIBERO-10 is the training dataset and LIBERO-Long is the ten-task closed-loop evaluation suite.
