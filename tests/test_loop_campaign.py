@@ -275,6 +275,134 @@ def test_new_allocation_may_resume_but_batch_or_checkpointing_changes_cannot(tmp
         Campaign(args)
 
 
+def test_executable_identity_ignores_docs_but_tracks_added_removed_and_modified_files(tmp_path):
+    from fastwam.loop.campaign import executable_identity
+    paths=['src/fastwam/model.py','configs/model/tiny.yaml','scripts/loopwam/train.py',
+           'scripts/loopwam/run.sh','scripts/loopwam/continue.sbatch',
+           'experiments/libero/eval.py','scripts/activate_fastwam.sh']
+    for relative in paths:
+        path=tmp_path/relative;path.parent.mkdir(parents=True,exist_ok=True);path.write_text('original')
+    initial=executable_identity(tmp_path)
+    for directory in ('docs','reports','outputs','cache'):
+        (tmp_path/directory).mkdir();(tmp_path/directory/'generated.py').write_text('new measurement')
+    assert executable_identity(tmp_path)==initial
+    for relative in paths:
+        path=tmp_path/relative;path.write_text('modified')
+        assert executable_identity(tmp_path)!=initial
+        path.write_text('original')
+    added=tmp_path/'src/fastwam/new.py';added.write_text('new executable')
+    assert executable_identity(tmp_path)!=initial
+    added.unlink()
+    (tmp_path/paths[0]).unlink()
+    assert executable_identity(tmp_path)!=initial
+
+
+@pytest.mark.parametrize('relative,mutation', [
+    ('src/fastwam/model.py','modify'), ('configs/model/tiny.yaml','modify'),
+    ('src/fastwam/new.py','add'), ('scripts/loopwam/train.py','delete'),
+])
+def test_resume_source_drift_records_integrity_error(tmp_path, monkeypatch, relative, mutation):
+    from fastwam.loop.campaign import Campaign, SourceDrift, stop_kind
+    monkeypatch.setattr('fastwam.loop.campaign.ROOT',tmp_path)
+    code=tmp_path/relative;code.parent.mkdir(parents=True)
+    if mutation!='add':
+        code.write_text('original')
+    args=campaign_args(tmp_path)
+    campaign=Campaign(args)
+    if mutation=='delete':
+        code.unlink()
+    else:
+        code.write_text('changed')
+    with pytest.raises(SourceDrift) as caught:
+        Campaign(args)
+    assert stop_kind(caught.value)=='error'
+    saved=json.loads(campaign.manifest.path.read_text())
+    assert saved['stop_kind']=='error'
+    assert saved['source_drift']['phase']=='resume'
+    assert saved['source_drift']['changed_paths']==[relative]
+    assert 'source_integrity_failure' not in saved
+
+
+def test_source_drift_refuses_child_before_spawn_and_allows_restored_source(tmp_path, monkeypatch):
+    import sys
+    from fastwam.loop.campaign import Campaign, SourceDrift
+    monkeypatch.setattr('fastwam.loop.campaign.ROOT',tmp_path)
+    code=tmp_path/'src/fastwam/model.py';code.parent.mkdir(parents=True);code.write_text('original')
+    args=campaign_args(tmp_path);args.deadline=None
+    campaign=Campaign(args)
+    marker=tmp_path/'spawned'
+    code.write_text('changed')
+    with pytest.raises(SourceDrift):
+        campaign.command([sys.executable,'-c',f'from pathlib import Path; Path({str(marker)!r}).touch()'],tmp_path/'test.log')
+    assert not marker.exists()
+    saved=json.loads(campaign.manifest.path.read_text())
+    assert saved['stop_kind']=='error'
+    assert saved['source_drift']['phase']=='before_child'
+    assert 'source_integrity_failure' not in saved
+    code.write_text('original')
+    Campaign(args)
+
+
+@pytest.mark.parametrize('returncode',[0,3])
+def test_child_source_drift_overrides_success_or_deadline_and_poisons_artifacts(tmp_path, monkeypatch, returncode):
+    import sys
+    from fastwam.loop.campaign import Campaign, SourceDrift, stop_kind
+    monkeypatch.setattr('fastwam.loop.campaign.ROOT',tmp_path)
+    code=tmp_path/'src/fastwam/model.py';code.parent.mkdir(parents=True);code.write_text('original')
+    args=campaign_args(tmp_path);args.deadline=None
+    campaign=Campaign(args)
+    script=f'from pathlib import Path; Path({str(code)!r}).write_text("changed during child"); raise SystemExit({returncode})'
+    with pytest.raises(SourceDrift) as caught:
+        campaign.command([sys.executable,'-c',script],tmp_path/'test.log')
+    assert stop_kind(caught.value)=='error'
+    assert campaign.manifest.data['stop_kind']=='error'
+    assert campaign.manifest.data['source_drift']['phase']=='after_child'
+    assert campaign.manifest.data['source_integrity_failure']['changed_paths']==['src/fastwam/model.py']
+    with pytest.raises(ValueError, match='untrusted'):
+        campaign.write_tables()
+    code.write_text('original')
+    with pytest.raises(ValueError, match='untrusted'):
+        campaign.command([sys.executable,'-c','pass'],tmp_path/'test.log')
+    with pytest.raises(ValueError, match='untrusted'):
+        campaign.read_evidence('P0-S',[(4,4)],[42])
+    with pytest.raises(ValueError, match='untrusted'):
+        Campaign(args)
+
+
+def test_documentation_commit_does_not_change_executable_protocol(tmp_path,monkeypatch):
+    from fastwam.loop.campaign import Campaign
+    monkeypatch.setattr('fastwam.loop.campaign.ROOT',tmp_path)
+    monkeypatch.setattr('fastwam.loop.campaign.git_revision',lambda:'initial_commit')
+    args=campaign_args(tmp_path)
+    original=Campaign(args)
+    (tmp_path/'reports').mkdir();(tmp_path/'reports/progress.md').write_text('measured results')
+    monkeypatch.setattr('fastwam.loop.campaign.git_revision',lambda:'documentation_commit')
+    resumed=Campaign(args)
+    assert resumed.manifest.data['protocol']==original.manifest.data['protocol']
+    assert resumed.manifest.data['launch_git_commit']=='documentation_commit'
+
+
+def test_cli_source_drift_preserves_last_trusted_report(tmp_path, monkeypatch):
+    import sys
+    from fastwam.loop.campaign import Campaign, main
+    monkeypatch.setattr('fastwam.loop.campaign.ROOT',tmp_path)
+    code=tmp_path/'src/fastwam/model.py';code.parent.mkdir(parents=True);code.write_text('original')
+    args=campaign_args(tmp_path)
+    trusted_report=[]
+    def run_drifting_child(campaign):
+        trusted_report.append((campaign.root/'results.csv').read_bytes())
+        script=f'from pathlib import Path; Path({str(code)!r}).write_text("changed during child")'
+        campaign.command([sys.executable,'-c',script],campaign.root/'child.log')
+    monkeypatch.setattr(Campaign,'run',run_drifting_child)
+    with pytest.raises(SystemExit,match='source'):
+        main(['--output',args.output,'--teacher',args.teacher,'--stats',args.stats,
+              '--infrastructure',args.infrastructure,'--deadline','100000000000'])
+    assert (tmp_path/'campaign/results.csv').read_bytes()==trusted_report[0]
+    saved=json.loads((tmp_path/'campaign/manifest.json').read_text())
+    assert saved['stop_kind']=='error'
+    assert saved['source_integrity_failure']['phase']=='after_child'
+
+
 def test_pending_campaign_report_contains_all_fourteen_runs(tmp_path):
     import csv
     from fastwam.loop.campaign import Campaign
@@ -284,6 +412,117 @@ def test_pending_campaign_report_contains_all_fourteen_runs(tmp_path):
     assert len(rows) == 14
     assert all(row['status'] == 'pending' and row['success_pct'] == '' for row in rows)
     assert set(row['run'] for row in rows) == set(campaign.matrix)
+
+
+def test_auxiliary_evaluation_paths_weights_and_commands_are_isolated(tmp_path, monkeypatch):
+    from fastwam.loop.campaign import Campaign
+    campaign = Campaign(campaign_args(tmp_path))
+    commands, reads = [], []
+    monkeypatch.setattr(campaign, 'command', lambda command, log: commands.append(list(map(str,command))))
+    monkeypatch.setattr(campaign, 'read_evidence', lambda *args, **kw: reads.append(kw))
+    monkeypatch.setattr(campaign, 'write_tables', lambda: None)
+    campaign.evaluate('S1-L3', (4,4), 42, variant='raw')
+    campaign.evaluate('F-Long-s1', (4,1), 42, variant='delay')
+    assert commands[0][commands[0].index('--checkpoint')+1].endswith('/raw.pt')
+    assert commands[0][commands[0].index('--weights')+1] == 'stage_end_raw'
+    assert '/eval_raw/' in commands[0][commands[0].index('--output')+1]
+    assert '--delay-injected' not in commands[0]
+    assert '/eval_delay/' in commands[1][commands[1].index('--output')+1]
+    assert '--delay-injected' in commands[1]
+    assert all('--profile' not in command for command in commands)
+    assert reads == [dict(variant='raw'),dict(variant='delay')]
+    assert '/eval/' in str(campaign.eval_path('F-Long-s1',(4,1),42))
+
+
+def test_delayed_tasks_never_enter_primary_summary():
+    from fastwam.loop.evaluation import summarize_tasks
+    tasks = records()
+    tasks[0]['evaluation_kind'] = 'delay'
+    with pytest.raises(ValueError, match='cannot be mixed'):
+        summarize_tasks(tasks, 0)
+
+
+def test_runtime_estimator_uses_all_invocations_weighted_by_warm_steps(tmp_path):
+    from fastwam.loop.campaign import Campaign
+    campaign = Campaign(campaign_args(tmp_path))
+    directory = campaign.root / 'C1/runtime/invocations'
+    directory.mkdir(parents=True)
+    for index, seconds in enumerate((100.,300.)):
+        record = dict(invocation_id=str(index),run_directory=str(campaign.root/'C1'),
+            start_step=index*100, steps_completed=100, terminal=True, status='complete',
+            timing_measured_steps=100, timing_measured_seconds=seconds,
+            training_seconds=seconds, wall_seconds=seconds+20,
+            initialization_seconds=5,checkpoint_seconds=10,diagnostic_seconds=5)
+        (directory/f'{index}.json').write_text(json.dumps(record))
+    result = campaign.runtime_estimates()
+    assert result['remaining_training']['C1']['estimated_training_seconds'] == 8000*2.
+    accounting = result['training_accounting']['C1']
+    assert accounting['total_wall_seconds'] == 440
+    assert accounting['total_training_seconds'] == 400
+    assert accounting['total_checkpoint_seconds'] == 20
+    assert accounting['total_diagnostic_seconds'] == 10
+
+
+def test_figure_stays_incomplete_without_primary_confirmation_evidence(tmp_path):
+    from fastwam.loop.campaign import Campaign
+    campaign = Campaign(campaign_args(tmp_path))
+    data = campaign.figure_data()
+    assert data['status'] == 'incomplete' and data['points'] == []
+    assert len(data['missing']) >= 24
+
+
+def test_valid_current_profiles_supply_named_g3_latencies(tmp_path, monkeypatch):
+    from fastwam.loop.campaign import Campaign
+    from fastwam.loop.evaluation import atomic_json
+    campaign = Campaign(campaign_args(tmp_path))
+    key = dict(source_sha256='fixture',device_driver='fixture')
+    monkeypatch.setattr(campaign,'expected_profile_key',lambda *args:key)
+    for run,pair in [('C2',(4,4)),('C3',(4,4)),('S3-late',(4,1)),('S3-late',(4,2))]:
+        atomic_json(campaign.eval_path(run,pair,42)/'latency.json',complete_profile(key))
+    assert campaign.latency_values('S3-late') == {'C2':10,'C3':10,'4,1':10,'4,2':10}
+    monkeypatch.setattr(campaign,'expected_profile_key',lambda *args:dict(key,source_sha256='changed'))
+    assert campaign.latency_values('S3-late') == {}
+
+
+def test_figure_exports_only_valid_primary_evidence_and_real_profiles(tmp_path, monkeypatch):
+    from fastwam.loop.campaign import Campaign
+    from fastwam.loop.evaluation import atomic_json,PROTOCOL,file_identity,sha256_file,summarize_tasks
+    from fastwam.loop.reporting import export_success_latency
+    campaign=Campaign(campaign_args(tmp_path))
+    run='F-Long-s1'; pair=(4,1)
+    checkpoint=campaign.root/run/'ema.pt'
+    checkpoint.parent.mkdir();checkpoint.write_bytes(b'fixture_ema')
+    key=dict(source_sha256='fixture',device_driver='fixture')
+    monkeypatch.setattr(campaign,'expected_profile_key',lambda *args:key)
+    for seed in (42,43):
+        summary=summarize_tasks(records(seed=seed),seed)
+        summary.update(protocol=dict(PROTOCOL,kv=4,ka=1,seed=seed,
+            checkpoint=file_identity(checkpoint),stats_sha256=sha256_file(campaign.args.stats)),
+            initial_state_sha256={str(i):'same_states' for i in range(10)})
+        atomic_json(campaign.eval_path(run,pair,seed)/'summary.json',summary)
+    atomic_json(campaign.eval_path(run,pair,42)/'latency.json',complete_profile(key))
+    for variant in ('raw','delay'):
+        atomic_json(campaign.eval_path(run,pair,42,variant)/'summary.json',dict(status='complete',success_pct=100))
+    data=campaign.figure_data()
+    assert data['status']=='incomplete' and len(data['points'])==1
+    assert data['points'][0]['episodes']==1000 and data['points'][0]['success_pct']==90
+    assert 'loss_recipe' in data['points'][0]
+    export_success_latency(tmp_path/'export',data)
+    assert (tmp_path/'export/success_vs_latency.pdf').read_bytes().startswith(b'%PDF')
+    assert (tmp_path/'export/success_vs_latency.png').read_bytes().startswith(b'\x89PNG')
+    (campaign.eval_path(run,pair,43)/'summary.json').unlink()
+    assert campaign.figure_data()['points']==[]
+
+
+def test_zero_success_point_exports_despite_wilson_endpoint_roundoff(tmp_path):
+    from fastwam.loop.evaluation import wilson
+    from fastwam.loop.reporting import export_success_latency
+    low,high=wilson(0,500)
+    export_success_latency(tmp_path,dict(status='incomplete',missing=['other measurements'],points=[
+        dict(run='F-Long-s1',pair='1,1',training_steps=22000,training_seed=43,eval_seeds=[42],episodes=500,
+             success_pct=0.,wilson_low=low,wilson_high=high,p50_ms=10,p90_ms=15,p99_ms=20,
+             profile_path='fixture',profile_sha256='fixture')]))
+    assert (tmp_path/'success_vs_latency.pdf').exists()
 
 
 def test_expired_evaluation_keeps_finished_tasks_without_summary(tmp_path):
@@ -425,6 +664,37 @@ def component_samples():
                  total_gpu_timeline_ms=70*scale, total_wall_ms=72*scale) for scale in (1,2)]
 
 
+def complete_profile(key):
+    from fastwam.loop.evaluation import aggregate_components, PROTOCOL
+    component = aggregate_components(component_samples()*50)
+    component['warmup'] = 50
+    return dict(status='complete', profile_version=2, warmup=50,calls=500, cache_key=key,
+        components={'eager':component,'compiled':component},device='fixture_device',torch_version='fixture',
+        scope='fixture_policy_call',protocol=PROTOCOL,
+        eager=dict(p50_ms=20,p90_ms=25,p99_ms=30),compiled=dict(p50_ms=10,p90_ms=15,p99_ms=20))
+
+
+def test_stale_local_profile_is_remeasured_even_with_complete_components(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    from fastwam.loop.evaluation import evaluate, atomic_json
+    checkpoint,stats = tmp_path/'model.pt',tmp_path/'stats.json'
+    checkpoint.write_bytes(b'fixture'); stats.write_text('{}')
+    output = tmp_path/'profile'
+    atomic_json(output/'latency.json', complete_profile({'source':'old'}))
+    calls=[]
+    def profiler(command, **kwargs):
+        calls.append(command)
+        atomic_json(output/'latency.json', complete_profile({'source':'new'}))
+    monkeypatch.setattr('fastwam.loop.evaluation.profile_cache_key',lambda args:{'source':'new'})
+    monkeypatch.setattr('fastwam.loop.evaluation.run_process_group',profiler)
+    args=SimpleNamespace(checkpoint=str(checkpoint),stats=str(stats),output=str(output),seed=42,kv=4,ka=4,
+        teacher=False,text_cache=str(tmp_path),gpus='0',deadline=None,deadline_reserve_seconds=180,
+        profile=True,profile_only=True,profile_cache=None)
+    evaluate(args)
+    assert len(calls)==1
+    assert json.loads((output/'latency.json').read_text())['cache_key']=={'source':'new'}
+
+
 def test_component_aggregation_distinguishes_single_steps_sum_and_decode_span():
     from fastwam.loop.evaluation import aggregate_components
     result = aggregate_components(component_samples())
@@ -464,6 +734,7 @@ def test_profile_only_manager_never_schedules_rollouts(tmp_path, monkeypatch):
         assert '--profile-only' in command and '--worker' in command
         atomic_json(output/'latency.json', dict(status='complete',profile_version=2))
     monkeypatch.setattr('fastwam.loop.evaluation.run_process_group', profiler)
+    monkeypatch.setattr('fastwam.loop.evaluation.profile_cache_key', lambda args: {'source':'fixture'})
     def no_rollout(*args, **kwargs):
         raise AssertionError('A profile-only request must never create rollout workers')
     monkeypatch.setattr('fastwam.loop.evaluation.subprocess.Popen', no_rollout)

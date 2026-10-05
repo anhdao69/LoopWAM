@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 import json
@@ -18,13 +19,43 @@ import subprocess
 import sys
 import time
 
-from .evaluation import (ROOT, PROTOCOL, atomic_json, file_identity, sha256_file, wilson,
-                         run_process_group, allocation_signals)
+from .evaluation import (ROOT, PROTOCOL, DELAY_PROTOCOL, atomic_json, file_identity, sha256_file, wilson,
+                         run_process_group, allocation_signals, profile_cache_key, reusable_profile)
+from .runtime import load_runtime_summary
 
 ALL_PAIRS = tuple((v, a) for v in range(1, 5) for a in range(1, v + 1))
 FIVE_PAIRS = ((4, 4), (4, 2), (4, 1), (2, 2), (1, 1))
 COUPLED_PAIRS = ((1, 1), (2, 2), (4, 4))
+DELAY_PAIRS = ((4, 4), (4, 1), (1, 1))
 ARCHITECTURES = ("loopwam", "untied30", "untied12", "untied_v30a12")
+
+
+def executable_identity(root=None):
+    """Hash executable inputs by relative path, excluding generated artifacts."""
+    root = Path(ROOT if root is None else root)
+    paths = set((root/'src/fastwam').rglob('*.py')) | set((root/'configs').rglob('*.yaml'))
+    for extension in ('py','sh','sbatch'):
+        paths.update((root/'scripts/loopwam').glob('*.'+extension))
+    paths.update((root/'experiments/libero').glob('*.py'))
+    activate=root/'scripts/activate_fastwam.sh'
+    if activate.is_file():
+        paths.add(activate)
+    files={str(path.relative_to(root)):sha256_file(path) for path in sorted(paths) if path.is_file()}
+    combined=hashlib.sha256(json.dumps(files,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+    return dict(version=1,sha256=combined,files=files)
+
+
+def git_revision():
+    result=subprocess.run(['git','rev-parse','HEAD'],cwd=ROOT,capture_output=True,text=True,timeout=10)
+    return result.stdout.strip() if result.returncode==0 else None
+
+
+class SourceDrift(ValueError):
+    def __init__(self, expected, actual):
+        before,after=expected['files'],actual['files']
+        self.details=dict(expected_sha256=expected['sha256'],actual_sha256=actual['sha256'],
+            changed_paths=[path for path in sorted(set(before)|set(after)) if before.get(path)!=after.get(path)])
+        super().__init__('Executable source/configuration changed: '+', '.join(self.details['changed_paths']))
 
 
 def resolve_batches(value=None, default_micro=8, grad_accum=None):
@@ -281,6 +312,12 @@ class Manifest:
         self.path = Path(path)
         if self.path.exists():
             self.data = json.loads(self.path.read_text())
+            expected = self.data['protocol'].get('executable_source')
+            actual = protocol.get('executable_source')
+            if expected is not None and actual is not None and expected != actual:
+                error = SourceDrift(expected, actual)
+                self.record_source_drift(error, phase='resume')
+                raise error
             if self.data["protocol"] != protocol:
                 raise ValueError("Campaign protocol changed; use a fresh output directory")
         else:
@@ -290,6 +327,18 @@ class Manifest:
 
     def save(self):
         atomic_json(self.path, self.data)
+
+    def record_source_drift(self, error, *, phase, command=None, log=None):
+        record = dict(error.details, phase=phase, detected_at=time.time())
+        if command is not None:
+            record.update(command=list(map(str, command)), log=str(log))
+        reason = str(error)
+        if phase == 'after_child':
+            reason += '; child artifacts are untrusted and cannot be resumed'
+            self.data['source_integrity_failure'] = record
+        self.data.update(status='stopped', stop_kind='error', stopped_at=time.time(),
+                         stop_reason=reason, source_drift=record)
+        self.save()
 
     def update_run(self, run_id, **values):
         current = self.runs.get(run_id, {})
@@ -318,6 +367,9 @@ class Campaign:
         self.matrix = {run.id: run for run in run_matrix()}
         self.batches = resolve_batches(args.micro_batch_map, args.micro_batch, args.grad_accum)
         protocol = dict(matrix=[asdict(r) for r in run_matrix()], evaluation=PROTOCOL,
+            executable_source=executable_identity(),
+            confirmation_delay=DELAY_PROTOCOL, confirmation_delay_pairs=DELAY_PAIRS,
+            raw_vs_ema=dict(stage='selected_S1', pair=(4,4), eval_seed=args.eval_seeds[0], selection=False),
             teacher=file_identity(args.teacher), stats_sha256=sha256_file(args.stats),
             training_seed=args.seed, evaluation_seeds=args.eval_seeds, batch=128,
             batches=self.batches, gradient_checkpointing=args.gradient_checkpointing, gpus=args.gpus,
@@ -329,6 +381,8 @@ class Campaign:
             ol1_clear_improvement_fraction=.10)
         # JSON normalization avoids tuple/list differences on resume.
         self.manifest = Manifest(self.root / "manifest.json", json.loads(json.dumps(protocol)))
+        self.require_trusted_artifacts()
+        self.manifest.data['launch_git_commit'] = git_revision()  # informational; file contents define identity
         self.decisions = self.manifest.data["decisions"]
         self.deadline = args.deadline
         self.manifest.data["allocation"] = dict(job_id=os.environ.get("SLURM_JOB_ID"),
@@ -340,12 +394,31 @@ class Campaign:
         self.manifest.save()
 
     def command(self, cmd, log):
+        self.require_trusted_artifacts()
+        self.verify_source(phase='before_child', command=cmd, log=log)
         log.parent.mkdir(parents=True, exist_ok=True)
         print("RUN", shlex.join(map(str, cmd)), flush=True)
-        with log.open("a") as stream:
-            run_process_group(list(map(str, cmd)), cwd=ROOT, env=dict(os.environ,
-                CUDA_VISIBLE_DEVICES=self.args.gpus), stdout=stream, stderr=subprocess.STDOUT,
-                deadline=self.deadline - 30 if self.deadline is not None else None)
+        try:
+            with log.open("a") as stream:
+                run_process_group(list(map(str, cmd)), cwd=ROOT, env=dict(os.environ,
+                    CUDA_VISIBLE_DEVICES=self.args.gpus), stdout=stream, stderr=subprocess.STDOUT,
+                    deadline=self.deadline - 30 if self.deadline is not None else None)
+        finally:
+            self.verify_source(phase='after_child', command=cmd, log=log)
+
+    def require_trusted_artifacts(self):
+        if self.manifest.data.get('source_integrity_failure'):
+            raise ValueError('Campaign contains an untrusted invocation after executable source drift; '
+                             'its checkpoints cannot be resumed or reported. Inspect '
+                             'source_integrity_failure in manifest.json.')
+
+    def verify_source(self, *, phase, command=None, log=None):
+        expected=self.manifest.data['protocol']['executable_source']
+        actual=executable_identity()
+        if actual!=expected:
+            error = SourceDrift(expected, actual)
+            self.manifest.record_source_drift(error, phase=phase, command=command, log=log)
+            raise error
 
     def init_checkpoint(self, arch):
         name = "loopwam_r32" if arch == "loopwam" else arch
@@ -388,6 +461,8 @@ class Campaign:
                "--micro-batch", batch["micro_batch"], "--grad-accum", batch["grad_accum"],
                "--zero-stage", self.args.zero_stage, "--workers", self.args.workers,
                "--stats", self.args.stats, "--teacher", self.args.teacher, "--text-cache", self.args.text_cache]
+        diagnostic_pairs = [(4,4)] + [pair for pair in run.pairs if pair != (4,4)]
+        cmd += ['--diagnostic-pairs'] + [f'{kv},{ka}' for kv,ka in diagnostic_pairs]
         if getattr(self.args,'latent_cache',None):
             cmd += ['--latent-cache',str(Path(self.args.latent_cache).resolve())]
         if self.args.gradient_checkpointing:
@@ -430,26 +505,31 @@ class Campaign:
             if not (output / name).is_file():
                 raise ValueError(f"Missing complete training artifact: {output / name}")
 
-    def eval_path(self, run_id, pair, seed):
-        return self.root / run_id / "eval" / f"kv{pair[0]}_ka{pair[1]}" / f"seed{seed}"
+    def eval_path(self, run_id, pair, seed, variant='primary'):
+        directory = dict(primary='eval', raw='eval_raw', delay='eval_delay')[variant]
+        return self.root / run_id / directory / f"kv{pair[0]}_ka{pair[1]}" / f"seed{seed}"
 
-    def evaluate(self, run_id, pair, seed):
-        output = self.eval_path(run_id, pair, seed)
+    def evaluate(self, run_id, pair, seed, variant='primary'):
+        output = self.eval_path(run_id, pair, seed, variant)
         if (output / "summary.json").exists():
-            self.read_evidence(run_id, [pair], [seed])
-            if seed != self.args.eval_seeds[0] or (output / "latency.json").exists():
+            self.read_evidence(run_id, [pair], [seed], variant=variant)
+            if variant != 'primary' or seed != self.args.eval_seeds[0]:
                 return
-        checkpoint = Path(self.args.teacher) if run_id == "teacher" else self.root / run_id / "ema.pt"
+        checkpoint = Path(self.args.teacher) if run_id == "teacher" else self.root / run_id / ('raw.pt' if variant=='raw' else 'ema.pt')
         cmd = [sys.executable, "scripts/loopwam/evaluate.py", "--checkpoint", checkpoint,
                "--stats", self.args.stats, "--output", output, "--seed", seed,
                "--kv", pair[0], "--ka", pair[1], "--gpus", self.args.gpus,
                "--text-cache", self.args.text_cache]
+        if variant == 'raw':
+            cmd += ['--weights', 'stage_end_raw']
+        elif variant == 'delay':
+            cmd += ['--delay-injected']
         if self.deadline is not None:
             cmd += ["--deadline", self.deadline, "--deadline-reserve-seconds", self.args.checkpoint_reserve_seconds]
         if run_id == "teacher":
             cmd += ["--teacher"]
         # Profiles are independent of eval seed and exclude concurrent rollout load.
-        if seed == self.args.eval_seeds[0]:
+        if variant == 'primary' and seed == self.args.eval_seeds[0]:
             cmd += ["--profile"]
             arch = "teacher" if run_id == "teacher" else self.matrix[run_id].arch
             initialization = (file_identity(self.args.teacher) if arch == "teacher"
@@ -459,23 +539,27 @@ class Campaign:
                 cmd += ["--profile-cache", self.root / "latency" / f"{arch}_kv{pair[0]}_ka{pair[1]}.json",
                         "--profile-architecture", key]
         self.command(cmd, output / "manager.log")
-        self.read_evidence(run_id, [pair], [seed])
+        self.read_evidence(run_id, [pair], [seed], variant=variant)
         self.write_tables()
 
-    def read_evidence(self, run_id, pairs, seeds):
+    def read_evidence(self, run_id, pairs, seeds, variant='primary'):
+        self.require_trusted_artifacts()
         outcomes = {}
         for pair in pairs:
             for seed in seeds:
-                summary = json.loads((self.eval_path(run_id, pair, seed) / "summary.json").read_text())
+                summary = json.loads((self.eval_path(run_id, pair, seed, variant) / "summary.json").read_text())
                 if (summary.get("status") != "complete" or summary.get("episodes") != 500
                         or len(summary.get("outcomes", [])) != 500):
                     raise ValueError(f"Incomplete evaluation for {run_id}/{pair}/{seed}")
                 protocol = summary["protocol"]
-                if any(protocol.get(k) != v for k, v in PROTOCOL.items()):
+                expected_protocol = dict(PROTOCOL, weights='stage_end_raw' if variant=='raw' else 'stage_end_ema')
+                if any(protocol.get(k) != v for k, v in expected_protocol.items()):
                     raise ValueError("Evaluation does not match the registered LIBERO protocol")
+                if protocol.get('delay') != (DELAY_PROTOCOL if variant=='delay' else None):
+                    raise ValueError('Delayed and primary evidence cannot be mixed')
                 if protocol.get("seed") != seed or (protocol.get("kv"), protocol.get("ka")) != pair:
                     raise ValueError("Evaluation budget or seed differs from its output location")
-                checkpoint = Path(self.args.teacher) if run_id == "teacher" else self.root / run_id / "ema.pt"
+                checkpoint = Path(self.args.teacher) if run_id == "teacher" else self.root / run_id / ('raw.pt' if variant=='raw' else 'ema.pt')
                 if protocol.get("checkpoint") != file_identity(checkpoint):
                     raise ValueError("Evaluation checkpoint changed after measurement")
                 if protocol.get("stats_sha256") != sha256_file(self.args.stats):
@@ -606,13 +690,24 @@ class Campaign:
             if not path.exists():
                 return {}
             data = json.loads(path.read_text())
-            if data.get("status") != "complete" or data.get("warmup") != 50 or data.get("calls") != 500:
+            expected_key = self.expected_profile_key(run_id, pair)
+            if expected_key is None or not reusable_profile(data, expected_key):
                 return {}
             values[key] = data["compiled"]["p50_ms"]
             profiles.append((data["device"], data["torch_version"], data["scope"], data["protocol"],
                              data.get("cache_key", {}).get("source_sha256"),
                              data.get("cache_key", {}).get("device_driver")))
         return values if all(p == profiles[0] for p in profiles) else {}
+
+    def expected_profile_key(self, run_id, pair):
+        from types import SimpleNamespace
+        arch = 'teacher' if run_id=='teacher' else self.matrix[run_id].arch
+        initialization = (file_identity(self.args.teacher) if arch=='teacher'
+                          else self.manifest.data.get('initial_checkpoints',{}).get(arch))
+        if initialization is None:
+            return None
+        return profile_cache_key(SimpleNamespace(gpus=self.args.gpus, stats=self.args.stats,
+            kv=pair[0],ka=pair[1],profile_architecture=json.dumps(dict(arch=arch,initialization=initialization),sort_keys=True)))
 
     def run(self):
         self.manifest.data["status"] = "running"
@@ -663,6 +758,13 @@ class Campaign:
             self.manifest.update_run(run_id, status="complete")
         selected = self.resolve("S1*", {"S1-L2": [(4,4)], "S1-L3": [(4,4)]}, self.select_stage1)
         winner = selected["winner"]
+        self.evaluate(winner, (4,4), self.args.eval_seeds[0], variant='raw')
+        raw = self.read_evidence(winner, [(4,4)], self.args.eval_seeds[:1], variant='raw')
+        ema = self.read_evidence(winner, [(4,4)], self.args.eval_seeds[:1])
+        comparison = compare(raw, ema)
+        self.manifest.data['raw_vs_ema_check'] = dict(run=winner, selection=False, raw_pct=raw.pct,
+            ema_pct=ema.pct, **{key:value for key,value in comparison.items() if key!='status'})
+        self.manifest.save()
         self.resolve("G1", {r: [(4,4)] for r in (winner, "C1", "C2")}, lambda s:
             gate_g1(self.evidence(winner, (4,4), s), self.evidence("C1", (4,4), s), self.evidence("C2", (4,4), s)))
         # GP evidence is recorded now; a failed premise may still permit Stage 2 per Section 8.
@@ -702,7 +804,14 @@ class Campaign:
             for pair in ALL_PAIRS:
                 for seed in self.args.eval_seeds:
                     self.evaluate(run_id, pair, seed)
+            for pair in DELAY_PAIRS:
+                for seed in self.args.eval_seeds:
+                    self.evaluate(run_id, pair, seed, variant='delay')
             self.manifest.update_run(run_id, status="complete")
+        final_figure = self.figure_data()
+        if final_figure['status'] != 'complete':
+            raise ValueError('Phase4 is missing comparable measured success/latency evidence: '
+                             + json.dumps(final_figure['missing']))
         self.manifest.data["status"] = "complete"
         self.manifest.data.pop("stop_kind", None)
         self.manifest.data.pop("stop_reason", None)
@@ -711,6 +820,7 @@ class Campaign:
         self.write_tables()
 
     def write_tables(self):
+        self.require_trusted_artifacts()
         rows = []
         for path in sorted(self.root.glob("*/eval/kv*_ka*/seed*/summary.json")):
             data = json.loads(path.read_text())
@@ -718,7 +828,13 @@ class Campaign:
                 continue
             run_id = path.parents[3].name
             latency = path.parent / "latency.json"
-            profile = json.loads(latency.read_text()).get("compiled", {}) if latency.exists() else {}
+            profile = {}
+            if latency.exists():
+                measured = json.loads(latency.read_text())
+                pair = (data['protocol']['kv'],data['protocol']['ka'])
+                expected_key = self.expected_profile_key(run_id,pair)
+                if expected_key is not None and reusable_profile(measured,expected_key):
+                    profile = measured['compiled']
             rows.append(dict(run=run_id, status=self.manifest.runs.get(run_id, {}).get("status", "evaluated"),
                 pair=path.parents[1].name, seed=data["seed"],
                 success_pct=data["success_pct"], episodes=data["episodes"],
@@ -737,8 +853,9 @@ class Campaign:
             writer.writeheader()
             writer.writerows(rows)
         lines = ["# LoopWAM initial 14-run campaign", "", "LIBERO-Long selection evidence only. "
-                 "Teacher reproduction is Long only; full-suite reproduction, delay-injected evaluation, "
-                 "and RTX 4090 profiles are not part of this first pass. CUDA component intervals are measured "
+                 "Teacher reproduction is Long only; full-suite reproduction and RTX 4090 profiles "
+                 "are outside this first pass. Phase 4 includes separate delay-injected confirmation evaluations. "
+                 "CUDA component intervals are measured "
                  "in a separate pass and stored in each latency.json; primary latency remains the uninstrumented wall time.", "",
                  f"G2 'well above' means at least {self.args.well_above_pp:g} pp at both K=1 and K=2. "
                  f"Matched latency means within {100*self.args.latency_match_tolerance:g}% of measured C2 p50.", "",
@@ -763,22 +880,135 @@ class Campaign:
         for gate, result in self.decisions.items():
             lines.append(f"- {gate}: **{result['status']}**" + (f"; {result['winner']}" if "winner" in result else ""))
         estimates = self.runtime_estimates()
+        runtime_columns = ['run','invocation_count','total_wall_seconds','total_training_seconds',
+            'total_initialization_seconds','total_checkpoint_seconds','total_diagnostic_seconds',
+            'seconds_per_step','steps_completed','unique_steps_completed','replayed_steps','history_complete',
+            'has_legacy_records','partial_invocation_ids']
+        with (self.root/'training_runtime.csv').open('w',newline='') as stream:
+            writer=csv.DictWriter(stream,fieldnames=runtime_columns,extrasaction='ignore')
+            writer.writeheader()
+            writer.writerows(dict(row,run=run) for run,row in estimates['training_accounting'].items())
+        lines += ['', '## Training invocation accounting', '',
+            '| Run | Invocations | Seconds: wall / training / initialization / checkpoint / diagnostics | Warm s/update | History complete |',
+            '|---|---:|---|---:|---|']
+        for run,row in estimates['training_accounting'].items():
+            if not row['invocation_count']:
+                continue
+            times=' / '.join(f"{row['total_'+key+'_seconds']:.1f}" for key in ('wall','training','initialization','checkpoint','diagnostic'))
+            speed=f"{row['seconds_per_step']:.3f}" if row['seconds_per_step'] else '—'
+            lines.append(f"| {run} | {row['invocation_count']} | {times} | {speed} | {row['history_complete']} |")
+        lines += self.auxiliary_tables()
+        from .reporting import export_success_latency
+        figure = self.figure_data()
+        export_success_latency(self.root,figure)
+        lines += ['', '## Success versus measured latency', '',
+            f"Figure status: **{figure['status']}**. Source data: `success_vs_latency.csv` and `success_vs_latency.json`. "
+            'PDF/PNG are exported when measurements are available. Separate panels retain both confirmation training seeds; '
+            '22k confirmations and 8k screening controls have unequal training budgets.']
         lines += ["", "## Runtime evidence", "", "Estimates use matching measured architecture and mode only; "
                   "missing measurements remain unknown. Compilation and startup may add overhead.", "",
                   "```json", json.dumps(estimates, indent=2), "```", ""]
         (self.root / "results.md").write_text("\n".join(lines))
         atomic_json(self.root / "runtime_estimate.json", estimates)
 
+    def auxiliary_tables(self):
+        rows=[]
+        for variant in ('raw','delay'):
+            directory='eval_'+variant
+            for path in sorted(self.root.glob(f'*/{directory}/kv*_ka*/seed*/summary.json')):
+                data=json.loads(path.read_text())
+                if data.get('status')!='complete':
+                    continue
+                run=path.parents[3].name
+                protocol=data['protocol']
+                pair=(protocol['kv'],protocol['ka'])
+                self.read_evidence(run,[pair],[data['seed']],variant=variant)
+                rows.append(dict(run=run,variant=variant,pair=f'{pair[0]},{pair[1]}',seed=data['seed'],
+                    episodes=data['episodes'],success_pct=data['success_pct'],wilson_low=data['wilson95_pct'][0],
+                    wilson_high=data['wilson95_pct'][1],wall_seconds=data.get('wall_seconds'),
+                    delay_steps=data.get('delay',{}).get('delay_steps'),
+                    control_period_seconds=data.get('delay',{}).get('control_period_seconds'),
+                    decision_p50_ms=data.get('delay',{}).get('decision_wall',{}).get('p50_ms'),
+                    checkpoint=protocol['checkpoint']['path']))
+        columns=['run','variant','pair','seed','episodes','success_pct','wilson_low','wilson_high',
+            'wall_seconds','delay_steps','control_period_seconds','decision_p50_ms','checkpoint']
+        with (self.root/'auxiliary_results.csv').open('w',newline='') as stream:
+            writer=csv.DictWriter(stream,fieldnames=columns);writer.writeheader();writer.writerows(rows)
+        raw_ready=bool(self.manifest.data.get('raw_vs_ema_check'))
+        delay_ready=sum(row['variant']=='delay' for row in rows)
+        lines=['','## Auxiliary evaluations (excluded from selection)', '',
+            f'Raw-vs-EMA diagnostic: {"complete" if raw_ready else "pending"}. '
+            f'Delay confirmation evaluations: {delay_ready}/12 complete.', '',
+            'Delay protocol: serial receding-horizon zero-order command hold, quantized to the actual environment control period. '
+            'Every delay tick counts inside the 700-step cap; the initial 30 settling steps retain the primary convention. '
+            'This emulates serial control and does not model buffered or asynchronous hardware execution. '
+            'Decision-wall timing includes preprocessing and action postprocessing; primary policy latency excludes these.', '',
+            '| Run | Variant | Budget | Seed | Success | Wilson 95% | Episodes |',
+            '|---|---|---|---:|---:|---|---:|']
+        for row in rows:
+            lines.append(f"| {row['run']} | {row['variant']} | {row['pair']} | {row['seed']} | "
+                f"{row['success_pct']:.1f}% | {row['wilson_low']:.1f}–{row['wilson_high']:.1f}% | {row['episodes']} |")
+        if raw_ready:
+            value=self.manifest.data['raw_vs_ema_check']
+            lines += ['', f"{value['run']} raw − EMA: {value['gap_pp']:+.2f} pp; paired McNemar p={value['mcnemar_p']:.4g}. Diagnostic only."]
+        return lines
+
+    def figure_data(self):
+        points,missing=[],[]
+        reference=None
+        for run in ('teacher','C1','C2','C3','F-Long-s1','F-Long-s2'):
+            for pair in (ALL_PAIRS if run.startswith('F-') else ((4,4),)):
+                tag=f'{run}/{pair}'
+                seeds=[seed for seed in self.args.eval_seeds if (self.eval_path(run,pair,seed)/'summary.json').exists()]
+                if not seeds:
+                    missing.append(dict(point=tag,reason='No complete primary evaluation'))
+                    continue
+                if run.startswith('F-') and len(seeds)!=2:
+                    missing.append(dict(point=tag,reason='Confirmation requires both evaluation seeds'))
+                    continue
+                try:
+                    evidence=self.read_evidence(run,[pair],seeds)
+                    path=self.eval_path(run,pair,self.args.eval_seeds[0])/'latency.json'
+                    profile=json.loads(path.read_text())
+                    key=self.expected_profile_key(run,pair)
+                    if key is None or not reusable_profile(profile,key):
+                        raise ValueError('Missing/stale/incomplete measured profile')
+                    provenance=(profile['device'],profile['torch_version'],profile['scope'],profile['protocol'],
+                                key['source_sha256'],key['device_driver'])
+                    if reference is not None and provenance!=reference:
+                        raise ValueError('Profile hardware/runtime/protocol differs from comparison')
+                    reference=provenance
+                except (ValueError,KeyError,FileNotFoundError) as exc:
+                    missing.append(dict(point=tag,reason=str(exc)))
+                    continue
+                n=len(evidence.outcomes); low,high=wilson(sum(evidence.outcomes.values()),n)
+                points.append(dict(run=run,pair=f'{pair[0]},{pair[1]}',
+                    training_steps=None if run=='teacher' else self.matrix[run].end,
+                    training_seed=None if run=='teacher' else self.args.seed+self.matrix[run].seed_offset,
+                    loss_recipe=('released_unknown' if run=='teacher' else
+                        self.manifest.runs.get(run,{}).get('loss',self.matrix[run].loss if self.matrix[run].loss!='recipe'
+                            else self.decisions.get('S1*',{}).get('loss','unknown'))),
+                    eval_seeds=seeds,episodes=n,success_pct=evidence.pct,wilson_low=low,wilson_high=high,
+                    **profile['compiled'],profile_path=str(path),profile_sha256=sha256_file(path)))
+        return dict(status='incomplete' if missing else 'complete',points=points,missing=missing,
+                    selection_scope='LIBERO-Long only; primary paused-simulator EMA outcomes',
+                    budget_caveat='Screening controls8k/L3; confirmation LoopWAM22k/chosen loss; released teacher training differs. '
+                        'Unequal steps and possibly unequal losses confound architecture-only comparisons.',
+                    intervals='Wilson95 per checkpoint/configuration; training seeds remain separate')
+
     def runtime_estimates(self):
         measured = {}
+        accounting = {run.id:load_runtime_summary(self.root/run.id) for run in self.matrix.values()}
         for run in self.matrix.values():
-            path = self.root / run.id / "timing.json"
-            if path.exists():
-                timing = json.loads(path.read_text())
-                value = timing.get("seconds_per_step")
-                if isinstance(value, (int, float)) and value > 0 and math.isfinite(value):
-                    loss = self.manifest.runs.get(run.id, {}).get("loss", run.loss)
-                    measured[(run.arch, run.mode, loss)] = dict(source=run.id, seconds_per_step=value)
+            timing = accounting[run.id]
+            value = timing.get("seconds_per_step")
+            if isinstance(value, (int, float)) and value > 0 and math.isfinite(value):
+                loss = self.manifest.runs.get(run.id, {}).get("loss", run.loss)
+                group = measured.setdefault((run.arch, run.mode, loss), dict(sources=[],steps=0,seconds=0.))
+                group['sources'].append(run.id)
+                group['steps'] += timing['timing_measured_steps']
+                group['seconds'] += timing['timing_measured_seconds']
+                group['seconds_per_step'] = group['seconds']/group['steps']
         remaining = {}
         for run in self.matrix.values():
             if self.manifest.runs.get(run.id, {}).get("status") == "complete":
@@ -791,16 +1021,27 @@ class Campaign:
                 start = max(start, json.loads(state.read_text()).get("global_step", start))
             steps = max(0, run.end - start)
             remaining[run.id] = dict(optimizer_steps=steps, estimated_training_seconds=steps * source["seconds_per_step"]
-                if source else None, measured_source=source["source"] if source else None)
+                if source else None, measured_sources=source["sources"] if source else None)
         eval_times = []
         for path in self.root.glob("*/eval/*/seed*/summary.json"):
             data = json.loads(path.read_text())
             if data.get("status") == "complete" and data.get("wall_seconds", 0) > 0:
                 eval_times.append(data["wall_seconds"])
-        return dict(remaining_training=remaining,
+        evaluation_accounting={}
+        for path in self.root.glob('*/eval*/kv*_ka*/seed*/attempts.jsonl'):
+            attempts=[json.loads(line) for line in path.read_text().splitlines() if line.strip()]
+            evaluation_accounting[str(path.parent.relative_to(self.root))]=dict(
+                attempts=len(attempts),wall_seconds=sum(row['wall_seconds'] for row in attempts),
+                failed_or_interrupted_attempts=sum(row.get('status')!='complete' for row in attempts))
+        return dict(remaining_training=remaining, training_accounting=accounting,
+                    observed_campaign_training_wall_seconds=sum(row['total_wall_seconds'] for row in accounting.values()),
+                    evaluation_accounting=evaluation_accounting,
+                    observed_evaluation_wall_seconds=sum(row['wall_seconds'] for row in evaluation_accounting.values()),
                     measured_eval_500_episode_seconds=eval_times,
                     eval_500_episode_seconds_mean=sum(eval_times)/len(eval_times) if eval_times else None,
-                    note="No estimate for an unmeasured architecture/mode; gates may stop later work.")
+                    note="Warm throughput is weighted across measured steps of matching architecture/mode/loss. "
+                         "Run totals count only their own invocations, including replayed work; fork parents are not added again. "
+                         "Partial/legacy history is flagged. No estimate for an unmeasured architecture/mode; gates may stop later work.")
 
 
 def main(argv=None):
@@ -856,7 +1097,8 @@ def main(argv=None):
             campaign.manifest.data.update(status="stopped", stop_kind=stop_kind(exc), stop_reason=str(exc),
                                           stopped_at=time.time())
             campaign.manifest.save()
-            campaign.write_tables()
+            if not isinstance(exc, SourceDrift):
+                campaign.write_tables()
             raise SystemExit(str(exc)) from exc
 
 

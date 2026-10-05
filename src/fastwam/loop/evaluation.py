@@ -26,6 +26,99 @@ PROTOCOL = dict(suite="libero_10", tasks=10, initial_states=50, initial_state_in
                 action_horizon=32, euler_steps=10, sigma_shift=5.0, replan_steps=10,
                 max_steps=700, num_steps_wait=30, compiled=True, text_cfg_scale=1.0,
                 binarize_gripper=True, weights="stage_end_ema")
+DELAY_PROTOCOL = dict(version=1, controller="serial_receding_horizon_zero_order_command_hold",
+    timing_scope="observation_preprocess+compiled_infer_action+action_postprocess",
+    control_period_source="env.env.control_timestep", quantization="ceil_to_next_control_tick",
+    hold="exact_last_processed_environment_command; initial_LIBERO_dummy_command",
+    warmup_calls=50, warmup_rng="restore_python_numpy_torch_cpu_and_initialized_cuda",
+    action_prefix="first_10_unchanged_after_delay", delay_counts_toward_max_steps=True,
+    execution="discrete_event_emulation; not_buffered_or_asynchronous_hardware")
+
+
+def delay_ticks(seconds, control_period):
+    if (not math.isfinite(seconds) or seconds < 0 or not math.isfinite(control_period)
+            or control_period <= 0):
+        raise ValueError("Policy latency must be finite/nonnegative and control period positive")
+    return math.ceil(seconds / control_period)
+
+
+@contextmanager
+def preserve_rng_state():
+    """Warmup may initialize graphs, but must not advance paired policy RNGs."""
+    import random
+    import numpy as np
+    import torch
+    python_state, numpy_state, cpu_state = random.getstate(), np.random.get_state(), torch.get_rng_state()
+    cuda_state = torch.cuda.get_rng_state_all() if torch.cuda.is_initialized() else None
+    try:
+        yield
+    finally:
+        random.setstate(python_state)
+        np.random.set_state(numpy_state)
+        torch.set_rng_state(cpu_state)
+        if cuda_state is not None:
+            torch.cuda.set_rng_state_all(cuda_state)
+
+
+def run_delayed_episode(env, initial_state, predict, *, max_steps=700, settling_steps=30,
+                        replan_steps=10, image=None, warmup=None):
+    """Serial receding-horizon control, holding commands while inference runs.
+
+    predict consumes the frozen request observation and returns already processed
+    environment commands plus measured wall seconds. Advancing the simulator
+    afterward with the known held command emulates its non-pausing trajectory;
+    the newly predicted actions are unavailable until the quantized return tick.
+    This is not a buffered/asynchronous hardware controller.
+    """
+    period = float(env.env.control_timestep)
+    delay_ticks(0., period)
+    env.reset()
+    obs = env.set_init_state(initial_state)
+    held = [0, 0, 0, 0, 0, 0, -1]
+    # Preserve upstream's initial settling convention, outside the 700-step cap.
+    for _ in range(settling_steps):
+        obs, _, _, _ = env.step(held.copy())
+    if warmup is not None:
+        with preserve_rng_state():
+            warmup(obs)
+    result = dict(success=False, control_period_seconds=period, control_steps=0,
+                  delay_steps=0, policy_steps=0, replans=[], frames=[])
+
+    def advance(command, kind):
+        nonlocal obs
+        if image is not None:
+            result['frames'].append(image(obs))
+        obs, _, done, _ = env.step(command.copy())
+        result['control_steps'] += 1
+        result[kind+'_steps'] += 1
+        result['success'] = bool(done)
+
+    while result['control_steps'] < max_steps and not result['success']:
+        requested = result['control_steps']
+        chunk, seconds = predict(obs)
+        ticks = delay_ticks(seconds, period)
+        commands = [[float(value) for value in row] for row in chunk[:replan_steps]]
+        if len(commands) != replan_steps or any(len(row) != 7 or any(not math.isfinite(x) for x in row) for row in commands):
+            raise ValueError("Expected ten finite, fully processed seven-dimensional commands")
+        event = dict(request_step=requested, availability_step=requested+ticks,
+                     policy_wall_ms=1000*seconds, delay_steps_scheduled=ticks,
+                     quantization_overhead_ms=1000*(ticks*period-seconds),
+                     held_command=held.copy(), delay_steps_executed=0, policy_steps_executed=0)
+        result['replans'].append(event)
+        for _ in range(min(ticks, max_steps-result['control_steps'])):
+            advance(held, 'delay')
+            event['delay_steps_executed'] += 1
+            if result['success']:
+                break
+        if result['success'] or result['control_steps'] == max_steps:
+            break
+        for command in commands[:max_steps-result['control_steps']]:
+            held = command
+            advance(held, 'policy')
+            event['policy_steps_executed'] += 1
+            if result['success']:
+                break
+    return result
 
 
 def check_deadline(deadline):
@@ -79,7 +172,7 @@ def profile_cache_key(args):
     for path in sorted((ROOT / "src/fastwam").rglob("*.py")):
         digest.update(str(path.relative_to(ROOT)).encode())
         digest.update(path.read_bytes())
-    architecture=args.profile_architecture
+    architecture=getattr(args, 'profile_architecture', None) or json.dumps(dict(checkpoint=file_identity(args.checkpoint)))
     try:
         parsed=json.loads(architecture)
         if isinstance(parsed,dict):
@@ -308,11 +401,13 @@ def wilson(successes: int, n: int):
     return [100 * (center - half), 100 * (center + half)]
 
 
-def validate_task(record, seed):
+def validate_task(record, seed, delay=False):
     if record.get("status") != "complete" or record.get("seed") != seed:
         raise ValueError("Incomplete, failed, or wrong-seed task evaluation")
     if record.get("total_episodes") != 50:
         raise ValueError("Each task requires exactly 50 episodes")
+    if record.get('evaluation_kind', 'standard') != ('delay' if delay else 'standard'):
+        raise ValueError('Delayed and primary task outcomes cannot be mixed')
     success, failure = record["success_episodes"], record["failure_episodes"]
     if (len(success) + len(failure) != 50 or set(success) & set(failure)
             or sorted(success + failure) != list(range(50))):
@@ -320,18 +415,56 @@ def validate_task(record, seed):
     return set(success)
 
 
-def summarize_tasks(tasks, seed):
+def summarize_tasks(tasks, seed, delay=False):
     if len(tasks) != 10 or sorted(r.get("task_id", -1) for r in tasks) != list(range(10)):
         raise ValueError("Evaluation incomplete: exactly tasks 0..9 are required")
     outcomes = []
     for record in sorted(tasks, key=lambda x: x["task_id"]):
-        success = validate_task(record, seed)
-        outcomes.extend(dict(seed=seed, task_id=record["task_id"], episode_id=i,
+        success = validate_task(record, seed, delay=delay)
+        details = {}
+        if delay:
+            if record.get('delay_protocol') != DELAY_PROTOCOL:
+                raise ValueError('Delayed task protocol differs from the registered controller')
+            rows = record.get('episode_results', [])
+            if len(rows) != 50 or sorted(row.get('episode_id', -1) for row in rows) != list(range(50)):
+                raise ValueError('Missing delayed episode timing records')
+            details = {row['episode_id']: row for row in rows}
+            for index,row in details.items():
+                counts=[row.get(key) for key in ('control_steps','delay_steps','policy_steps')]
+                if (any(type(value) is not int or value<0 for value in counts)
+                        or counts[0]>PROTOCOL['max_steps'] or counts[0]!=sum(counts[1:])
+                        or row.get('success') is not (index in success)):
+                    raise ValueError('Invalid delayed control-step or outcome accounting')
+                period=row['control_period_seconds']
+                delay_ticks(0.,period)
+                used=0
+                for event in row['replans']:
+                    ticks=delay_ticks(event['policy_wall_ms']/1000,period)
+                    if (event['request_step']!=used or event['availability_step']!=used+ticks
+                            or event['delay_steps_scheduled']!=ticks
+                            or not 0<=event['delay_steps_executed']<=ticks
+                            or not 0<=event['policy_steps_executed']<=PROTOCOL['replan_steps']):
+                        raise ValueError('Invalid delayed control event chronology')
+                    used+=event['delay_steps_executed']+event['policy_steps_executed']
+                if used!=counts[0]:
+                    raise ValueError('Missing delayed control events')
+        outcomes.extend(dict(details.get(i, {}), seed=seed, task_id=record["task_id"], episode_id=i,
                              success=i in success) for i in range(50))
     n_success = sum(r["success"] for r in outcomes)
-    return dict(status="complete", seed=seed, episodes=500, successes=n_success,
+    summary = dict(status="complete", seed=seed, episodes=500, successes=n_success,
                 success_pct=n_success / 5, wilson95_pct=wilson(n_success, 500),
                 outcomes=outcomes, task_seconds=sum(t.get("duration_seconds", 0) for t in tasks))
+    if delay:
+        periods = {row['control_period_seconds'] for row in outcomes}
+        if len(periods) != 1:
+            raise ValueError('Delayed evaluation used inconsistent control periods')
+        timings = [event['policy_wall_ms'] for row in outcomes for event in row['replans']]
+        summary['delay'] = dict(protocol=DELAY_PROTOCOL, control_period_seconds=periods.pop(),
+            decision_wall=percentile_summary(timings),
+            control_steps=sum(row['control_steps'] for row in outcomes),
+            delay_steps=sum(row['delay_steps'] for row in outcomes),
+            policy_steps=sum(row['policy_steps'] for row in outcomes))
+    return summary
 
 
 def _configuration(args):
@@ -475,6 +608,45 @@ def profile(args, upstream, cfg, model, processor):
         env.close()
 
 
+def run_delayed_task(upstream, task, states, model, processor, cfg, videos, warmed):
+    """Reuse upstream preprocessing/action conversion; only the scheduler differs."""
+    import torch
+    env, description = upstream.get_libero_env(task, upstream.LIBERO_ENV_RESOLUTION, cfg.seed)
+    result = dict(successes=0, success_episodes=[], failure_episodes=[], task_description=description,
+                  evaluation_kind='delay', delay_protocol=DELAY_PROTOCOL, episode_results=[])
+    try:
+        # Text loading is initialization, just like graph compilation.
+        with preserve_rng_state():
+            model.encode_prompt(upstream.DEFAULT_PROMPT.format(task=description))
+        def predict(obs):
+            torch.cuda.synchronize()
+            started = time.perf_counter()
+            chunk, _, predicted = upstream._predict_action_chunk(obs, description, model, processor, cfg,
+                action_horizon=32, input_w=448, input_h=224, model_device='cuda')
+            torch.cuda.synchronize()
+            if predicted is not None:
+                raise ValueError('Delay evaluation supports action-only inference')
+            return chunk, time.perf_counter()-started
+        def warmup(obs):
+            for _ in range(DELAY_PROTOCOL['warmup_calls']):
+                predict(obs)
+            warmed['done'] = True
+        for index, state in enumerate(states):
+            episode = run_delayed_episode(env, state, predict, image=upstream.get_libero_image,
+                warmup=None if warmed.get('done') else warmup)
+            frames = episode.pop('frames')
+            episode['episode_id'] = index
+            success = episode['success']
+            result['successes'] += int(success)
+            result['success_episodes' if success else 'failure_episodes'].append(index)
+            result['episode_results'].append(episode)
+            upstream.save_rollout_video(videos, frames, f'task{cfg.EVALUATION.task_id}_trial{index}',
+                                        success=success, task_description=description)
+        return result
+    finally:
+        env.close()
+
+
 def worker(args):
     if str(ROOT) not in sys.path:
         sys.path.insert(0, str(ROOT))
@@ -487,6 +659,7 @@ def worker(args):
     suite = upstream.benchmark.get_benchmark_dict()["libero_10"]()
     if suite.n_tasks != 10:
         raise ValueError("LIBERO-Long must have ten tasks")
+    warmed = {}
     while True:
         item = pop_task(output / "pending.txt", output / "queue.lock", output / "workers", args.worker)
         if item is None:
@@ -499,13 +672,16 @@ def worker(args):
             states, state_hash = _initial_states(upstream, task)
             videos = output / "videos"
             videos.mkdir(exist_ok=True)
-            result = upstream.run_single_task(task, states, model, processor, cfg,
-                videos, output / "predicted_videos", action_horizon=32,
-                input_w=448, input_h=224, model_device="cuda")
+            if getattr(args, 'delay_injected', False):
+                result = run_delayed_task(upstream, task, states, model, processor, cfg, videos, warmed)
+            else:
+                result = upstream.run_single_task(task, states, model, processor, cfg,
+                    videos, output / "predicted_videos", action_horizon=32,
+                    input_w=448, input_h=224, model_device="cuda")
             result.update(status="complete", task_id=task_id, seed=args.seed,
                           total_episodes=50, initial_state_sha256=state_hash,
                           duration_seconds=time.monotonic() - started)
-            validate_task(result, args.seed)
+            validate_task(result, args.seed, delay=getattr(args, 'delay_injected', False))
             atomic_json(output / f"task_{task_id}.json", result)
             write_worker_status(output / "workers", args.worker, "complete", str(task_id))
         except Exception:
@@ -520,6 +696,10 @@ def _evaluate(args, tick):
     protocol = dict(PROTOCOL, seed=args.seed, kv=args.kv, ka=args.ka, teacher=args.teacher,
                     checkpoint=file_identity(args.checkpoint), stats_sha256=sha256_file(args.stats),
                     text_cache=str(Path(args.text_cache).resolve()))
+    protocol['weights'] = getattr(args, 'weights', 'stage_end_ema')
+    delayed = getattr(args, 'delay_injected', False)
+    if delayed:
+        protocol['delay'] = DELAY_PROTOCOL
     metadata = output / "protocol.json"
     if metadata.exists() and json.loads(metadata.read_text()) != protocol:
         raise ValueError("Existing evaluation protocol/checkpoint differs; choose a new output directory")
@@ -530,16 +710,21 @@ def _evaluate(args, tick):
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         had_summary = (output / "summary.json").exists()
         latency_path = output / 'latency.json'
-        profile_ready = latency_path.exists() and complete_components(json.loads(latency_path.read_text()))
+        cache_key = profile_cache_key(args) if args.profile else None
+        profile_ready = bool(args.profile and latency_path.exists()
+                             and reusable_profile(json.loads(latency_path.read_text()), cache_key))
         if had_summary:
             tasks = [json.loads((output / f"task_{i}.json").read_text()) for i in range(10)]
-            summarize_tasks(tasks, args.seed)
+            summarize_tasks(tasks, args.seed, delay=delayed)
             if not args.profile or profile_ready:
                 return
         cmd = [sys.executable, str(ROOT / "scripts/loopwam/evaluate.py"),
                "--checkpoint", str(args.checkpoint), "--stats", str(args.stats),
                "--output", str(output), "--seed", str(args.seed),
                "--kv", str(args.kv), "--ka", str(args.ka), "--text-cache", str(args.text_cache)]
+        cmd += ['--weights', protocol['weights']]
+        if delayed:
+            cmd.append('--delay-injected')
         if args.teacher:
             cmd.append("--teacher")
         gpu_ids = args.gpus.split(",")
@@ -548,9 +733,7 @@ def _evaluate(args, tick):
         started = time.monotonic()
         deadline = args.deadline - args.deadline_reserve_seconds if args.deadline is not None else None
         cache_path = Path(args.profile_cache) if getattr(args, "profile_cache", None) else None
-        cache_key = None
         if args.profile and cache_path is not None and not profile_ready:
-            cache_key = profile_cache_key(args)
             if cache_path.exists():
                 cached = json.loads(cache_path.read_text())
                 if reusable_profile(cached, cache_key):
@@ -566,10 +749,10 @@ def _evaluate(args, tick):
             with (output / "profile.log").open("a") as log:
                 run_process_group(cmd + ["--profile-only", "--worker", "profile"], cwd=ROOT,
                     env=env, stdout=log, stderr=subprocess.STDOUT, deadline=deadline, on_tick=tick)
+            measured = json.loads((output / "latency.json").read_text())
+            measured["cache_key"] = cache_key
+            atomic_json(output / "latency.json", measured)
             if cache_path is not None:
-                measured = json.loads((output / "latency.json").read_text())
-                measured["cache_key"] = cache_key
-                atomic_json(output / "latency.json", measured)
                 atomic_json(cache_path, measured)
         if had_summary or getattr(args,'profile_only',False):
             return
@@ -577,7 +760,7 @@ def _evaluate(args, tick):
         for i in range(10):
             path = output / f"task_{i}.json"
             if path.exists():
-                validate_task(json.loads(path.read_text()), args.seed)
+                validate_task(json.loads(path.read_text()), args.seed, delay=delayed)
             else:
                 pending.append(i)
         (output / "pending.txt").write_text("".join(f"libero_10,{i}\n" for i in pending))
@@ -608,7 +791,7 @@ def _evaluate(args, tick):
             for proc, log in workers:
                 log.close()
         tasks = [json.loads((output / f"task_{i}.json").read_text()) for i in range(10)]
-        summary = summarize_tasks(tasks, args.seed)
+        summary = summarize_tasks(tasks, args.seed, delay=delayed)
         past = output / "attempts.jsonl"
         past_seconds = sum(json.loads(line)["wall_seconds"] for line in past.read_text().splitlines()) if past.exists() else 0
         elapsed = time.monotonic() - started
@@ -694,6 +877,8 @@ def main(argv=None):
     parser.add_argument("--gpus", default="0,1,2,3")
     parser.add_argument("--text-cache", default="data/text_embeds_cache/libero")
     parser.add_argument("--teacher", action="store_true")
+    parser.add_argument('--weights', choices=('stage_end_ema', 'stage_end_raw'), default='stage_end_ema')
+    parser.add_argument('--delay-injected', action='store_true', help='Serial receding-horizon command-hold latency emulation')
     parser.add_argument("--profile", action="store_true")
     parser.add_argument("--profile-only", action="store_true", help="Measure latency without any rollouts")
     parser.add_argument("--profile-all-budgets", action="store_true", help="With --profile-only, sweep all ten LoopWAM budgets")
@@ -705,6 +890,8 @@ def main(argv=None):
     args = parser.parse_args(argv)
     if args.ka > args.kv:
         parser.error("ka must be <= kv")
+    if args.delay_injected and (args.profile or args.profile_only or args.profile_all_budgets):
+        parser.error('Delay evaluation is separate from the primary latency profile')
     if args.deadline_reserve_seconds < 0:
         parser.error("Deadline reserve must be nonnegative")
     if args.profile_cache and not args.profile_architecture:
