@@ -213,3 +213,25 @@ def test_checkpoint_conversion_roundtrip_and_control_mapping(tmp_path, arch, vid
     else:
         assert len(payload["meta"]["svd_energy"]) == 480
         assert len(video.blocks) == len(action.blocks) == 12
+
+
+@pytest.mark.parametrize("dtype", [torch.float32, torch.bfloat16])
+def test_checkpoint_export_drops_unused_teacher_backing_storage(tmp_path, dtype):
+    # Release proprio tensors are views into a 12GB flattened teacher storage.
+    convert = _convert()
+    video, action = _source_experts()
+    mot = {f"mixtures.video.{k}": v for k, v in video.state_dict().items()}
+    mot.update({f"mixtures.action.{k}": v for k, v in action.state_dict().items()})
+    backing = torch.ones(1_000_000, dtype=dtype)
+    proprio = {"weight": backing[-90:-10].view(10, 8), "bias": backing[-10:]}
+    teacher, output = tmp_path / "source.pt", tmp_path / "compact.pt"
+    torch.save({"mot": mot, "proprio_encoder": proprio}, teacher)
+    convert.convert_checkpoint(teacher, output, "untied12", device="cpu",
+                               tiny_config=tiny_configs(), output_dtype=dtype)
+    converted = torch.load(output, weights_only=True)
+    for kind in ("video", "action", "proprio"):
+        for key, tensor in converted[kind].items():
+            assert tensor.untyped_storage().nbytes() == tensor.numel() * tensor.element_size(), (kind, key)
+    tensor_bytes = sum(t.numel() * t.element_size()
+                       for kind in ("video", "action", "proprio") for t in converted[kind].values())
+    assert output.stat().st_size < tensor_bytes + 500_000

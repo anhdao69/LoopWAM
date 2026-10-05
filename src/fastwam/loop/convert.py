@@ -266,13 +266,15 @@ def convert_checkpoint(teacher_path, output_path, arch="loopwam", lora_rank=32,
             final.update({f"blocks.{target_layer}.{key[len(prefix):]}": value
                           for key, value in sliced.items() if key.startswith(prefix)})
         template.load_state_dict(final, strict=True, assign=True)
-        output[kind] = {key: value.detach().to(device="cpu", dtype=output_dtype).contiguous()
+        output[kind] = {key: value.detach().to(device="cpu", dtype=output_dtype).clone(memory_format=torch.contiguous_format)
                         for key, value in template.state_dict().items()}
         del sliced, final
     proprio = payload["proprio_encoder"]
     if set(proprio) != {"weight", "bias"} or proprio["weight"].shape[0] != video_config["text_dim"]:
         raise ValueError("Proprio encoder must project into the unchanged text context width")
-    output["proprio"] = {key: value.detach().to(device="cpu", dtype=output_dtype).contiguous()
+    # Release checkpoints can hold tiny tensors as views into a multi-GB flat
+    # optimizer/model storage. contiguous() alone does not break such aliases.
+    output["proprio"] = {key: value.detach().to(device="cpu", dtype=output_dtype).clone(memory_format=torch.contiguous_format)
                           for key, value in proprio.items()}
     head_dim = video_config["attn_head_dim"]
     teacher_heads = source["video"]["blocks.0.self_attn.q.bias"].numel() // head_dim
