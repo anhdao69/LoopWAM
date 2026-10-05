@@ -86,12 +86,11 @@ def run_open_loop(model,validation_dataset,output_dir,global_step,teacher_checkp
                     x=model.train_video_scheduler.add_noise(clean,nv,t);x[:,:,0:1]=clean[:,:,0:1]
                     a=model.train_action_scheduler.add_noise(action,na,t)
                     tv,ta=teacher._predict_joint_noise(x,a,t,t,tc,tcm,True)
-                    sv,sa=model.denoise_configurations(x,a,t,t,context,cm,pairs)
-                    ol3=float(model._compute_video_loss_per_sample(sv[:,:,1:],tv[:,:,1:],vpad,False).mean())
+                    sv,sa=model.denoise_configurations(x,a,t,t,context,cm,pairs,return_video_exits=True)
                     for pair in pairs:
                         row=totals[f'{pair[0]}_{pair[1]}']
                         row['ol1']+=float(action_loss(sa[pair],ta,torch.ones(1,device=model.device),apad))/5
-                        row['ol3']+=ol3/5
+                        row['ol3']+=float(model._compute_video_loss_per_sample(sv[pair[0]][:,:,1:],tv[:,:,1:],vpad,False).mean())/5
                 for pair in pairs:
                     pred=_sample_actions(model,clean[:,:,:1],context,cm,pair,seed+panel_id)
                     error=(pred[:,:10].float()-action[:,:10].float()).abs().mean(-1)

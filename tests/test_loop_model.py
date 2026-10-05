@@ -39,6 +39,16 @@ class ModelTests(unittest.TestCase):
     def setUp(self):
         torch.set_num_threads(1);torch.manual_seed(17)
 
+    def test_video_diagnostic_decodes_each_requested_exit(self):
+        p=policy()
+        x=torch.randn(1,2,3,2,2);a=torch.randn(1,4,2)
+        tv=torch.tensor([200.]);ta=torch.tensor([300.]);c=torch.randn(1,4,16);mask=torch.ones(1,4,dtype=torch.bool)
+        video,actions=p.denoise_configurations(x,a,tv,ta,c,mask,((4,4),(2,2),(1,1)),return_video_exits=True)
+        self.assertEqual(set(video),{1,2,4})
+        self.assertFalse(torch.equal(video[1],video[4]))
+        self.assertFalse(torch.equal(video[2],video[4]))
+        self.assertEqual(video[1].shape,x.shape)
+
     def test_prefix_and_first_frame_coda_at_all_exits(self):
         v,a=expert(),expert()
         v.blocks=fold_blocks(v.blocks,rank=3);a.blocks=fold_blocks(a.blocks,rank=3)

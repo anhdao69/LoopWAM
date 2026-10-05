@@ -34,3 +34,14 @@ Converted checkpoints store canonical video/action/proprio state, architecture a
 - Stay in the requested checkout on its new branch to preserve the installed editable environment and data symlinks.
 - Allocation 872809 on evc102: four H100 80GB, 16 CPUs, 512GB RAM; end 2026-10-06 08:02:48 cluster time.
 - The plan says both fixed 8k and approximately ten epochs; retain the explicit 8k/14k/22k boundaries for the fair initial campaign and report measured window/epoch counts.
+
+## Verification and independent review (2026-10-05)
+
+- Conversion/slots implemented and committed; canonical artifacts compact and strictly loadable. Full hashes/shape/finite/storage audit under outputs/loopwam_v1. Residual SVD energy is low in479/480matrices, flagged without automaticrank64ablation.
+- Core and losses implemented; realWan fp32 fullrank velocities agree, causal cache/prefix/coda checks pass, KD input identity and frozen teacher verified, all10budget checkpoint roundtrips pass.
+- Data manifest validated against all388parquets:368train/20validation demos,98,842/5,438windows. Independent original-stat normalization/gripper tests pass.
+- Actual4GPU L3updates passed μ8acc4 andμ16acc2, bf16autocast/fp32masters/ZeRO1. μ16peak68.23GB; lastwarmstep2.203s. Every trainable tensor had finite nonzero gradients onall4ranks. μ32withoutcheckpointing projectedover100GB; avoid unnecessaryOOMprobe.
+- Independent reviewer found no blocker to startingP0training. Fixes: shallowOL3 nowdecodes requestedvideoexit; Konly nowevaluates(2,2) andmustmeetretentionconstraint; same-outputresume teacher/recipeidentity guardbeingadded.
+- Ruling: addKonly(2,2)evaluation although run-matrixSection7 lists3budgets, becauseSection8 explicitlyrequires(2,2)retentionforselection. Addsone500episodeevaluation, noadditionaltraining.
+- Ruling: diagnosticOLmetrics use20fixedunpaddedmidpointclips, oneperheldoutdemo, withsavedwindowIDs. ClosedloopEMA500episodeoutcomes remainprimary. Thispaneldoesnotexhaustallheldoutwindows.
+- Pending beforeP0completionclaim: realfork/resume, EMAopenloopcallback,300stepfixedbatchoverfit, main2kL2smokeanditsimmediateevaluation; teacher500episode×2reproduction. Long-run automation shouldcheckpointatcurrentallocationdeadlineandresumeexplicitly.

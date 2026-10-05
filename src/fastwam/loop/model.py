@@ -108,7 +108,7 @@ class LoopWAM(FastWAM):
         action=move(sample['action'],self.torch_dtype)
         return latents,context,mask,proprio,action
 
-    def denoise_configurations(self,latents,noisy_action,tv,ta,context,context_mask,configurations):
+    def denoise_configurations(self,latents,noisy_action,tv,ta,context,context_mask,configurations,return_video_exits=False):
         vp=self.video_expert.prepare(x=latents,timestep=tv,context=context,context_mask=context_mask,action=None,fuse_vae_embedding_in_latents=True)
         vx,t,tm,vc,vcm,vf,frames,height,width,first=vp
         vmask=self.video_expert.build_video_to_video_mask(vx.shape[1],first,vx.device)
@@ -119,6 +119,17 @@ class LoopWAM(FastWAM):
         for kv,ka in configurations:
             self.mot.add_exit_coda(cache,exits,kv,vf,tm,vc,vcm,first)
             actions[kv,ka]=self.action_expert.post(self.mot.action_forward(ax,af,atm,ac,acm,cache,kv,ka))
+        if return_video_exits:
+            videos={4:video}
+            for kv in sorted({pair[0] for pair in configurations} - {4}):
+                if self.meta['arch']!='loopwam':
+                    videos[kv]=video
+                    continue
+                ex=exits[kv]
+                for j in range(3):
+                    ex,_,_=self.mot._run(self.mot._video_layer,self.video_expert.blocks[9+j],None,ex,vf,tm,vc,vcm,vmask,first)
+                videos[kv]=self.video_expert.post(ex,t,frames,height,width)
+            return videos,actions
         return video,actions
 
     def forward(self,sample,global_step=0):
