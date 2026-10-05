@@ -1,6 +1,6 @@
 # LoopWAM v1: implementation and LIBERO-Long screening
 
-Status (2026-10-05): implementation on branch `LoopWAM_v1`; production infrastructure validation is in progress. No completed screening result or selected recipe is claimed here. This report is updated as measured training and evaluation evidence becomes available.
+Status (2026-10-05, 15:28 EDT): implementation on branch `LoopWAM_v1`; infrastructure validation passed and the LIBERO-Long campaign is running. P0-S has reached step 210/2,000. No completed screening result or selected recipe is claimed here. This report is updated as measured training and evaluation evidence becomes available.
 
 ## Scope and experimental contract
 
@@ -39,6 +39,15 @@ Width conversion selects complete evenly spaced attention heads and FFN channels
 
 The production LoopWAM artifact contains 1,079,946,183 parameters and occupies 2,160,261,923 bytes in bf16. This measured count includes video 891,250,880, action 188,658,439 and proprio 36,864 parameters. A serialization regression was found and fixed: the released proprio tensors are views into a 12,041,421,216-byte teacher storage, so conversion must clone them to avoid embedding the entire teacher storage in the compact checkpoint. A dedicated test checks this for both fp32 and bf16.
 
+| Architecture | Video parameters | Action parameters | Total including proprio | bf16 artifact bytes |
+| --- | ---: | ---: | ---: | ---: |
+| LoopWAM r32 | 891,250,880 | 188,658,439 | 1,079,946,183 | 2,160,261,923 |
+| C1 Untied-30 | 2,058,082,496 | 409,928,455 | 2,468,047,815 | 4,936,614,432 |
+| C2 Untied-12 | 849,201,344 | 168,819,463 | 1,018,057,671 | 2,036,325,541 |
+| C3 Untied-V30/A12 | 2,058,082,496 | 168,819,463 | 2,226,938,823 | 4,454,245,765 |
+
+Counts come directly from canonical checkpoint tensor metadata and exclude the shared frozen VAE/text encoder. Untied-12 is approximately parameter-matched: LoopWAM's slots and adapters add 61.89 million parameters, about 6.08%, rather than giving exact equality. Source: `outputs/loopwam_v1/architecture_sizes.json`.
+
 The initial rank-32 conversion captures less than 30% of the residual energy in 479 of 480 matrix/slot combinations. Weighted captured energy is 10.81% for video and 18.15% for action. This is a diagnostic warning for the recovery experiment, not evidence that the trained policy fails. Rank 64 is not automatically scheduled in the initial 14-run route.
 
 ### Measured initialization diagnostics
@@ -63,9 +72,11 @@ Source artifacts: `outputs/loopwam_v1/initialization/{provenance,d1,d2}.json`. T
 | `data.py` | Immutable split, deterministic preprocessing, cached-record integrity and provenance |
 | `sampler.py` | Rank-consistent budget sampling and resumable consumed-window ordering |
 | `trainer.py` | DeepSpeed updates, LR, EMA, checkpoints, diagnostics and allocation-boundary handling |
+| `runtime.py` | Durable per-invocation timing and aggregation across continuations |
 | `diagnostics.py` | Fixed-panel OL1–OL3, loop dynamics, CKA and LoRA norm ratios |
 | `evaluation.py` | LIBERO workers, episode evidence, strict summaries and latency measurement |
 | `campaign.py` | The 14-run matrix, forks, scientific gates, evaluation dispatch and comparison tables |
+| `reporting.py` | Standalone success-versus-latency PNG/PDF and their CSV/JSON source data |
 
 The original FastWAM teacher files and the user's configuration edits remain separate from this implementation. The initial repository revision was `7faa711`; all implementation commits are on `LoopWAM_v1`.
 
@@ -85,7 +96,7 @@ Additional diagnostics record global accumulated gradient norms before clipping,
 
 ### Frozen preprocessing cache
 
-The dense-control probe exposed a sustained CPU bottleneck: its final two updates took 3.77–3.90 seconds, including 1.11–1.18 seconds waiting on the slowest loader rank. A shared cache of individual window encodings has been implemented; its full production build is in progress. It retains normalized actions/proprioception, padding masks, window identity and deduplicated text contexts alongside frozen VAE outputs. Every architecture will use the same cache, with strict dataset, preprocessing, normalization and VAE provenance.
+The dense-control probe exposed a sustained CPU bottleneck: its final two updates took 3.77–3.90 seconds, including 1.11–1.18 seconds waiting on the slowest loader rank. A shared cache of individual window encodings is now complete: **104,280 validated windows in 2,919.94 seconds** on four H100s, including overlap with the diagnostic-only overfit run. It retains normalized actions/proprioception, padding masks, window identity and deduplicated text contexts alongside frozen VAE outputs. Every scientific trajectory uses the same cache, with strict dataset, preprocessing, normalization and VAE provenance. Cache ID: `9e3e14e18e97edaa4f620177f8e54b2ee621d78c0a61c3cf9af83c1cadce27c4`.
 
 A real H100 numerical check found batch-dependent bf16 encoder rounding: batch 16 versus batch 8 differed by 0.4084% relative L2 (maximum absolute difference 0.0625). Consequently, each cached window is encoded separately with a fixed batch size of one. This makes interrupted cache construction independent of batch membership. Singleton repeat, serialization/reload, noise and timestep draws, and first-frame causality were bit-identical in the checked padded and unpadded production clips. The cache preserves bf16 latents; converting them to fp32 would change noise generation. Cached training is not claimed to be bit-identical to the earlier batched-VAE throughput probes. Evidence: `outputs/loopwam_v1/cache_encoding_equivalence.json`.
 
@@ -95,17 +106,27 @@ Each record contains bf16 latents `[48,3,14,28]`, fp32 actions `[32,7]`, fp32 pr
 
 The standalone trainer uses global batch 128, AdamW beta (0.9,0.95), epsilon 1e-8, inherited LR 5e-5, 500-step linear warmup then constant LR, clipping 1.0, and EMA decay 0.999 updated once per optimizer update. Norms, biases, LoRA and slot deltas receive no weight decay. ZeRO-1/2 and microbatch/accumulation are configurable while preserving global batch and optimizer-step budgets. Native bf16 autocast keeps student/master parameters in fp32. The frozen teacher is deliberately outside the student's registered module tree, so it cannot enter the optimizer, EMA or training checkpoints.
 
-Full-state checkpoints preserve raw weights, ZeRO optimizer shards, LR, EMA, absolute optimizer step, rank-specific RNG and the consumed-window cursor. The sampler's committed cursor is independent of dataloader prefetch. Forks preserve all training state and change only the intended sampling mode. A stop signal or time budget is handled at an optimizer boundary and checkpointed before exit. Final bf16 policy exports are distinct from resumable trainer states.
+Full-state checkpoints preserve raw weights, ZeRO optimizer shards, LR, EMA, absolute optimizer step, rank-specific RNG and the consumed-window cursor. The sampler's committed cursor is independent of dataloader prefetch. Forks preserve all training state and change the intended sampling mode and diagnostic budget list. A stop signal or time budget is handled at an optimizer boundary and checkpointed before exit. Final bf16 policy exports are distinct from resumable trainer states.
+
+Each trainer invocation has a durable UUID record under `runtime/invocations/`, with its absolute step interval, allocation ID, wall time and separate initialization/training/checkpoint/diagnostic costs. `timing.json` remains the latest invocation snapshot. Aggregation counts actual work across continuations, reports replayed versus unique steps, weights warm throughput by measured steps, and keeps inherited parent costs out of fork-local runtime. Interrupted observations and legacy histories are labeled incomplete rather than treated as complete totals.
+
+The campaign freezes content hashes for executable Python, launch scripts, LIBERO helpers and YAML configurations. Resume and child-process boundaries verify this identity. Changes between commands stop before launching the next job; changes during a child invocation mark its artifacts untrusted and block their reuse. Git commit is additional descriptive metadata, while documentation/report-only commits do not change the executable contract.
 
 Closed-loop evaluation reuses FastWAM's LIBERO environment/action processing, with 50 fixed initial states per task, ten Euler steps, shift 5, replan every 10 actions, horizon 32 and maximum 700 steps. Persistent workers share tasks across available GPUs. Results retain per-episode paired outcomes, initial-state hashes, protocol/checkpoint provenance, Wilson intervals and measured wall time. Incomplete or failed tasks cannot become a completed 500-episode summary. Stage-end EMA checkpoints are evaluated immediately after each completed run. Comparisons in the 2–4 pp band require the prescribed second evaluation seed and paired McNemar test. The run table records pending/incomplete status explicitly.
 
+After Stage-1 selection, one raw-versus-EMA evaluation uses the selected checkpoint at `(4,4)` and evaluation seed 42. It writes `eval_raw/` and never enters a selection gate. Phase 4 also schedules the plan's 12 delayed evaluations: three budgets `(4,4), (4,1), (1,1)` × two evaluation seeds × two confirmation training seeds. These write `eval_delay/` and a separate auxiliary comparison table.
+
+Delayed evaluation models a **serial receding-horizon controller with zero-order command hold**. At each request, it freezes the observation and measures warmed observation preprocessing, compiled inference and action postprocessing. With measured latency `t` and the environment's actual control period `dt`, the new action chunk becomes available after `ceil(t/dt)` simulator ticks. During those ticks the simulator executes the exact previous processed command, with the original LIBERO dummy command used initially. It then executes the first ten new actions unchanged. Delay ticks count within the same 700-step cap; the original 30 settling steps remain outside it. Fifty warmup calls preserve RNG and do not advance the simulator. This discrete-event model does not implement buffered/asynchronous control, stale-action-prefix skipping, or latency compensation. Every request records its measured delay and quantization overhead.
+
 ## Verification evidence so far
 
-- The integrated suite passed **114 tests in 130.56 seconds** after commit `db96a1a`. Tests cover actual Wan block restoration, full 30-layer velocity equality within 1e-3 fp32, tensor shapes/head maps, storage sharing, causal caches and action-output isolation, prefix exits, first-frame coda equality, all ten schedules, checkpointed gradients, identical KD inputs, per-sample masks, cache interruption/corruption, launch gates and strict bf16 save/reload across every budget. Evidence: `outputs/loopwam_v1/pytest.xml` and `pytest.log`.
+- The final integrated CPU suite passed **153 tests in 78.21 seconds** at commit `acaeca8`, with zero failures, errors or skips. Tests cover actual Wan block restoration, full 30-layer velocity equality within 1e-3 fp32, tensor shapes/head maps, storage sharing, causal caches and action-output isolation, prefix exits, first-frame coda equality, all ten schedules, checkpointed gradients, identical KD inputs, per-sample masks, cache interruption/corruption, source integrity, delayed-controller behavior, accounting, launch gates and strict bf16 save/reload across every budget. Evidence: `outputs/loopwam_v1/pytest_final.xml` and `pytest_final.log`.
 - Actual first/last training windows were decoded and checked for video/action/proprio/context shapes and end-padding behavior.
 - A single teacher simulator episode (task 0/state 0) succeeded using the intended protocol. This verifies integration only; it is not a benchmark success-rate estimate.
+- The real delayed-controller smoke check completed task 0/state 0 at the expected 0.05-second control period. It executed 118 held-command delay ticks and 582 new-policy ticks, exactly respecting the shared 700-step cap. The untrained converted policy did not solve the task; this is an integration pass, not a success-rate result. Evidence: `outputs/loopwam_v1/delay_smoke/result.json`.
 - Four-H100 production L3 updates passed at microbatch 8/accumulation 4 and microbatch 16/accumulation 2. Both preserve global batch 128. Every trainable tensor received finite, nonzero gradients on every rank, including all shared weights, slot parameters, LoRA, norms and proprio parameters.
 - A ten-step coupled-sampling probe completed without distributed hangs. Same-output resume advanced absolute step 10 to 11 with LR, optimizer, EMA and sample cursor restored. An explicit fork then advanced step 11 to 12 and changed sampling to fixed while preserving state. The actual EMA open-loop callback passed on 20 held-out windows and three budgets in 47.1 seconds. Untied-30 completed a separate five-update production probe.
+- A subsequent cached, 20-update L3 coupled probe passed on four H100s. All four ranks had finite, nonzero gradients for every trainable tensor. Its actual EMA diagnostic at step 20 evaluated all ten budgets on the fixed 20-clip panel, produced finite OL1–OL3 values, captured all four loop exits in both streams, and recorded 480 finite LoRA norm ratios. The callback took 87.74 seconds, including the EMA wrapper and synchronization. Explicit budget lists ensure S2-cont logs its shallow exits and S3-Konly logs the required `(2,2)` retention diagnostic.
 - A compile-cache defect was found before the campaign: PyTorch's default guard limit of eight could reject the ninth budget. The policy now scopes a sufficiently large Dynamo limit to its compiled inference call and restores the caller's setting even on an exception. A real-Wan CPU test runs all ten budgets through full-graph compilation, compares their eager outputs, and confirms that revisiting budgets creates no additional graphs. Production H100 `(4,4)` compilation was separately measured below.
 - Independent review identified and corrected three issues: shallow OL3 must decode its own video exit; S3-Konly must satisfy the stated (2,2) retention constraint; same-output resume must reject a changed teacher or training recipe. The added Konly evaluation does not add a training trajectory.
 
@@ -129,8 +150,16 @@ All measurements below use four H100 80GB GPUs, ZeRO-1, fp32 student/master weig
 | LoopWAM L3 fixed, 3 updates | 16 | 2 | 2.20 s, last warm update | 68.23 GB | `runs/loopwam_validation/micro16` |
 | LoopWAM L3 coupled, 10 updates | 16 | 2 | 3.235 s, mean of 9 warm updates | 70.99 GB | `runs/loopwam_validation/coupled16/timing_initial10.json` |
 | Untied-30 L3 fixed, 5 updates | 8 | 4 | 3.460 s, mean of 4 warm updates | 72.76 GB | `runs/loopwam_validation/c1_micro8/timing.json` |
+| Cached LoopWAM L3 coupled, 20 updates | 16 | 2 | **1.691 s**, mean of 19 warm updates | **70.83 GB** | `outputs/loopwam_v1/cached_loop_coupled20/timing.json` |
+| Cached Untied-30 L3 fixed, 10 updates | 8 | 4 | **1.626 s**, mean of 9 warm updates | **72.71 GB** | `outputs/loopwam_v1/cached_c1_10/timing.json` |
 
 The coupled probe took 139.8 seconds to initialize and 31.6 seconds to save resumable state plus policy exports. Its warm throughput is 128 / 3.235 = 39.57 samples/s. The preserved initial timing artifact has an older inconsistent throughput field; the step-time numerator and denominator, and this explicit calculation, are used here. The current writer derives both fields from the same measured interval.
+
+The cached coupled probe reached 75.70 samples/s, approximately 1.91× the earlier coupled probe. Its initialization took 163.55 seconds, actual training 64.83 seconds including a 33.4-second cold first update, and saving 25.87 seconds. Later logged intervals had mean loader wait below 1 ms and slowest-rank mean below 2 ms. The 10-versus-20-update probes do not establish a precise long-run speedup; the production table will use the campaign's measured trajectories. No concurrent GPU work ran during the cached timing measurement.
+
+The cached Untied-30 probe reached 78.74 samples/s, approximately 2.13× its earlier uncached probe. Initialization took 142.14 seconds, training 18.28 seconds and checkpoint/export writing 51.05 seconds. Mean loader wait was 2.12 ms/update and the slowest-rank mean was 2.31 ms. Both cached probes passed finite/nonzero gradient coverage on all four ranks and durable-runtime accounting checks. Their hashed evidence is attached to `infrastructure.json` through `cached_training_evidence.json`.
+
+P0-S's first 210 production updates have held near 1.09 seconds/update at 56.02 GB allocated/GPU. This is an in-progress L2 result, not a completed training-runtime measurement. Logged `lr` is the scheduler's value for the next optimizer update, after the just-completed update; the first update itself uses `5e-5 / 500`.
 
 ### Measured policy latency
 
@@ -142,7 +171,7 @@ Separate CUDA-event measurements after the primary wall-time measurements gave c
 
 ### Launch and resume
 
-The intended production command, after cache completion and the cached four-GPU validation, is:
+The production command launched at approximately 15:23 EDT on October 5 is:
 
 ```bash
 bash scripts/loopwam/run_campaign.sh \
@@ -173,10 +202,14 @@ python scripts/loopwam/verify_infrastructure.py \
   --overfit outputs/loopwam_v1/overfit_diagnostic_protocol.json
 ```
 
-The standard workflow evaluates every completed trajectory immediately, then advances only if the relevant gate passes. G0 checks C1 against the reproduced teacher; G1 checks recovery against C1/C2; GP checks the deep-video premise; G2 checks elasticity and full-budget retention; G3 checks deep-video benefit at matched measured latency. The otherwise unspecified G2 phrase “well above” is registered as at least 3 pp at both K=1 and K=2, and the matched-latency tolerance is 5%. Ambiguous comparisons request the second evaluation seed automatically. A failed gate records the evidence and stops instead of scheduling the excluded second-round ablations.
+The standard workflow evaluates every completed trajectory immediately, then advances only if the relevant gate passes. G0 checks C1 against the reproduced teacher; G1 checks recovery against C1/C2; GP checks the deep-video premise; G2 checks elasticity and full-budget retention; G3 checks deep-video benefit at matched measured latency. The otherwise unspecified G2 phrase “well above” is registered as at least 3 pp at both K=1 and K=2, and the matched-latency tolerance is 5%. Comparisons in the prescribed 2–4 pp band trigger a second evaluation seed automatically. A failed or still-ambiguous gate records the evidence and stops instead of scheduling the excluded second-round ablations.
 
-Allocation 872809 provides four H100 80GB GPUs, 16 CPUs and 512GB RAM on evc102. It began 2026-10-05 12:02:48 and ends 2026-10-06 08:02:48 (cluster EDT). The user approved up to eight additional 20-hour, four-H100 continuation allocations. `scripts/loopwam/continue_campaign.sbatch` resumes the existing immutable campaign; its bounded chain continues only after an allocation deadline, and stops after a failed scientific gate or runtime error. Submission IDs are recorded separately when actually submitted.
+Allocation 872809 provides four H100 80GB GPUs, 16 CPUs and 512 GB RAM on evc102. It began 2026-10-05 12:02:48 and ends 2026-10-06 08:02:48 (cluster EDT). The user approved up to eight additional 20-hour, four-H100 continuation allocations. **Job 873269 has been submitted**, dependent on `afterany:872809`, with at most seven further continuations. `scripts/loopwam/continue_campaign.sbatch` resumes the existing immutable campaign; its bounded chain continues only after an allocation deadline and stops after a failed scientific gate or runtime error. Submission records are in `outputs/loopwam_v1/campaign/continuation_chain.jsonl`, with the approval recorded in `outputs/loopwam_v1/continuation_authorization.json`.
 
-Multiplying the preliminary 2.20–3.235 seconds/update by 142,000 updates gives roughly 87–128 hours of training alone. This is a planning range, not a measured total: the dense controls, data-loader steady state, different elastic modes, closed-loop evaluations, startup and Slurm queue delays remain to be measured. The campaign writes measured per-run timings, comparison CSV/Markdown and a runtime-estimate JSON; unknown quantities stay unknown. A calendar completion date and a best setup require those measurements and passing gates.
+The continuation was submitted with the activated FastWAM Python 3.10 environment and `--export=ALL`, which carries that environment into subsequent jobs. The system Python 3.6 cannot run all continuation APIs. The first submission attempt failed locally before calling `sbatch`; the corrected submission created only job 873269. The unrelated pending interactive jobs were left intact.
+
+The earlier uncached planning estimate of 87–128 training hours is superseded by the cache measurements. Applying the observed 1.09–1.691 seconds/update range to 142,000 updates gives approximately **43–67 hours of training alone**. This intentionally broad extrapolation mixes measured L2 and L3 probes; it is not a measured total for every architecture/mode. Closed-loop evaluation, diagnostics, checkpoint writes, startup and Slurm queue delays are additional. A tighter full-campaign ETA will follow the first complete 500-episode evaluation. The campaign writes measured per-run timings, comparison CSV/Markdown and a runtime-estimate JSON; unknown quantities remain explicit.
+
+Live artifacts: [comparison table](../outputs/loopwam_v1/campaign/results.md), [CSV](../outputs/loopwam_v1/campaign/results.csv), [manifest and decisions](../outputs/loopwam_v1/campaign/manifest.json), and [runtime estimates](../outputs/loopwam_v1/campaign/runtime_estimate.json). Tables refresh after evaluation/gate events; `manifest.json` and per-run training logs show ongoing work between those events.
 
 Only H100 measurement is available in this allocation. The all-ten-budget latency grid, an RTX4090 profile and delay-injected evaluation remain outstanding. Full LIBERO across the other suites is outside the user's first Long-only campaign. LIBERO-Long is a selection set; later headline generalization claims require benchmarks unused for selection. The requested 14-run route excludes the plan's additional 22k control continuations: the screening controls stop at 8k, so final 22k LoopWAM comparisons against them have unequal training budgets and must be labeled accordingly.
