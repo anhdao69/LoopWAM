@@ -75,6 +75,15 @@ class CoreTests(unittest.TestCase):
         _,other,_=loop.video_forward(changed,f,tv,c,cm,m,tokens_per_frame=2,kv=4)
         for key in cache:
             torch.testing.assert_close(cache[key][0],other[key][0],rtol=1e-5,atol=1e-5)
+        action_mask=torch.ones(2,3,4,dtype=torch.bool)
+        expected=loop.action_forward(a,f[:3],ta,c,action_mask,cache,4,4)
+        actual=loop.action_forward(a,f[:3],ta,c,action_mask,other,4,4)
+        torch.testing.assert_close(actual,expected,rtol=1e-5,atol=1e-5)
+        # A preceding training action branch must not leave label-dependent state
+        # in the first-frame cache used by fixed-noise inference.
+        loop.action_forward(a*100,f[:3],ta,c,action_mask,cache,4,4)
+        after=loop.action_forward(a,f[:3],ta,c,action_mask,cache,4,4)
+        torch.testing.assert_close(after,expected,rtol=0,atol=0)
 
     def test_checkpointed_gradient_equals_uncheckpointed(self):
         first=LoopMoT(expert(12),expert(12),arch='untied12')

@@ -1,6 +1,6 @@
 # LoopWAM v1: implementation and LIBERO-Long screening
 
-Status: implementation and infrastructure validation in progress. No completed screening result or selected recipe is claimed here. This report will be updated with measured training/evaluation evidence.
+Status (2026-10-05): implementation on branch `LoopWAM_v1`; production infrastructure validation is in progress. No completed screening result or selected recipe is claimed here. This report is updated as measured training and evaluation evidence becomes available.
 
 ## Scope and experimental contract
 
@@ -42,13 +42,29 @@ Closed-loop evaluation reuses FastWAM's LIBERO environment/action processing, wi
 
 ## Verification evidence so far
 
--41 integrated CPU tests passed before the final serialization regression was added; subsequent focused conversion/core/model tests also pass. Tests cover exact real-Wan block restoration, full30-layer velocity equality within1e-3 fp32, tensor shapes/head maps, storage sharing, causal caches, prefix exits, first-frame coda equality, all ten schedules, checkpointed gradients, identical KD inputs, per-sample masks and strict bf16 save/reload across every budget.
+- The integrated CPU suite passed 72 tests at commit `1cfd1f5`. Subsequent focused checks cover deadline cancellation and causal action-output invariance. Tests cover actual Wan block restoration, full 30-layer velocity equality within 1e-3 fp32, tensor shapes/head maps, storage sharing, causal caches, prefix exits, first-frame coda equality, all ten schedules, checkpointed gradients, identical KD inputs, per-sample masks and strict bf16 save/reload across every budget.
 - Actual first/last training windows were decoded and checked for video/action/proprio/context shapes and end-padding behavior.
-- A single teacher simulator episode (task0/state0) succeeded using the intended protocol. This verifies integration only and is not a benchmark success-rate estimate.
-- Four-GPU production training, throughput, EMA fork/resume and full screening results are pending at this report revision.
+- A single teacher simulator episode (task 0/state 0) succeeded using the intended protocol. This verifies integration only; it is not a benchmark success-rate estimate.
+- Four-H100 production L3 updates passed at microbatch 8/accumulation 4 and microbatch 16/accumulation 2. Both preserve global batch 128. Every trainable tensor received finite, nonzero gradients on every rank, including all shared weights, slot parameters, LoRA, norms and proprio parameters.
+- A ten-step coupled-sampling probe completed without distributed hangs. Same-output resume then advanced absolute step 10 to 11 with LR, optimizer, EMA and sample cursor restored. The actual EMA open-loop callback passed on 20 held-out windows and three budgets in 47.1 seconds. Explicit fork and control-model probes are still in progress.
+- Independent review identified and corrected three issues: shallow OL3 must decode its own video exit; S3-Konly must satisfy the stated (2,2) retention constraint; same-output resume must reject a changed teacher or training recipe. The added Konly evaluation does not add a training trajectory.
+
+### Preliminary throughput measurements
+
+All measurements below use four H100 80GB GPUs, ZeRO-1, fp32 student/master weights, bf16 autocast and global batch 128. Cold startup, checkpoint writes and validation are separate. These short probes establish feasibility; long-run throughput will replace them in the campaign table.
+
+| Probe | Microbatch/GPU | Accumulation | Measured update time | Peak allocated/GPU | Evidence |
+| --- | ---: | ---: | ---: | ---: | --- |
+| LoopWAM L3 fixed, 2 updates | 8 | 4 | 3.52 s, one warm update | 50.33 GB | `runs/loopwam_validation/micro8` |
+| LoopWAM L3 fixed, 3 updates | 16 | 2 | 2.20 s, last warm update | 68.23 GB | `runs/loopwam_validation/micro16` |
+| LoopWAM L3 coupled, 10 updates | 16 | 2 | 3.235 s, mean of 9 warm updates | 70.99 GB | `runs/loopwam_validation/coupled16/timing_initial10.json` |
+
+The coupled probe took 139.8 seconds to initialize and 31.6 seconds to save resumable state plus policy exports. Its warm throughput is 128 / 3.235 = 39.57 samples/s. The preserved initial timing artifact has an older inconsistent throughput field; the step-time numerator and denominator, and this explicit calculation, are used here. The current writer derives both fields from the same measured interval.
 
 ## Runtime and limitations
 
-Allocation872809 provides fourH10080GB GPUs,16 CPUs and512GB RAM on evc102. It began2026-10-05 12:02:48 and ends2026-10-06 08:02:48 (cluster EDT). The campaign exceeds the allocation if measured training plus evaluation times require it; completion estimates will be based on actual per-architecture step times and episode times. No total-time or best-setup claim is justified before those measurements and stage gates.
+Allocation 872809 provides four H100 80GB GPUs, 16 CPUs and 512GB RAM on evc102. It began 2026-10-05 12:02:48 and ends 2026-10-06 08:02:48 (cluster EDT). The user approved up to eight additional 20-hour, four-H100 continuation allocations. `scripts/loopwam/continue_campaign.sbatch` resumes the existing immutable campaign; its bounded chain continues only after an allocation deadline, and stops after a failed scientific gate or runtime error. Submission IDs are recorded separately when actually submitted.
 
-Only H100 measurement is available in this allocation. An RTX4090 profile, component-level latency decomposition, exhaustive1000-clip layer-similarity diagnostics and delay-injected evaluation are not yet validated. Full LIBERO across the other suites is outside the user's first Long-only campaign. LIBERO-Long is a selection set; later headline generalization claims require benchmarks unused for selection.
+Multiplying the preliminary 2.20–3.235 seconds/update by 142,000 updates gives roughly 87–128 hours of training alone. This is a planning range, not a measured total: the dense controls, data-loader steady state, different elastic modes, closed-loop evaluations, startup and Slurm queue delays remain to be measured. The campaign writes measured per-run timings, comparison CSV/Markdown and a runtime-estimate JSON; unknown quantities stay unknown. A calendar completion date and a best setup require those measurements and passing gates.
+
+Only H100 measurement is available in this allocation. An RTX4090 profile, component-level latency decomposition, 1,000-clip layer-similarity diagnostics and delay-injected evaluation are not yet validated. Full LIBERO across the other suites is outside the user's first Long-only campaign. LIBERO-Long is a selection set; later headline generalization claims require benchmarks unused for selection. The requested 14-run route excludes the plan's additional 22k control continuations: the screening controls stop at 8k, so final 22k LoopWAM comparisons against them have unequal training budgets and must be labeled accordingly.
