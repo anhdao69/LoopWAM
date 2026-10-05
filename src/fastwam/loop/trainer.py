@@ -22,6 +22,7 @@ from torch.utils.data import DataLoader
 from .data import (DEFAULT_DATA_ROOT, DEFAULT_STATS, DEFAULT_TEXT_CACHE, CachedLatentDataset, build_dataset,
                    build_split_manifest, cache_provenance, file_sha256, manifest_digest, save_manifest)
 from .sampler import DistributedWindowSampler, MODES, resolve_mode
+from .runtime import InvocationLedger
 
 
 class EMA:
@@ -349,8 +350,8 @@ def validate_resume_contract(metadata: dict, expected: dict, *, state_root: str 
     # A branch into a different output directory is an explicit stage fork.
     # Continuing the same output must preserve its sampling experiment.
     if Path(state_root).resolve() == (Path(output).resolve() / 'state'):
-        for name in ('mode', 'stage2_mode', 'stage3_mode'):
-            if metadata.get(name) != expected[name]:
+        for name in ('mode', 'stage2_mode', 'stage3_mode', 'diagnostic_pairs'):
+            if metadata.get(name) != expected.get(name):
                 raise ValueError(f'Same-output resume cannot change {name}; use a new --output for an explicit fork')
 
 
@@ -394,6 +395,8 @@ def parser() -> argparse.ArgumentParser:
     p.add_argument('--keep-checkpoints', type=int, default=2)
     p.add_argument('--log-every', type=int, default=10)
     p.add_argument('--diagnostic-every', type=int, default=1000, help='EMA open-loop panel interval; 0 disables for throughput probes')
+    p.add_argument('--diagnostic-pairs', nargs='+', default=None, metavar='KV,KA',
+                   help='Explicit diagnostic budgets, for example 4,4 2,2 1,1; full (4,4) is always first')
     p.add_argument('--stats', default=DEFAULT_STATS)
     p.add_argument('--teacher', default='checkpoints/fastwam_release/libero_uncond_2cam224.pt')
     p.add_argument('--gradient-checkpointing', action='store_true')
@@ -413,8 +416,21 @@ def parser() -> argparse.ArgumentParser:
 
 
 def train(args) -> dict:
+    observation = {}
+    try:
+        return _train(args, observation)
+    except BaseException as error:
+        if observation.get('ledger') is not None:
+            observation['ledger'].fail(error)
+        raise
+
+
+def _train(args, observation) -> dict:
     job_started = time.monotonic()
+    wall_started = time.time()
     warmup_steps = resolve_warmup_steps(args.overfit_one_batch, args.overfit_warmup_steps)
+    from .diagnostics import normalize_diagnostic_pairs
+    diagnostic_pairs = normalize_diagnostic_pairs(args.diagnostic_pairs) if args.diagnostic_pairs is not None else None
     if not torch.cuda.is_available():
         raise RuntimeError('LoopWAM training requires CUDA; use CPU tests for infrastructure verification')
     local_rank = int(os.environ.get('LOCAL_RANK', args.local_rank or 0))
@@ -438,6 +454,11 @@ def train(args) -> dict:
     output.mkdir(parents=True, exist_ok=True)
     if not args.resume and (output / 'state/latest.json').exists():
         raise ValueError('Output already contains training state; pass --resume to continue it')
+    ledger = None
+    if rank == 0:
+        ledger = InvocationLedger(output, started_monotonic=job_started, started_wall=wall_started,
+                                  resume=args.resume, requested_end_step=args.max_steps)
+        observation['ledger'] = ledger
     from fastwam.utils.misc import register_work_dir
     register_work_dir(output)
     manifest = build_split_manifest(args.data_root, args.split_seed, verify_parquet=rank == 0 and not args.latent_cache)
@@ -457,6 +478,7 @@ def train(args) -> dict:
                      'teacher_identity': teacher_identity(args.teacher),
                      'latent_cache_identity': dataset.identity if dataset is not None else None,
                      'warmup_steps': warmup_steps,
+                     'diagnostic_pairs': [list(pair) for pair in diagnostic_pairs] if diagnostic_pairs is not None else None,
                      'micro_batch': args.micro_batch, 'grad_accum': args.grad_accum, 'zero_stage': args.zero_stage}
     if args.resume:
         saved_metadata = json.loads((Path(args.resume) / 'latest.json').read_text())
@@ -486,6 +508,8 @@ def train(args) -> dict:
                        teacher_checkpoint=args.teacher if args.loss == 'L3' else None,
                        loss_recipe=args.loss, mode=args.mode, seed=args.seed,
                        gradient_checkpointing=args.gradient_checkpointing)
+    if diagnostic_pairs is not None:
+        normalize_diagnostic_pairs(diagnostic_pairs, model.meta['arch'])
     if rank == 0:
         print(f'[startup] model and teacher ready after {time.monotonic() - job_started:.2f}s', flush=True)
     bad = [n for n, p in model.named_parameters() if p.requires_grad and p.dtype != torch.float32]
@@ -529,6 +553,22 @@ def train(args) -> dict:
     overfit_samples = []
     overfit_rng = None
     interrupted = False
+
+    def observe_runtime(status='running', terminal=False):
+        if ledger is None:
+            return None
+        elapsed_training = max(0., time.monotonic() - started - checkpoint_seconds - diagnostic_seconds)
+        completed = step - start_step
+        measured_steps = completed - warmup_completed
+        return ledger.update({**base_metadata, 'start_step': start_step, 'global_step': step,
+                              'steps_completed': completed, 'training_seconds': elapsed_training,
+                              'initialization_seconds': initialization_seconds,
+                              'checkpoint_seconds': checkpoint_seconds, 'diagnostic_seconds': diagnostic_seconds,
+                              'timing_warmup_steps': warmup_completed, 'timing_measured_steps': measured_steps,
+                              'timing_measured_seconds': max(0., elapsed_training - warmup_seconds) if measured_steps else 0.},
+                             status=status, terminal=terminal)
+
+    observe_runtime()
     try:
         while step < args.max_steps:
             elapsed = time.monotonic() - job_started
@@ -626,6 +666,7 @@ def train(args) -> dict:
                     with (output / 'metrics.jsonl').open('a') as handle:
                         handle.write(json.dumps(record, sort_keys=True) + '\n')
                     print(json.dumps(record, sort_keys=True), flush=True)
+                    observe_runtime()
                 metric_sums, metric_counts = {}, {}
                 interval_start, interval_step = now, step
             if args.save_every and step % args.save_every == 0 and step < args.max_steps:
@@ -634,6 +675,7 @@ def train(args) -> dict:
                 duration = time.monotonic() - checkpoint_start
                 checkpoint_seconds += duration
                 interval_start += duration
+                observe_runtime()
             if args.diagnostic_every and step % args.diagnostic_every == 0:
                 from .diagnostics import run_open_loop
                 diagnostic_start = time.monotonic()
@@ -644,7 +686,8 @@ def train(args) -> dict:
                     try:
                         with ema.apply_to(model):
                             model.eval()
-                            diagnostic = run_open_loop(model, validation, output, step, teacher_checkpoint=args.teacher, seed=1234)
+                            diagnostic = run_open_loop(model, validation, output, step, teacher_checkpoint=args.teacher,
+                                                       seed=1234, pairs=diagnostic_pairs)
                             diagnostic.update(weights='ema', ema_decay=ema.decay, ema_updates=ema.updates,
                                               stats_sha256=base_metadata['stats_sha256'])
                             atomic_json(diagnostic, output / 'open_loop' / f'step_{step:08d}.json')
@@ -655,6 +698,7 @@ def train(args) -> dict:
                 duration = time.monotonic() - diagnostic_start
                 diagnostic_seconds += duration
                 interval_start += duration
+                observe_runtime()
         torch.cuda.synchronize(device)
         train_seconds = time.monotonic() - started - checkpoint_seconds - diagnostic_seconds
         complete = step == args.max_steps and not interrupted
@@ -691,6 +735,13 @@ def train(args) -> dict:
                   'raw_checkpoint': str(output / 'raw.pt'), 'ema_checkpoint': str(output / 'ema.pt'),
                   'state_path': str(output / 'state')}
         if rank == 0:
+            # The ledger is committed before the compatibility snapshot. If the
+            # process stops between these writes, previous and current records survive.
+            invocation = ledger.update(timing, status='completed' if complete else 'interrupted', terminal=True)
+            timing.update({key: invocation[key] for key in (
+                'invocation_id', 'run_directory', 'status', 'terminal', 'legacy_snapshot',
+                'wall_started_at', 'wall_ended_at', 'last_observed_at', 'wall_seconds', 'wall_seconds_source',
+                'unattributed_seconds', 'allocation_job_id', 'resume_state_path', 'end_step')})
             atomic_json(timing, output / 'timing.json')
         return timing
     finally:

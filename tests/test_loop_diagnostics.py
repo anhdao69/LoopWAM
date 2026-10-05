@@ -143,14 +143,37 @@ def test_open_loop_writes_loop_and_adapter_metrics_on_fixed_panel(tmp_path):
                         proprio=torch.randn(3, generator=generator), action_is_pad=torch.zeros(32, dtype=torch.bool),
                         image_is_pad=torch.zeros(9, dtype=torch.bool))
     rng = torch.get_rng_state().clone()
-    record = diagnostics.run_open_loop(model, Panel(), tmp_path, 1000, 'unused')
+    record = diagnostics.run_open_loop(model, Panel(), tmp_path, 1000, 'unused', pairs=['2,2', '4,4', '1,1'])
     assert torch.equal(rng, torch.get_rng_state()) and model.training
     assert record['loop_dynamics']['configuration'] == [4, 4]
     assert record['loop_dynamics']['tau'] == .5
     assert record['loop_dynamics']['clips'] == 20
-    assert record['evaluated_pairs'] == [[4, 4]]
+    assert record['evaluated_pairs'] == [[4, 4], [2, 2], [1, 1]]
+    assert set(record['metrics']) == {'4_4', '2_2', '1_1'}
     for stream in ('video', 'action'):
         assert len(record['loop_dynamics'][stream]['loops']) == 4
         assert len(record['loop_dynamics'][stream]['cross_loop_cka']['matrix']) == 4
     assert len(record['lora_norm_ratios']) == 480
     assert json.loads((tmp_path / 'open_loop/step_00001000.json').read_text()) == record
+
+
+def test_explicit_diagnostic_pairs_cover_continuations_konly_and_all_confirmation_budgets():
+    from types import SimpleNamespace
+    from fastwam.loop.diagnostics import diagnostic_pairs, normalize_diagnostic_pairs
+    fixed = SimpleNamespace(meta={'arch': 'loopwam'}, mode='fixed')
+    assert diagnostic_pairs(fixed, 10000) == ((4, 4),)  # preserve old probe defaults
+    assert diagnostic_pairs(fixed, 10000, ['1,1', '2,2', '4,4']) == ((4, 4), (1, 1), (2, 2))
+    konly = SimpleNamespace(meta={'arch': 'loopwam'}, mode='konly')
+    assert diagnostic_pairs(konly, 9000, ['4,4', '4,2', '4,1', '2,2']) == ((4, 4), (4, 2), (4, 1), (2, 2))
+    all_pairs = [(v, a) for v in range(1, 5) for a in range(1, v + 1)]
+    actual = diagnostic_pairs(fixed, 1000, all_pairs)
+    assert actual[0] == (4, 4) and len(actual) == 10 and set(actual) == set(all_pairs)
+    assert normalize_diagnostic_pairs(['2,2']) == ((4, 4), (2, 2))
+    for arch in ('untied30', 'untied12'):
+        control = SimpleNamespace(meta={'arch': arch}, mode='fixed')
+        assert diagnostic_pairs(control, 1, ['4,4']) == ((4, 4),)
+        with pytest.raises(ValueError, match='controls'):
+            diagnostic_pairs(control, 1, ['2,2'])
+    for values in (['2,3'], ['0,0'], ['5,1'], ['1'], ['a,b'], ['4,4', '4,4'], []):
+        with pytest.raises(ValueError):
+            normalize_diagnostic_pairs(values)

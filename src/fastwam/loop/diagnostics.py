@@ -181,7 +181,30 @@ def panel_indices(dataset):
     return selected
 
 
-def diagnostic_pairs(model,step):
+def normalize_diagnostic_pairs(pairs, arch='loopwam'):
+    """Validate explicit budgets and put the full pass first for loop capture."""
+    result=[]
+    for pair in pairs:
+        if isinstance(pair,str):
+            fields=pair.split(',')
+            if len(fields)!=2:
+                raise ValueError('Diagnostic pairs must use KV,KA tokens, for example 4,4 2,2 1,1')
+            try: pair=tuple(int(value) for value in fields)
+            except ValueError as error: raise ValueError('Diagnostic budgets must be integers') from error
+        if (len(pair)!=2 or any(not isinstance(value,int) or isinstance(value,bool) for value in pair)
+                or not 1<=pair[1]<=pair[0]<=4):
+            raise ValueError(f'Invalid diagnostic budget: {pair!r}; require 1 <= KA <= KV <= 4')
+        pair=tuple(pair)
+        if pair in result: raise ValueError(f'Duplicate diagnostic budget: {pair}')
+        result.append(pair)
+    if not result: raise ValueError('Explicit diagnostic pairs cannot be empty')
+    if arch!='loopwam' and any(pair!=(4,4) for pair in result):
+        raise ValueError('Untied controls support only diagnostic budget (4,4)')
+    return ((4,4),)+tuple(pair for pair in result if pair!=(4,4))
+
+
+def diagnostic_pairs(model,step,pairs=None):
+    if pairs is not None: return normalize_diagnostic_pairs(pairs,model.meta['arch'])
     if model.meta['arch']!='loopwam' or model.mode=='fixed': return ((4,4),)
     if model.mode=='konly': return ((4,4),(4,2),(4,1))
     if model.mode=='coupled' or (model.mode=='three_stage' and step<14000): return ((4,4),(2,2),(1,1))
@@ -206,7 +229,7 @@ def _sample_actions(model,first_frame,context,mask,pair,seed=1234):
 
 
 @torch.no_grad()
-def run_open_loop(model,validation_dataset,output_dir,global_step,teacher_checkpoint,seed=1234):
+def run_open_loop(model,validation_dataset,output_dir,global_step,teacher_checkpoint,seed=1234,pairs=None):
     """OL1 velocity MSE, OL2 first-ten L1, OL3 future-video velocity MSE.
 
     Called on rank zero between optimizer steps under the caller's selected raw
@@ -216,7 +239,7 @@ def run_open_loop(model,validation_dataset,output_dir,global_step,teacher_checkp
     modes=[(module,module.training) for module in model.modules()]
     teacher=model.teacher
     temporary=teacher is None
-    pairs=diagnostic_pairs(model,global_step)
+    pairs=diagnostic_pairs(model,global_step,pairs)
     totals={f'{v}_{a}':{'ol1':0.,'ol2':0.,'ol3':0.} for v,a in pairs}
     windows=[]
     loop_traces=[]

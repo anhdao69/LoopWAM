@@ -446,3 +446,18 @@ def test_overfit_warmup_override_is_isolated_from_benchmark_and_preserves_base_l
     with pytest.raises(ValueError, match='warmup_steps'):
         validate_resume_contract(metadata, {**metadata, 'warmup_steps': 0},
                                  state_root=tmp_path / 'old/state', output=tmp_path / 'new')
+
+
+def test_diagnostic_budget_cli_and_same_output_immutability_with_explicit_fork_scope(tmp_path):
+    from fastwam.loop.trainer import parser
+    args = parser().parse_args(['--init', 'init.pt', '--output', 'run', '--max-steps', '1',
+                                '--diagnostic-pairs', '4,4', '2,2', '1,1'])
+    assert args.diagnostic_pairs == ['4,4', '2,2', '1,1']
+    output = tmp_path / 'run'
+    metadata = dict(stats_sha256='s', manifest_sha256='m', seed=42, loss='L2', world_size=4,
+                    global_batch=128, teacher_identity={'size': 1}, mode='fixed', stage2_mode='coupled',
+                    stage3_mode='decoupled', diagnostic_pairs=[[4, 4]])
+    expected = {**metadata, 'diagnostic_pairs': [[4, 4], [2, 2], [1, 1]]}
+    with pytest.raises(ValueError, match='diagnostic_pairs'):
+        validate_resume_contract(metadata, expected, state_root=output / 'state', output=output)
+    validate_resume_contract(metadata, expected, state_root=output / 'state', output=tmp_path / 'fork')
