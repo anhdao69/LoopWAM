@@ -1,0 +1,83 @@
+{
+  "captured_at": "2026-10-06T10:57:36.916457-04:00",
+  "source_sha256": "02741f8e43f6f7c357b566c68857da2a639cec66240381da35a28a4ade5f3753",
+  "sources": {
+    "C1_seed42_summary.json": {
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/campaign/C1/eval/kv4_ka4/seed42/summary.json",
+      "sha256": "19779d515a6a096f6771fde12720205a90548c1895bff2cdf3f5dcc9eb35840a"
+    },
+    "C2_seed42_summary.json": {
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/campaign/C2/eval/kv4_ka4/seed42/summary.json",
+      "sha256": "ec0af31db1540c4597a70fba6c12ad3595306030fd77c80c10a1f5eb52101698"
+    },
+    "C3_seed42_summary.json": {
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/campaign/C3/eval/kv4_ka4/seed42/summary.json",
+      "sha256": "756a69f3db4e7542448d9bec316960545675564233e89461a42b051411972f36"
+    },
+    "P0-S_seed42_summary.json": {
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/summary.json",
+      "sha256": "e6d9d5df717b23f9f196714f3b63ac96469ffe373bf8b22f54150cc1a6a77bfa"
+    },
+    "S1-L2_seed42_summary.json": {
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed42/summary.json",
+      "sha256": "8277d15cb4b7213204ad0f935ba2ee6cf44bc3e5cd9a5e2759a64d0b21abbb50"
+    },
+    "teacher_seed42_summary.json": {
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed42/summary.json",
+      "sha256": "b9401e4eb6e6ead6bf43e99016d9c6a21caa84c541c3def1b73d69c9386dfce8"
+    },
+    "teacher_seed43_summary.json": {
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed43/summary.json",
+      "sha256": "bb38b2783fc202a90fad2176b471a8313c16e5b599345b7430044e4f7ef37753"
+    },
+    "metadata_bootstrap_migration.json": {
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/campaign/recovery/metadata_bootstrap_migration.json",
+      "sha256": "ce49e04c42cf9bfca19910280ab826d788c8f81997bfacbcd2fc0a249470a1c2"
+    },
+    "operations_tests.xml": {
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/operations_tests.xml",
+      "sha256": "940ebe651eb1d788f1eedb20adb373f1240b70ea06d7cde778260364ad22c296"
+    }
+  },
+  "campaign_status": "running",
+  "decisions": {
+    "P0-S": {
+      "status": "pass",
+      "first_ten_mean": 1.7065915882587432,
+      "last_ten_mean": 0.2649598836898804,
+      "criterion": "Finite loss; final10 logged-interval mean lower than initial10"
+    },
+    "P0-R": {
+      "status": "pass",
+      "scope": "Long only, two eval seeds",
+      "observed_pct": 95.0,
+      "reference_pct": 95.2,
+      "tolerance_pp": 1.5,
+      "full_libero": "deferred"
+    },
+    "G0": {
+      "gate": "G0",
+      "status": "pass",
+      "checks": {
+        "infrastructure": {
+          "status": "pass"
+        },
+        "width": {
+          "status": "pass",
+          "margin_pp": -3,
+          "comparison": {
+            "status": "tie",
+            "gap_pp": -1.6,
+            "mcnemar_p": 0.30199561318966445,
+            "gain": 19,
+            "loss": 27,
+            "episodes": 500,
+            "eval_seeds": [
+              42
+            ]
+          }
+        }
+      }
+    }
+  }
+}

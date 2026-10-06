@@ -16,4 +16,13 @@ if [[ -z "${CUDA_HOME:-}" ]]; then
 fi
 export PYTHONUNBUFFERED=1
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-1}"
+# Capture static hardware identity once per allocation before the campaign's
+# repeated 10-second metadata queries. Dynamic GPU queries still use NVIDIA's binary.
+if [[ -n "${SLURM_JOB_ID:-}" ]]; then
+  mkdir -p "$LOOPWAM_ROOT/outputs/loopwam_v1"
+  export LOOPWAM_GPU_QUERY_CACHE="$LOOPWAM_ROOT/outputs/loopwam_v1/gpu_metadata_${SLURM_JOB_ID}.json"
+  python scripts/operations/capture_gpu_metadata.py "$LOOPWAM_GPU_QUERY_CACHE" \
+    >> "$LOOPWAM_ROOT/outputs/loopwam_v1/gpu_metadata_capture_${SLURM_JOB_ID}.log"
+  export PATH="$LOOPWAM_ROOT/scripts/operations/bin:$PATH"
+fi
 exec python -m fastwam.loop.campaign "$@"

@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+"""Serve only the allocation's captured static GPU-name/driver query.
+
+All other requests, including utilization, memory and process queries, execute
+the real NVIDIA binary. The cache is explicitly scoped to one node/allocation.
+"""
+import json
+import os
+from pathlib import Path
+import socket
+import sys
+import time
+
+
+def cached_output(record, args, job_id, node, now):
+    query = ['--query-gpu=name,driver_version', '--format=csv,noheader', '--id=0']
+    if (args != query or not job_id or record.get('job_id') != job_id or record.get('node') != node
+            or not record.get('captured_at', float('inf')) <= now < record.get('deadline', 0)):
+        return None
+    for item in record.get('queries', []):
+        if item.get('args') == query and isinstance(item.get('stdout'), str) and item['stdout'].strip():
+            return item['stdout']
+    return None
+
+
+def main():
+    cache = os.environ.get('LOOPWAM_GPU_QUERY_CACHE')
+    if cache:
+        try:
+            record = json.loads(Path(cache).read_text())
+            result = cached_output(record, sys.argv[1:], os.environ.get('SLURM_JOB_ID'),
+                                   socket.gethostname(), time.time())
+            if result is not None:
+                sys.stdout.write(result)
+                return
+        except (OSError, ValueError, TypeError):
+            pass
+    os.execv('/usr/bin/nvidia-smi', ['/usr/bin/nvidia-smi', *sys.argv[1:]])
+
+
+if __name__ == '__main__':
+    main()

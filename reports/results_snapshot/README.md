@@ -1,5 +1,9 @@
 # Published result snapshot
 
+Latest: [October 6 comparison](2026-10-06/comparison.md), [CSV](2026-10-06/comparison.csv), [source hashes and gate decisions](2026-10-06/snapshot_manifest.json), and [allocation handoff report](../LoopWAM_v1_two_allocations.md). Five runs have completed primary evaluation; S1-L3 is in progress. The second four-H100 allocation supplies registered second-seed evaluations.
+
+## October 5 snapshot
+
 Captured 2026-10-05T17:06:32.721815-04:00. The campaign is ongoing; this is a dated snapshot.
 
 - [Comparison table](comparison.md) and [CSV](comparison.csv).
