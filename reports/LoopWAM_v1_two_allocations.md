@@ -1,5 +1,7 @@
 # LoopWAM v1: allocation handoff and interim evidence
 
+**October 6, 13:58 EDT update:** the [parallel training scheduler is deployed](LoopWAM_v1_parallel_training.md). Six training endpoints are complete; the selected S1-L2 fails the G1 recovery precheck. Later stages are held under the registered gates. The measurements below retain their original timestamps.
+
 Recorded 2026-10-06, 10:54 EDT. This is an interim report; the 14-run campaign has not finished.
 
 ## Completed LIBERO-Long evidence

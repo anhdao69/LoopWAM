@@ -25,4 +25,4 @@ if [[ -n "${SLURM_JOB_ID:-}" ]]; then
     >> "$LOOPWAM_ROOT/outputs/loopwam_v1/gpu_metadata_capture_${SLURM_JOB_ID}.log"
   export PATH="$LOOPWAM_ROOT/scripts/operations/bin:$PATH"
 fi
-exec python -m fastwam.loop.campaign "$@"
+exec python scripts/operations/parallel_campaign.py "$@"

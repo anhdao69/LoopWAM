@@ -1,5 +1,7 @@
 # LoopWAM v1: implementation and LIBERO-Long screening
 
+**October 6, 13:58 EDT update:** the [parallel training scheduler is deployed](LoopWAM_v1_parallel_training.md). Six training endpoints are complete; the selected S1-L2 fails the G1 recovery precheck. Later stages are held under the registered gates. The measurements below retain their original timestamps.
+
 Status (2026-10-06, 10:54 EDT): five of fourteen training trajectories and their immediate evaluations are complete. Teacher reproduction passed at **950/1,000 (95.0%)**. C1/C2/C3/S1-L2 achieved **93.8% / 68.6% / 92.6% / 79.0%**, respectively, on evaluation seed 42. S1-L3 is resuming from a committed step-1,896 checkpoint on allocation 872933; allocation 873007 evaluates seed 43 independently. No Stage-1 winner or final recipe has been selected. See [the allocation handoff report](LoopWAM_v1_two_allocations.md) for operational changes, measured timings, and limitations.
 
 For readers on GitHub, the [published result snapshot](results_snapshot/README.md) includes the comparison table, Phase-0 outcomes, timings, test evidence and forecast. Links to `outputs/` elsewhere in this report refer to the live cluster workspace.

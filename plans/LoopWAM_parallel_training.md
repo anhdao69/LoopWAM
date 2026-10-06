@@ -17,9 +17,11 @@ An output-scoped operational configuration lists only the two authorized allocat
 - [x] Test gate prerequisites, exclusive slot ownership, real concurrent scheduling, failure cleanup, completed-result reuse and profile serialization.
 - [x] Add operations scheduler, allocation command wrapper and output-scoped configuration.
 - [x] Independently review scheduler; fix important findings and run campaign regression tests.
-- [ ] Stop old workers at a safe boundary, audit the launch-script-only source migration, and resume the single coordinator.
-- [ ] Verify actual srun routing to both authorized nodes, live work, reports and GitHub branch.
+- [x] Stop old workers at a safe boundary, audit the launch-script-only source migration, and resume the single coordinator.
+- [x] Verify actual srun routing to both authorized nodes, live work, reports and GitHub branch.
 
 ## Risks to verify
 
 Concurrent manifest/report writes must be serialized. One checkpoint must never be trained by two workers. A worker failure must not leave a remote Slurm step active. Gate failures must launch no subsequent stage. Partial endpoints must resume their own state instead of reforking a parent. Hardware/driver and software identities must agree across nodes for profile reuse. Later single-allocation continuations must remain compatible with the original frozen protocol.
+
+Deployment completed October 6 at 13:57 EDT. Both allocation dispatches verified; G1 precheck fails, so concurrent training remains scientifically ineligible. Full evidence and the live diagnostic status are recorded in `reports/LoopWAM_v1_parallel_training.md`.

@@ -1,0 +1,141 @@
+{
+  "captured_at": "2026-10-06T13:58:30.642751-04:00",
+  "status": "running",
+  "decisions": {
+    "P0-S": {
+      "status": "pass",
+      "first_ten_mean": 1.7065915882587432,
+      "last_ten_mean": 0.2649598836898804,
+      "criterion": "Finite loss; final10 logged-interval mean lower than initial10"
+    },
+    "P0-R": {
+      "status": "pass",
+      "scope": "Long only, two eval seeds",
+      "observed_pct": 95.0,
+      "reference_pct": 95.2,
+      "tolerance_pp": 1.5,
+      "full_libero": "deferred"
+    },
+    "G0": {
+      "gate": "G0",
+      "status": "pass",
+      "checks": {
+        "infrastructure": {
+          "status": "pass"
+        },
+        "width": {
+          "status": "pass",
+          "margin_pp": -3,
+          "comparison": {
+            "status": "tie",
+            "gap_pp": -1.6,
+            "mcnemar_p": 0.30199561318966445,
+            "gain": 19,
+            "loss": 27,
+            "episodes": 500,
+            "eval_seeds": [
+              42
+            ]
+          }
+        }
+      }
+    },
+    "S1*": {
+      "status": "pass",
+      "winner": "S1-L2",
+      "loss": "L2",
+      "comparison": {
+        "status": "clear",
+        "gap_pp": -5.2,
+        "mcnemar_p": 0.0011581662922060382,
+        "gain": 98,
+        "loss": 150,
+        "episodes": 1000,
+        "eval_seeds": [
+          42,
+          43
+        ]
+      },
+      "tie_rule": "under 2pp: fewer loss terms"
+    }
+  },
+  "executable_source_sha256": "1b8a7bcd49ade78852aacffdefe96d21dc1379f1733fcfd2afab335a0e30e848",
+  "parallel_operations_source": {
+    "version": 1,
+    "sha256": "c0388e3a67c807e67316cd6c7ab94e621ae0e669a7a0855a3aacb0c49dd68f46",
+    "files": {
+      "scripts/operations/bin/nvidia-smi": "160a701946a1cc34a7e1e76cbb1a4c3c375efd2ae0702c0cad6f23c34b6711e1",
+      "scripts/operations/capture_gpu_metadata.py": "9e3c3731f256be05012cbf56a835fff6c759273b9e27994952f44e1046577b1a",
+      "scripts/operations/loopwam_secondary_evaluation.py": "19af57d2840d9cdffa1f2ad6ef3a4cb20e2dc4327ab4021e228c79197c0a0b64",
+      "scripts/operations/parallel_campaign.py": "5aaa117dfeb638758fdb0ae9a078dc9672b25d6a3ce4f1e377bd60a5a87b3131",
+      "scripts/operations/run_on_allocation.sh": "6010a18c7f5bf5ab1e45fdea59fe55096ab521bd199013b5d61dccb3d1a435b1"
+    }
+  },
+  "evidence": [
+    {
+      "file": "C1_seed42_summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed42/summary.json",
+      "sha256": "19779d515a6a096f6771fde12720205a90548c1895bff2cdf3f5dcc9eb35840a"
+    },
+    {
+      "file": "C1_seed43_summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed43/summary.json",
+      "sha256": "f31850801c193fbdfdb9027181902bd5f0902cc7b16810ecd7e031fae27f2e6a"
+    },
+    {
+      "file": "C2_seed42_summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed42/summary.json",
+      "sha256": "ec0af31db1540c4597a70fba6c12ad3595306030fd77c80c10a1f5eb52101698"
+    },
+    {
+      "file": "C2_seed43_summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed43/summary.json",
+      "sha256": "874893aaf382ed8de7e52fc8b52bb057c7a1ef442d46e97447f2af9a7f81e7f1"
+    },
+    {
+      "file": "C3_seed42_summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed42/summary.json",
+      "sha256": "756a69f3db4e7542448d9bec316960545675564233e89461a42b051411972f36"
+    },
+    {
+      "file": "C3_seed43_summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed43/summary.json",
+      "sha256": "ab16d6bd7b231ae1ca652f2010724131d410211a4abeebfd9d0a7833bde4da3f"
+    },
+    {
+      "file": "P0-S_seed42_summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/summary.json",
+      "sha256": "e6d9d5df717b23f9f196714f3b63ac96469ffe373bf8b22f54150cc1a6a77bfa"
+    },
+    {
+      "file": "S1-L2_seed42_summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed42/summary.json",
+      "sha256": "8277d15cb4b7213204ad0f935ba2ee6cf44bc3e5cd9a5e2759a64d0b21abbb50"
+    },
+    {
+      "file": "S1-L2_seed43_summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed43/summary.json",
+      "sha256": "6ef2bed14e3bbd894eb0eafe7edc2864f856a79f787fa31f5238a9523ba332ca"
+    },
+    {
+      "file": "S1-L3_seed42_summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed42/summary.json",
+      "sha256": "b1abdba7183ab64ccc9eeee6eccc102fd23aafcc2244970aad6763ddac883f7e"
+    },
+    {
+      "file": "S1-L3_seed43_summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed43/summary.json",
+      "sha256": "725f2a3a98553f4c1223939bf09764604138f552cc4c61740c66cdcf4ce7bee0"
+    },
+    {
+      "file": "teacher_seed42_summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed42/summary.json",
+      "sha256": "b9401e4eb6e6ead6bf43e99016d9c6a21caa84c541c3def1b73d69c9386dfce8"
+    },
+    {
+      "file": "teacher_seed43_summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed43/summary.json",
+      "sha256": "bb38b2783fc202a90fad2176b471a8313c16e5b599345b7430044e4f7ef37753"
+    }
+  ]
+}

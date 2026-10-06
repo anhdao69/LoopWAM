@@ -1,0 +1,10 @@
+{
+  "at": 1791309454.754594,
+  "run": "S1-L3",
+  "seed": 43,
+  "success_pct": 64.4,
+  "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/.secondary_evaluations/S1-L3/primary/kv4_ka4/seed43",
+  "published": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed43",
+  "archived_incomplete_attempt": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/recovery/S1-L3_seed43_incomplete_primary_before_parallel",
+  "reason": "Old primary claimed seed43 before secondary finished; all old workers stopped, full endpoint validated before publication"
+}
