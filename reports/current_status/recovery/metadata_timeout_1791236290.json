@@ -1,0 +1,17 @@
+{
+  "recorded_at": 1791236290.0184233,
+  "previous_stop": {
+    "status": "stopped",
+    "stop_kind": "error",
+    "stop_reason": "Command '['nvidia-smi', '--query-gpu=name,driver_version', '--format=csv,noheader', '--id=0']' timed out after 10 seconds",
+    "stopped_at": 1791235260.6094098,
+    "allocation": {
+      "job_id": "872809",
+      "deadline": 1791288168.0,
+      "checkpoint_reserve_seconds": 300.0,
+      "started_at": 1791228199.493938
+    }
+  },
+  "action": "Resume identical frozen source and protocol after successful GPU query; retain completed train/eval artifacts",
+  "successful_gpu_query": "NVIDIA H100 80GB HBM3, 580.105.08"
+}

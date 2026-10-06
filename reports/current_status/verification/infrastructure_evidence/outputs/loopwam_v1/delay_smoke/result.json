@@ -1,0 +1,1100 @@
+{
+  "success": false,
+  "control_period_seconds": 0.05,
+  "control_steps": 700,
+  "delay_steps": 118,
+  "policy_steps": 582,
+  "replans": [
+    {
+      "request_step": 0,
+      "availability_step": 2,
+      "policy_wall_ms": 59.19026769697666,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 40.809732303023345,
+      "held_command": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 12,
+      "availability_step": 14,
+      "policy_wall_ms": 59.99632924795151,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 40.0036707520485,
+      "held_command": [
+        0.4614257514476776,
+        0.3900146186351776,
+        0.0878906175494194,
+        0.21909455955028534,
+        0.06591796875,
+        0.05011860653758049,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 24,
+      "availability_step": 26,
+      "policy_wall_ms": 60.20760349929333,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.79239650070668,
+      "held_command": [
+        0.4687499701976776,
+        0.4010009467601776,
+        0.0897216722369194,
+        0.2214299440383911,
+        0.066650390625,
+        0.05264545977115631,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 36,
+      "availability_step": 38,
+      "policy_wall_ms": 60.20669639110565,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.793303608894355,
+      "held_command": [
+        0.4687499701976776,
+        0.3845214545726776,
+        0.0897216722369194,
+        0.21909455955028534,
+        0.06298828125,
+        0.04993811622262001,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 48,
+      "availability_step": 50,
+      "policy_wall_ms": 60.12306362390518,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.876936376094825,
+      "held_command": [
+        0.4614257514476776,
+        0.3845214545726776,
+        0.0878906175494194,
+        0.2237653285264969,
+        0.063720703125,
+        0.05192350223660469,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 60,
+      "availability_step": 62,
+      "policy_wall_ms": 60.3023786097765,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.69762139022351,
+      "held_command": [
+        0.4687499701976776,
+        0.3845214545726776,
+        0.0897216722369194,
+        0.2237653285264969,
+        0.06298828125,
+        0.05372839793562889,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 72,
+      "availability_step": 74,
+      "policy_wall_ms": 60.08998677134514,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.91001322865487,
+      "held_command": [
+        0.4669189155101776,
+        0.3826903998851776,
+        0.0897216722369194,
+        0.2214299440383911,
+        0.063720703125,
+        0.05228448286652565,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 84,
+      "availability_step": 86,
+      "policy_wall_ms": 60.27514301240444,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.724856987595565,
+      "held_command": [
+        0.4724120795726776,
+        0.3790282905101776,
+        0.0970458909869194,
+        0.2214299440383911,
+        0.065185546875,
+        0.05228448286652565,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 96,
+      "availability_step": 98,
+      "policy_wall_ms": 60.147637501358986,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.85236249864102,
+      "held_command": [
+        0.4760741889476776,
+        0.3698730170726776,
+        0.0988769456744194,
+        0.21792687475681305,
+        0.064453125,
+        0.05228448286652565,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 108,
+      "availability_step": 110,
+      "policy_wall_ms": 60.19715033471584,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.802849665284164,
+      "held_command": [
+        0.4833984076976776,
+        0.3771972358226776,
+        0.1016235277056694,
+        0.2237653285264969,
+        0.06298828125,
+        0.05120154470205307,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 120,
+      "availability_step": 122,
+      "policy_wall_ms": 60.119910165667534,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.88008983433247,
+      "held_command": [
+        0.4760741889476776,
+        0.3771972358226776,
+        0.1089477464556694,
+        0.22493301331996918,
+        0.062255859375,
+        0.05517231673002243,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 132,
+      "availability_step": 134,
+      "policy_wall_ms": 60.149166733026505,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.8508332669735,
+      "held_command": [
+        0.4595946967601776,
+        0.3717040717601776,
+        0.0805663987994194,
+        0.22026225924491882,
+        0.063720703125,
+        0.05336742103099823,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 144,
+      "availability_step": 146,
+      "policy_wall_ms": 60.214707627892494,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.78529237210751,
+      "held_command": [
+        0.4632568061351776,
+        0.3808593451976776,
+        0.0860595628619194,
+        0.22493301331996918,
+        0.06591796875,
+        0.05733819305896759,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 156,
+      "availability_step": 158,
+      "policy_wall_ms": 60.15428528189659,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.845714718103416,
+      "held_command": [
+        0.4595946967601776,
+        0.3771972358226776,
+        0.0494384728372097,
+        0.23077146708965302,
+        0.065185546875,
+        0.05733819305896759,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 168,
+      "availability_step": 170,
+      "policy_wall_ms": 60.18810719251633,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.81189280748368,
+      "held_command": [
+        0.4449462592601776,
+        0.3845214545726776,
+        0.0549316368997097,
+        0.22493301331996918,
+        0.06884765625,
+        0.06094798445701599,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 180,
+      "availability_step": 182,
+      "policy_wall_ms": 60.153430327773094,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.84656967222691,
+      "held_command": [
+        0.4412841498851776,
+        0.3808593451976776,
+        0.0512695275247097,
+        0.21675918996334076,
+        0.060791015625,
+        0.05950406938791275,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 192,
+      "availability_step": 194,
+      "policy_wall_ms": 60.409924015402794,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.59007598459721,
+      "held_command": [
+        0.4541015326976776,
+        0.3900146186351776,
+        0.069580078125,
+        0.22026225924491882,
+        0.0692138671875,
+        0.05914308875799179,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 204,
+      "availability_step": 206,
+      "policy_wall_ms": 60.15688739717007,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.84311260282994,
+      "held_command": [
+        0.4504394233226776,
+        0.3863525092601776,
+        0.0970458909869194,
+        0.22026225924491882,
+        0.0648193359375,
+        0.05769916996359825,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 216,
+      "availability_step": 218,
+      "policy_wall_ms": 60.07451191544533,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.92548808455468,
+      "held_command": [
+        0.4486083686351776,
+        0.3826903998851776,
+        0.0897216722369194,
+        0.2214299440383911,
+        0.0618896484375,
+        0.05372839793562889,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 228,
+      "availability_step": 230,
+      "policy_wall_ms": 60.2530911564827,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.74690884351731,
+      "held_command": [
+        0.4449462592601776,
+        0.3936767280101776,
+        0.0997924730181694,
+        0.2214299440383911,
+        0.0703125,
+        0.05589427426457405,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 240,
+      "availability_step": 242,
+      "policy_wall_ms": 59.9423348903656,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 40.05766510963441,
+      "held_command": [
+        0.4449462592601776,
+        0.3845214545726776,
+        0.0970458909869194,
+        0.21909455955028534,
+        0.065185546875,
+        0.05445035919547081,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 252,
+      "availability_step": 254,
+      "policy_wall_ms": 60.193534940481186,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.80646505951882,
+      "held_command": [
+        0.4431152045726776,
+        0.4064941108226776,
+        0.1089477464556694,
+        0.21909455955028534,
+        0.064453125,
+        0.05842113122344017,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 264,
+      "availability_step": 266,
+      "policy_wall_ms": 60.08739210665226,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.91260789334775,
+      "held_command": [
+        0.4467773139476776,
+        0.4083251655101776,
+        0.1062011644244194,
+        0.2225976288318634,
+        0.0662841796875,
+        0.05661623179912567,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 276,
+      "availability_step": 278,
+      "policy_wall_ms": 60.16974523663521,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.8302547633648,
+      "held_command": [
+        0.4431152045726776,
+        0.3900146186351776,
+        0.0988769456744194,
+        0.22026225924491882,
+        0.0673828125,
+        0.05733819305896759,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 288,
+      "availability_step": 290,
+      "policy_wall_ms": 60.47777086496353,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.522229135036476,
+      "held_command": [
+        0.4376220405101776,
+        0.3973388373851776,
+        0.1062011644244194,
+        0.21675918996334076,
+        0.0655517578125,
+        0.05481133610010147,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 300,
+      "availability_step": 302,
+      "policy_wall_ms": 60.43068878352642,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.56931121647359,
+      "held_command": [
+        0.4321288764476776,
+        0.4083251655101776,
+        0.0979614183306694,
+        0.21792687475681305,
+        0.06591796875,
+        0.05445035919547081,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 312,
+      "availability_step": 314,
+      "policy_wall_ms": 60.24457886815071,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.755421131849296,
+      "held_command": [
+        0.4266357123851776,
+        0.4046630561351776,
+        0.0897216722369194,
+        0.21792687475681305,
+        0.064453125,
+        0.05697721242904663,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 324,
+      "availability_step": 326,
+      "policy_wall_ms": 60.36896072328091,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.6310392767191,
+      "held_command": [
+        0.4211425483226776,
+        0.3826903998851776,
+        0.0769042894244194,
+        0.2214299440383911,
+        0.06298828125,
+        0.05697721242904663,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 336,
+      "availability_step": 338,
+      "policy_wall_ms": 60.05428358912468,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.94571641087533,
+      "held_command": [
+        0.4376220405101776,
+        0.3808593451976776,
+        0.0897216722369194,
+        0.22726839780807495,
+        0.062255859375,
+        0.05192350223660469,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 348,
+      "availability_step": 350,
+      "policy_wall_ms": 60.15029922127724,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.84970077872277,
+      "held_command": [
+        0.4248046576976776,
+        0.3881835639476776,
+        0.0897216722369194,
+        0.22493301331996918,
+        0.064453125,
+        0.05047958344221115,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 360,
+      "availability_step": 362,
+      "policy_wall_ms": 60.259755700826645,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.74024429917336,
+      "held_command": [
+        0.4339599311351776,
+        0.4010009467601776,
+        0.1025390550494194,
+        0.22493301331996918,
+        0.064453125,
+        0.04867468774318695,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 372,
+      "availability_step": 374,
+      "policy_wall_ms": 60.266751796007156,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.73324820399285,
+      "held_command": [
+        0.4266357123851776,
+        0.3936767280101776,
+        0.1144409105181694,
+        0.22726839780807495,
+        0.063720703125,
+        0.04668930172920227,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 384,
+      "availability_step": 386,
+      "policy_wall_ms": 60.318225994706154,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.68177400529385,
+      "held_command": [
+        0.4211425483226776,
+        0.3900146186351776,
+        0.0952148362994194,
+        0.22843608260154724,
+        0.0615234375,
+        0.04759174957871437,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 396,
+      "availability_step": 398,
+      "policy_wall_ms": 60.31631492078304,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.683685079216964,
+      "held_command": [
+        0.4174804389476776,
+        0.3936767280101776,
+        0.0988769456744194,
+        0.22843608260154724,
+        0.05859375,
+        0.04307950660586357,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 408,
+      "availability_step": 410,
+      "policy_wall_ms": 60.23752689361572,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.762473106384284,
+      "held_command": [
+        0.4119872748851776,
+        0.3936767280101776,
+        0.0933837816119194,
+        0.2331068366765976,
+        0.057861328125,
+        0.04181607812643051,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 420,
+      "availability_step": 422,
+      "policy_wall_ms": 60.375651344656944,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.62434865534306,
+      "held_command": [
+        0.4064941108226776,
+        0.3936767280101776,
+        0.0897216722369194,
+        0.2331068366765976,
+        0.056396484375,
+        0.04037216305732727,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 432,
+      "availability_step": 434,
+      "policy_wall_ms": 60.327423736453056,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.67257626354695,
+      "held_command": [
+        0.4046630561351776,
+        0.3900146186351776,
+        0.0823974534869194,
+        0.2331068366765976,
+        0.0538330078125,
+        0.03730383887887001,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 444,
+      "availability_step": 446,
+      "policy_wall_ms": 60.36762893199921,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.6323710680008,
+      "held_command": [
+        0.4064941108226776,
+        0.3863525092601776,
+        0.0787353441119194,
+        0.23427453637123108,
+        0.052734375,
+        0.03640138730406761,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 456,
+      "availability_step": 458,
+      "policy_wall_ms": 60.40378287434578,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.59621712565423,
+      "held_command": [
+        0.4028320014476776,
+        0.3826903998851776,
+        0.0714111328125,
+        0.23427453637123108,
+        0.05126953125,
+        0.03549893945455551,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 468,
+      "availability_step": 470,
+      "policy_wall_ms": 60.30200608074665,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.697993919253356,
+      "held_command": [
+        0.4083251655101776,
+        0.3863525092601776,
+        0.069580078125,
+        0.23544222116470337,
+        0.0509033203125,
+        0.03531845286488533,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 480,
+      "availability_step": 482,
+      "policy_wall_ms": 60.33355928957462,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.666440710425384,
+      "held_command": [
+        0.4083251655101776,
+        0.3863525092601776,
+        0.069580078125,
+        0.23660990595817566,
+        0.0487060546875,
+        0.03297208622097969,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 492,
+      "availability_step": 494,
+      "policy_wall_ms": 60.27182564139366,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.728174358606346,
+      "held_command": [
+        0.4010009467601776,
+        0.3881835639476776,
+        0.0732421800494194,
+        0.23777760565280914,
+        0.04833984375,
+        0.03188914805650711,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 504,
+      "availability_step": 506,
+      "policy_wall_ms": 60.41053496301174,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.589465036988265,
+      "held_command": [
+        0.3955077826976776,
+        0.3808593451976776,
+        0.0585937462747097,
+        0.23660990595817566,
+        0.046875,
+        0.0288208220154047,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 516,
+      "availability_step": 518,
+      "policy_wall_ms": 60.31342037022114,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.68657962977887,
+      "held_command": [
+        0.3955077826976776,
+        0.3808593451976776,
+        0.06591796875,
+        0.23894529044628143,
+        0.047607421875,
+        0.02990376017987728,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 528,
+      "availability_step": 530,
+      "policy_wall_ms": 60.30804663896561,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.6919533610344,
+      "held_command": [
+        0.3881835639476776,
+        0.3771972358226776,
+        0.069580078125,
+        0.23894529044628143,
+        0.046142578125,
+        0.02918180264532566,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 540,
+      "availability_step": 542,
+      "policy_wall_ms": 60.27957983314991,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.7204201668501,
+      "held_command": [
+        0.3826903998851776,
+        0.3771972358226776,
+        0.0604248009622097,
+        0.24011297523975372,
+        0.044677734375,
+        0.02900131233036518,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 552,
+      "availability_step": 554,
+      "policy_wall_ms": 60.359347611665726,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.64065238833428,
+      "held_command": [
+        0.3826903998851776,
+        0.3771972358226776,
+        0.069580078125,
+        0.23894529044628143,
+        0.046142578125,
+        0.02809886448085308,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 564,
+      "availability_step": 566,
+      "policy_wall_ms": 60.44723838567734,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.55276161432267,
+      "held_command": [
+        0.3808593451976776,
+        0.3790282905101776,
+        0.06591796875,
+        0.23777760565280914,
+        0.044677734375,
+        0.02845984324812889,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 576,
+      "availability_step": 578,
+      "policy_wall_ms": 60.22637523710728,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.77362476289273,
+      "held_command": [
+        0.3881835639476776,
+        0.3790282905101776,
+        0.0732421800494194,
+        0.23894529044628143,
+        0.047607421875,
+        0.02539151906967163,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 588,
+      "availability_step": 590,
+      "policy_wall_ms": 60.33243052661419,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.66756947338582,
+      "held_command": [
+        0.3826903998851776,
+        0.3826903998851776,
+        0.0750732347369194,
+        0.23894529044628143,
+        0.0443115234375,
+        0.02647445723414421,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 600,
+      "availability_step": 602,
+      "policy_wall_ms": 60.32214127480984,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.67785872519017,
+      "held_command": [
+        0.3845214545726776,
+        0.3863525092601776,
+        0.0732421800494194,
+        0.23427453637123108,
+        0.044677734375,
+        0.02557200752198696,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 612,
+      "availability_step": 614,
+      "policy_wall_ms": 60.415638610720634,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.58436138927937,
+      "held_command": [
+        0.3826903998851776,
+        0.3900146186351776,
+        0.0732421800494194,
+        0.23660990595817566,
+        0.044677734375,
+        0.02557200752198696,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 624,
+      "availability_step": 626,
+      "policy_wall_ms": 60.26063486933708,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.739365130662925,
+      "held_command": [
+        0.3900146186351776,
+        0.3900146186351776,
+        0.0915527269244194,
+        0.23660990595817566,
+        0.0406494140625,
+        0.02539151906967163,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 636,
+      "availability_step": 638,
+      "policy_wall_ms": 60.39549596607685,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.604504033923156,
+      "held_command": [
+        0.3863525092601776,
+        0.3790282905101776,
+        0.0787353441119194,
+        0.23777760565280914,
+        0.03955078125,
+        0.02611347660422325,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 648,
+      "availability_step": 650,
+      "policy_wall_ms": 60.47278828918934,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.52721171081067,
+      "held_command": [
+        0.3826903998851776,
+        0.3808593451976776,
+        0.0888061448931694,
+        0.23894529044628143,
+        0.038818359375,
+        0.02358662150800228,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 660,
+      "availability_step": 662,
+      "policy_wall_ms": 60.35107187926769,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.648928120732315,
+      "held_command": [
+        0.3863525092601776,
+        0.3808593451976776,
+        0.0787353441119194,
+        0.23894529044628143,
+        0.0399169921875,
+        0.02665494568645954,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 672,
+      "availability_step": 674,
+      "policy_wall_ms": 60.30327267944813,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.69672732055188,
+      "held_command": [
+        0.3863525092601776,
+        0.3790282905101776,
+        0.0842285081744194,
+        0.23894529044628143,
+        0.038818359375,
+        0.02286466211080551,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 684,
+      "availability_step": 686,
+      "policy_wall_ms": 60.37118099629879,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.62881900370122,
+      "held_command": [
+        0.3826903998851776,
+        0.3881835639476776,
+        0.0750732347369194,
+        0.23894529044628143,
+        0.0428466796875,
+        0.02629396691918373,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 10
+    },
+    {
+      "request_step": 696,
+      "availability_step": 698,
+      "policy_wall_ms": 60.2300763130188,
+      "delay_steps_scheduled": 2,
+      "quantization_overhead_ms": 39.76992368698121,
+      "held_command": [
+        0.3900146186351776,
+        0.3790282905101776,
+        0.0787353441119194,
+        0.24011297523975372,
+        0.038818359375,
+        0.02286466211080551,
+        1.0
+      ],
+      "delay_steps_executed": 2,
+      "policy_steps_executed": 2
+    }
+  ],
+  "status": "pass",
+  "scope": "one real episode integration smoke; not campaign success-rate evidence",
+  "task_id": 0,
+  "episode_id": 0,
+  "seed": 42,
+  "pair": [
+    4,
+    4
+  ],
+  "initial_state_sha256": "1899fe54c51e24a41d5f9e32254730d6777f4894ab68e0e873f1fa7ae2062030",
+  "checkpoint": {
+    "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/loopwam_r32.pt",
+    "bytes": 2160261923,
+    "mtime_ns": 1791220939000000000
+  },
+  "delay_protocol": {
+    "version": 1,
+    "controller": "serial_receding_horizon_zero_order_command_hold",
+    "timing_scope": "observation_preprocess+compiled_infer_action+action_postprocess",
+    "control_period_source": "env.env.control_timestep",
+    "quantization": "ceil_to_next_control_tick",
+    "hold": "exact_last_processed_environment_command; initial_LIBERO_dummy_command",
+    "warmup_calls": 50,
+    "warmup_rng": "restore_python_numpy_torch_cpu_and_initialized_cuda",
+    "action_prefix": "first_10_unchanged_after_delay",
+    "delay_counts_toward_max_steps": true,
+    "execution": "discrete_event_emulation; not_buffered_or_asynchronous_hardware"
+  },
+  "wall_seconds": 226.99979246035218
+}

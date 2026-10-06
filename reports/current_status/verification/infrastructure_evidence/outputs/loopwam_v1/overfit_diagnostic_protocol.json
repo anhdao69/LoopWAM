@@ -1,0 +1,80 @@
+{
+  "scope": "Phase-0 implementation diagnostic; excluded from the 14 scientific training trajectories",
+  "baseline": "outputs/loopwam_v1/overfit300",
+  "followup": "outputs/loopwam_v1/overfit300_no_warmup",
+  "reason": "300 diagnostic updates finish before the standard 500-update warmup; test the effect of warmup on video memorization.",
+  "controlled_changes": {
+    "diagnostic_warmup_steps": [
+      500,
+      0
+    ]
+  },
+  "unchanged": {
+    "base_lr": 5e-05,
+    "global_batch": 128,
+    "micro_batch": 16,
+    "accumulation": 2,
+    "seed": 42,
+    "steps": 300,
+    "loss": "L2",
+    "init": "loopwam_r32.pt",
+    "latent_cache": null,
+    "fixed_noise": true
+  },
+  "screening_warmup_steps": 500,
+  "followup_pass_criterion": {
+    "finite_losses_and_gradients": true,
+    "mean_final_30_loss_at_most_fraction_of_initial": 0.01,
+    "mean_final_30_each_fm_term_at_most": 0.03
+  },
+  "criterion_recorded_before_followup_at": 1791224215.0103526,
+  "baseline_terminal_loss": 0.162185400724411,
+  "baseline_terminal_video_fm": 0.16189919412136078,
+  "baseline_terminal_action_fm": 0.0002862239780370146,
+  "status": "pass",
+  "measured_result": {
+    "status": "pass",
+    "final_30_means": {
+      "loss": 0.011544108701248964,
+      "video_fm": 0.011410467947522799,
+      "action_fm/4_4": 0.00013364124849128226
+    },
+    "final_to_initial_loss_ratio": 0.004152058960709158,
+    "initial_loss": 2.7803335189819336,
+    "artifacts": [
+      {
+        "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/overfit300/train_args.json",
+        "sha256": "49c7f212d6a7c324076659fb0eea7fa864296ec97ba033f9a4bf6f5651caf251"
+      },
+      {
+        "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/overfit300/timing.json",
+        "sha256": "266f172aa437d9e32a16326da5fe3ff9514ac770db0483511e0aa9039d47f9e0"
+      },
+      {
+        "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/overfit300/metrics.jsonl",
+        "sha256": "ae8b190ecac8cb9a800a9fb02f8af58e614a35c3b55c01ed84cc44871d73f2d3"
+      },
+      {
+        "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/overfit300/gradient_coverage.json",
+        "sha256": "19b6b17e6b49e69888f8e291297a944f9195429fb33ee5399adae86f5d504ea8"
+      },
+      {
+        "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/overfit300_no_warmup/train_args.json",
+        "sha256": "e2116187f2988ddb5e8e11d4d208375adbb9ab873dc978da9f4ffe1314568d84"
+      },
+      {
+        "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/overfit300_no_warmup/timing.json",
+        "sha256": "067037ac8009a9f75f16a40f3b460bb9910dfa660e6bbb607f5ddb88089ee757"
+      },
+      {
+        "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/overfit300_no_warmup/metrics.jsonl",
+        "sha256": "fecab6f83df315e18af4ca01aec57b5773a1056ca30bab256ac6922d65d35ae7"
+      },
+      {
+        "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/overfit300_no_warmup/gradient_coverage.json",
+        "sha256": "19b6b17e6b49e69888f8e291297a944f9195429fb33ee5399adae86f5d504ea8"
+      }
+    ],
+    "note": "Diagnostic-only warmup change; all screening runs retain 500 warmup updates."
+  }
+}

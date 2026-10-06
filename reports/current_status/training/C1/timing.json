@@ -1,0 +1,86 @@
+{
+  "allocation_job_id": "872809",
+  "checkpoint_seconds": 326.9703048206866,
+  "complete": true,
+  "data_wait_seconds_per_step": 0.002270890399813652,
+  "dataset_counts": {
+    "train": {
+      "episodes": 368,
+      "unpadded_windows": 87066,
+      "windows": 98842
+    },
+    "validation": {
+      "episodes": 20,
+      "unpadded_windows": 4798,
+      "windows": 5438
+    }
+  },
+  "diagnostic_pairs": [
+    [
+      4,
+      4
+    ]
+  ],
+  "diagnostic_seconds": 137.0110669415444,
+  "ema_checkpoint": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/ema.pt",
+  "end_step": 8000,
+  "global_batch": 128,
+  "global_step": 8000,
+  "grad_accum": 4,
+  "init": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/untied30.pt",
+  "initialization_seconds": 219.6621150933206,
+  "interrupted": false,
+  "invocation_id": "d7a18c1f61634d8ead09fd34c163be06",
+  "last_observed_at": "2026-10-06T01:53:06.602476+00:00",
+  "latent_cache_identity": {
+    "cache_id": "9e3e14e18e97edaa4f620177f8e54b2ee621d78c0a61c3cf9af83c1cadce27c4",
+    "metadata_sha256": "5fda7d9a915134f63b1e4b2ae29dc87ee6753ae1297bf300dbc128cf0750cd15",
+    "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/latent_cache"
+  },
+  "legacy_snapshot": false,
+  "loss": "L3",
+  "manifest_sha256": "11f9bb815dcdb07e441bd7d00a4acf638979d6dffa69be2c72b8e650a0982082",
+  "max_memory_allocated_gb": 72.712491008,
+  "max_rank_data_wait_seconds_per_step": 0.0024710975121706724,
+  "max_steps": 8000,
+  "mean_samples_per_second": 77.32073152832665,
+  "mean_seconds_per_step": 1.6554421753382775,
+  "micro_batch": 8,
+  "mode": "fixed",
+  "output": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1",
+  "raw_checkpoint": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/raw.pt",
+  "resume_state_path": null,
+  "run_directory": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1",
+  "samples_per_second": 77.64000947773694,
+  "seconds_per_step": 1.648634523115349,
+  "seed": 42,
+  "signal": null,
+  "stage2_mode": "coupled",
+  "stage3_mode": "decoupled",
+  "start_step": 0,
+  "state_path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/state",
+  "stats_sha256": "30f81ad7d5076e97323e3328bce003e01a04cb21327b5bacd21bb72846768638",
+  "status": "completed",
+  "steps": 8000,
+  "steps_completed": 8000,
+  "teacher": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/fastwam_release/libero_uncond_2cam224.pt",
+  "teacher_identity": {
+    "mtime_ns": 1791217740000000000,
+    "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/fastwam_release/libero_uncond_2cam224.pt",
+    "size": 12041735140
+  },
+  "terminal": true,
+  "timing_measured_seconds": 13187.427550399676,
+  "timing_measured_steps": 7999,
+  "timing_warmup_steps": 1,
+  "training_seconds": 13243.53740270622,
+  "unattributed_seconds": 0.026375530287623405,
+  "version": 2,
+  "wall_ended_at": "2026-10-06T01:53:06.602476+00:00",
+  "wall_seconds": 13927.20726509206,
+  "wall_seconds_source": "monotonic",
+  "wall_started_at": "2026-10-05T22:00:59.409858+00:00",
+  "warmup_steps": 500,
+  "world_size": 4,
+  "zero_stage": 1
+}

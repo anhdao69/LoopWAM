@@ -1,0 +1,21 @@
+{
+  "at": 1791309454.9392014,
+  "reason": "Audited parallel orchestration routing only; model/trainer/evaluator/configuration bytes unchanged",
+  "previous_sha256": "02741f8e43f6f7c357b566c68857da2a639cec66240381da35a28a4ade5f3753",
+  "new_sha256": "1b8a7bcd49ade78852aacffdefe96d21dc1379f1733fcfd2afab335a0e30e848",
+  "changed_paths": [
+    "scripts/loopwam/run_campaign.sh"
+  ],
+  "previous_file_sha256": "0d52d69bc3e5407f1fa8aabd601415894713cb94b318ef81517d79d5882e3582",
+  "new_file_sha256": "45d6e23d19a12a31f39f1e7cde37eb08eb49a0c4d0a2fe9572f7c241e9264782",
+  "checkpoint_step": 8000,
+  "existing_artifacts": "trusted: numerical code and protocols unchanged",
+  "allocation_ids": [
+    "872933",
+    "873007"
+  ],
+  "retired_steps": [
+    "872933.6",
+    "873007.5"
+  ]
+}

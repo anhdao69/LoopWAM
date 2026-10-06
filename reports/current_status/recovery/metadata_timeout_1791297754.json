@@ -1,0 +1,12 @@
+{
+  "status": "stopped",
+  "stop_kind": "error",
+  "stop_reason": "Command '['nvidia-smi', '--query-gpu=name,driver_version', '--format=csv,noheader', '--id=0']' timed out after 10 seconds",
+  "stopped_at": 1791297390.4065526,
+  "allocation": {
+    "job_id": "872933",
+    "deadline": 1791363191.0,
+    "checkpoint_reserve_seconds": 300.0,
+    "started_at": 1791297264.1627169
+  }
+}

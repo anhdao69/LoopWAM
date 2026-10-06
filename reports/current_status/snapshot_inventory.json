@@ -1,0 +1,1981 @@
+{
+  "captured_at": "2026-10-06T14:11:48-04:00",
+  "git_commit": "55522bf9242d955a8d4d814b8e98ea0641b7fced",
+  "scope": "Code is tracked in the repository; snapshot includes numerical evidence, diagnostics, timing, provenance and Slurm status. Checkpoints, datasets, latent caches and rollout videos remain on the cluster.",
+  "files": [
+    {
+      "file": "manifest.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/manifest.json",
+      "bytes": 63086,
+      "sha256": "405bef973601f255e3bc60776b7c536321730f7627459e6691a16915cca2863f"
+    },
+    {
+      "file": "results.csv",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/results.csv",
+      "bytes": 1900,
+      "sha256": "2cdec500c7a3d631c6c8e794ea894ee5697cf0a5c4468edc9886943b4b02551c"
+    },
+    {
+      "file": "results.md",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/results.md",
+      "bytes": 20976,
+      "sha256": "2409ade1efa3eee7d12a6898bbc0ed4d65d0e15924f52c930ee057dfe3718eb1"
+    },
+    {
+      "file": "training_runtime.csv",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/training_runtime.csv",
+      "bytes": 1481,
+      "sha256": "bff16943db3bee5f9a27074942a5b6109e40269afe54faed61d5e80676226581"
+    },
+    {
+      "file": "runtime_estimate.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/runtime_estimate.json",
+      "bytes": 16572,
+      "sha256": "4d9c38aaa46aa8a2ee5847ac4cfde4aecb4f390d226cb69901ab65b14f2ac6f0"
+    },
+    {
+      "file": "auxiliary_results.csv",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/auxiliary_results.csv",
+      "bytes": 142,
+      "sha256": "5f1690aeda830cfe6b3fa38eb68990c3f46f03e713dfa041df08811a02106116"
+    },
+    {
+      "file": "success_vs_latency.csv",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/success_vs_latency.csv",
+      "bytes": 1410,
+      "sha256": "d6932ad07b865176b55a146ce2ef5a1fd795cc92f98834ea27811559f8d0e811"
+    },
+    {
+      "file": "success_vs_latency.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/success_vs_latency.json",
+      "bytes": 5175,
+      "sha256": "87f6b8f390042e4faa19c7c66eeac0468d0128b8a192132426d9968f38902009"
+    },
+    {
+      "file": "success_vs_latency.png",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/success_vs_latency.png",
+      "bytes": 133047,
+      "sha256": "92104c40d8d3fea8277e5bc74f81cdcd6877e359fb60c1c97dc29d906e1278ee"
+    },
+    {
+      "file": "success_vs_latency.pdf",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/success_vs_latency.pdf",
+      "bytes": 23116,
+      "sha256": "aa97427df1e1953af310b3e6f1dd2d226bf07ce35f3e30e3c03c99b72e760b0b"
+    },
+    {
+      "file": "allocation_handoffs.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/allocation_handoffs.jsonl",
+      "bytes": 1588,
+      "sha256": "664901a98c669112c28229689f26abb32e63cdf78cc2f1ea777f6a0f469e63f3"
+    },
+    {
+      "file": "continuation_chain.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/continuation_chain.jsonl",
+      "bytes": 691,
+      "sha256": "827a0efee4f3dd274b9b837ce54883aa97b050fc923663f67a0ceec9e9555d2c"
+    },
+    {
+      "file": "recovery/metadata_timeout_1791297754.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/recovery/metadata_timeout_1791297754.json",
+      "bytes": 383,
+      "sha256": "132bc34505c22857d59075baa7516009f90a548f0bc5f20711e052a46bd4111b"
+    },
+    {
+      "file": "recovery/metadata_bootstrap_upgrade.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/recovery/metadata_bootstrap_upgrade.json",
+      "bytes": 189,
+      "sha256": "bcee6c11bc3873079243a56e05fccd75db8a1b09a6b6909b2a9450c069f2537c"
+    },
+    {
+      "file": "recovery/manifest_before_parallel_training.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/recovery/manifest_before_parallel_training.json",
+      "bytes": 59065,
+      "sha256": "63821ad5f503d49585df9fddfeb1d52533a9d07718699740c93df04ad09aef7f"
+    },
+    {
+      "file": "recovery/parallel_g1_precheck.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/recovery/parallel_g1_precheck.json",
+      "bytes": 888,
+      "sha256": "a8cacff05b913fa4f5651a150ddb7ab8f9cdf7df8c139c91ec903143dc81af9c"
+    },
+    {
+      "file": "recovery/parallel_evaluation_publication.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/recovery/parallel_evaluation_publication.json",
+      "bytes": 651,
+      "sha256": "ccff9895f476d3177cc383964d19942876597dc5e22cada508f3bcb55321d86f"
+    },
+    {
+      "file": "recovery/metadata_bootstrap_migration.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/recovery/metadata_bootstrap_migration.json",
+      "bytes": 793,
+      "sha256": "ce49e04c42cf9bfca19910280ab826d788c8f81997bfacbcd2fc0a249470a1c2"
+    },
+    {
+      "file": "recovery/parallel_training_migration.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/recovery/parallel_training_migration.json",
+      "bytes": 778,
+      "sha256": "195c4cd5bd776790bb8ba0e78f53f1334a85bce75874a5dbffd62d6117f30256"
+    },
+    {
+      "file": "recovery/parallel_training_launch.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/recovery/parallel_training_launch.json",
+      "bytes": 1125,
+      "sha256": "f9aaa035a49392b74a55a192ec65c6e45001c6e268d9894af2d54daf32922456"
+    },
+    {
+      "file": "recovery/metadata_timeout_1791236290.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/recovery/metadata_timeout_1791236290.json",
+      "bytes": 652,
+      "sha256": "7aba267c8698d34b3eb61a5fbdb604e8bfdcb4ebd0bc948f7e1d44269c6f4041"
+    },
+    {
+      "file": "recovery/manifest_before_metadata_bootstrap.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/recovery/manifest_before_metadata_bootstrap.json",
+      "bytes": 58803,
+      "sha256": "556d76e612338c9ddc0844f1f28f966123b50b5af5b33b5691c2ba52af893df4"
+    },
+    {
+      "file": "parallel_dispatch/events.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/parallel_dispatch/events.jsonl",
+      "bytes": 1364,
+      "sha256": "6123fd42d57314f7b3195b1835b60d64e35553d8c6d08fcb03fe4bc8d5effb53"
+    },
+    {
+      "file": "parallel_dispatch/bootstrap_872933.log",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/parallel_dispatch/bootstrap_872933.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "parallel_dispatch/bootstrap_873007.log",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/parallel_dispatch/bootstrap_873007.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "verification/parallel_tests.xml",
+      "source": "outputs/loopwam_v1/parallel_tests.xml",
+      "bytes": 13770,
+      "sha256": "95f27cbe46182a4cd7a0c484c727c4c92be439933609af887dc1244a50282bc5"
+    },
+    {
+      "file": "verification/parallel_tests.log",
+      "source": "outputs/loopwam_v1/parallel_tests.log",
+      "bytes": 179,
+      "sha256": "8ba37ed0982bcc7e88a547c0801921671eb43db68f3e7e597735366778e21f6f"
+    },
+    {
+      "file": "verification/parallel_transport_probe.json",
+      "source": "outputs/loopwam_v1/parallel_transport_probe.json",
+      "bytes": 268,
+      "sha256": "446d0a5f1f5d87fd0c9a6004a4d529b1832d80c98cc9ac1b75248607595056b8"
+    },
+    {
+      "file": "verification/parallel_cleanup_probe.json",
+      "source": "outputs/loopwam_v1/parallel_cleanup_probe.json",
+      "bytes": 154,
+      "sha256": "0e474e30b222564274b15bbb80ebd9c286ce3c1a12ff42f453998df5c06e5101"
+    },
+    {
+      "file": "verification/parallel_allocations.json",
+      "source": "outputs/loopwam_v1/parallel_allocations.json",
+      "bytes": 273,
+      "sha256": "293bc46c83eb671cf66a2b109d0b2895d05b25a11f7f364d5fd82e73e015fc9b"
+    },
+    {
+      "file": "training/P0-S/timing.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/timing.json",
+      "bytes": 3238,
+      "sha256": "e7ae0cf2833aa05903996c99a526c7464f327ae5e7431cb80a2688728b98caa3"
+    },
+    {
+      "file": "training/P0-S/metrics.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/metrics.jsonl",
+      "bytes": 111959,
+      "sha256": "d682b18d56d42cadaed8edf3b43f8ec83dde097e8ad2516c3f1654380a52cb0d"
+    },
+    {
+      "file": "training/P0-S/state/latest.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/state/latest.json",
+      "bytes": 1754,
+      "sha256": "7f1c3577610dbdcc4efd44da259a45cc097064b45d1bf94796f910868d6ed25c"
+    },
+    {
+      "file": "training/P0-S/runtime/invocations/3c515fac08d549fab2fd2a20f3386a85.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/runtime/invocations/3c515fac08d549fab2fd2a20f3386a85.json",
+      "bytes": 3268,
+      "sha256": "d75f6a93392fb209a9b5469cdc7045064499db661f7829c5c590ac40ead6675b"
+    },
+    {
+      "file": "training/C1/timing.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/timing.json",
+      "bytes": 3226,
+      "sha256": "b0f6ceadbfdaad4c5bd7bb6f86641d7d9a5390b5b1f95be063874fd789400293"
+    },
+    {
+      "file": "training/C1/metrics.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/metrics.jsonl",
+      "bytes": 459215,
+      "sha256": "cac5f23843de2b253920f8f62541a9b4f0f4cc54f6a429a50d633fdf9a51921e"
+    },
+    {
+      "file": "training/C1/state/latest.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/state/latest.json",
+      "bytes": 1746,
+      "sha256": "83bee392c8914aa4fda1ac8d748b9afccfc65a03da2a169a076cca12d1377bb5"
+    },
+    {
+      "file": "training/C1/runtime/invocations/d7a18c1f61634d8ead09fd34c163be06.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/runtime/invocations/d7a18c1f61634d8ead09fd34c163be06.json",
+      "bytes": 3256,
+      "sha256": "25c2540f4d502db03a59a0aaedaaca171cbea3d5d15469ded30a1555d017116a"
+    },
+    {
+      "file": "training/C2/timing.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/timing.json",
+      "bytes": 3229,
+      "sha256": "c9cce417e79bf8649626df281b8cf98335096f6b020f13d21e20efc9f215e92d"
+    },
+    {
+      "file": "training/C2/metrics.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/metrics.jsonl",
+      "bytes": 459509,
+      "sha256": "2298424a99c72e3f2e6247f8c349a90247380ac1d2c28f2b5008f1af30a43107"
+    },
+    {
+      "file": "training/C2/state/latest.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/state/latest.json",
+      "bytes": 1747,
+      "sha256": "b4213b995d7ca9621662008ad76d1581a791136ff40a1a51dd61cd3de5b63a68"
+    },
+    {
+      "file": "training/C2/runtime/invocations/be21c93bb734480c985194ea1d798ab8.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/runtime/invocations/be21c93bb734480c985194ea1d798ab8.json",
+      "bytes": 3259,
+      "sha256": "991849f0d12b30d346aa27a151ac0d1538f2a7feba0621a4bde530acdb992347"
+    },
+    {
+      "file": "training/C3/timing.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/timing.json",
+      "bytes": 3229,
+      "sha256": "1ca62de248aa9b26a4f7e09b18b575781f3d6ea1cb426fe405aa34492a126652"
+    },
+    {
+      "file": "training/C3/metrics.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/metrics.jsonl",
+      "bytes": 459104,
+      "sha256": "82f561b78c473d9bdebb36677b6a84b28645e5a91239b75f109c112f8a57cd41"
+    },
+    {
+      "file": "training/C3/state/latest.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/state/latest.json",
+      "bytes": 1751,
+      "sha256": "f561354509dc38431bd206e565b6345f7acdc20cfdff23bc6ff07e5e29db81bf"
+    },
+    {
+      "file": "training/C3/runtime/invocations/7d2752722ad6427798b600ccbc39a101.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/runtime/invocations/7d2752722ad6427798b600ccbc39a101.json",
+      "bytes": 3259,
+      "sha256": "4e1bef0401bf0d531bcdace2cbc10e09c273c89b77886b9683e3031ac7c58d7e"
+    },
+    {
+      "file": "training/S1-L2/timing.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/timing.json",
+      "bytes": 3247,
+      "sha256": "9d642d486dc14bc48867c3c730868187aeb4060ba76889cf5c1544ffda1dbbd0"
+    },
+    {
+      "file": "training/S1-L2/metrics.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/metrics.jsonl",
+      "bytes": 444484,
+      "sha256": "0b19574dd9117a7a8fe7ef1d60f170b41dc39d907357bc1cfca0171828013679"
+    },
+    {
+      "file": "training/S1-L2/state/latest.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/state/latest.json",
+      "bytes": 1756,
+      "sha256": "49e9036fca5e68289039325f390d1b7e642ca6af2ca0c367b5f1235347b951d3"
+    },
+    {
+      "file": "training/S1-L2/runtime/invocations/0598c341416549e78fdd64c50301026b.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/runtime/invocations/0598c341416549e78fdd64c50301026b.json",
+      "bytes": 3277,
+      "sha256": "1379b7e1965c71862cbe08f86b01e60c592b69788b921765b7345bc10040b12c"
+    },
+    {
+      "file": "training/S1-L3/timing.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/timing.json",
+      "bytes": 3334,
+      "sha256": "1f3dd77a56b4fd1068888a4e6083b39d2a4612154bea42f21f8a08765883c9b3"
+    },
+    {
+      "file": "training/S1-L3/metrics.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/metrics.jsonl",
+      "bytes": 475111,
+      "sha256": "a280e935d3b136b863973c54c203cec10a05b0b4d740c66717acfc8ec0f7db77"
+    },
+    {
+      "file": "training/S1-L3/state/latest.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/state/latest.json",
+      "bytes": 1756,
+      "sha256": "325741dca56ce0bca0bef05e799ab1685bbc667d06e9eaab5a65fbde4b1c551b"
+    },
+    {
+      "file": "training/S1-L3/runtime/invocations/62f0104bb8184be3ab37330156c073ee.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/runtime/invocations/62f0104bb8184be3ab37330156c073ee.json",
+      "bytes": 3364,
+      "sha256": "d39878dc31c82225365730895fedb2ea9e15a3db6bd936fd61cc86e89d75ce9d"
+    },
+    {
+      "file": "training/S1-L3/runtime/invocations/79bc90a664bc4de7aee97d4f092a33af.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/runtime/invocations/79bc90a664bc4de7aee97d4f092a33af.json",
+      "bytes": 3283,
+      "sha256": "71db89008e6d5902b37a7b8158d675987122ee64c422496586d9b7a03080832d"
+    },
+    {
+      "file": "training/S1-L3/runtime/invocations/ce3f5dd824834257b9b175b4e59add35.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/runtime/invocations/ce3f5dd824834257b9b175b4e59add35.json",
+      "bytes": 3348,
+      "sha256": "4fc66469b4c184ba1573fe2c58f45f5b5fdf4a72bf7c91bedda2fa2400ec4d72"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed43/summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed43/summary.json",
+      "bytes": 51037,
+      "sha256": "874893aaf382ed8de7e52fc8b52bb057c7a1ef442d46e97447f2af9a7f81e7f1"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed43/protocol.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed43/protocol.json",
+      "bytes": 1143,
+      "sha256": "fa776a879569c17c18a707645daba854214dfc8ba46663dc7310982b2948a9d9"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed43/runtime.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed43/runtime.json",
+      "bytes": 241,
+      "sha256": "42657a52bbed130b9aca2b7f689db754046ea3574d1283c8a696ab37e9e0c7be"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed43/attempts.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed43/attempts.jsonl",
+      "bytes": 223,
+      "sha256": "5f0b65ae0a5f0d1292c11e6bb0dd63854ffe35cc33f8e8e1a5d10d09c9372167"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed43/task_9.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed43/task_9.json",
+      "bytes": 764,
+      "sha256": "d246bdc7cd8822c9a2a15f058a27b2d336bcfec92c1b15efcdeb0876805b92a6"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed43/task_7.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed43/task_7.json",
+      "bytes": 772,
+      "sha256": "660d651f1a3dd0571ac9c86ea59a1ba683d736707c9b56725aa604714e40534f"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed43/task_5.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed43/task_5.json",
+      "bytes": 774,
+      "sha256": "e04525399125b6cf82a4768a7d4c3bb568280548c900a9e66df3811106b94431"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed43/task_8.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed43/task_8.json",
+      "bytes": 737,
+      "sha256": "2b741c52106f5cee351f6f9dd1f5380caffc78ab44308c496f6d8b95369e336c"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed43/task_1.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed43/task_1.json",
+      "bytes": 765,
+      "sha256": "5e31a1cb463d89e94809cd5f567cacfe31a0a3eb21c55a6e5345047ea6957688"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed43/task_4.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed43/task_4.json",
+      "bytes": 794,
+      "sha256": "9440c71c382283e745d687f73c425630f8a929088556a46e41780405f15b65aa"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed43/task_2.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed43/task_2.json",
+      "bytes": 751,
+      "sha256": "fc36e34adf28f36d8c3dd9fb6959a15fb865215348f3fdb39640e92fbc5f987e"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed43/task_6.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed43/task_6.json",
+      "bytes": 794,
+      "sha256": "dbb37a1f1b26e122d12ef04c88884975132de71f40823598e9682b71c89fadce"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed43/task_3.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed43/task_3.json",
+      "bytes": 775,
+      "sha256": "c3dd1e29e3a2597313b85e8d548d837dd77c4302de4565af7a66c042c71a10da"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed43/task_0.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed43/task_0.json",
+      "bytes": 769,
+      "sha256": "3f29c219466ddb7cf1e586bc1ff5e9530b49aa3e7b2813d1fd027cbde8a16072"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed42/summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed42/summary.json",
+      "bytes": 50988,
+      "sha256": "ec0af31db1540c4597a70fba6c12ad3595306030fd77c80c10a1f5eb52101698"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed42/protocol.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed42/protocol.json",
+      "bytes": 1143,
+      "sha256": "803a1a6b0204f13a8c162a297ad40ecb09d0bf8a5b7c0e4f1267152fdbd246cb"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed42/runtime.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed42/runtime.json",
+      "bytes": 242,
+      "sha256": "d8a7ad43c7dbf25bba5bf86df39390399562c03573e3cbff3958cedbc91a3906"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed42/latency.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed42/latency.json",
+      "bytes": 11572,
+      "sha256": "05f3216b0cef104acb8d477db3e03daf4d1e044393e378975f055fb609a5ef8d"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed42/attempts.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed42/attempts.jsonl",
+      "bytes": 667,
+      "sha256": "9d4aaccbd67d45d0d6fcb13b5baa06eaf680f6ffc2027501c837a055ef36bcdc"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed42/task_9.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed42/task_9.json",
+      "bytes": 766,
+      "sha256": "c74e20be5ab143217d806007f8da57fe29f2623d488813254aabc2db21156f27"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed42/task_7.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed42/task_7.json",
+      "bytes": 771,
+      "sha256": "4d164d1acf6058e6f5a1d4fb94d20a9f59bef3ae5b871c5cb11459e8986d7bc5"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed42/task_5.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed42/task_5.json",
+      "bytes": 774,
+      "sha256": "93a9d04904f50320bd141cdea9960a3f1e7047145046f51a7bf0773600081234"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed42/task_8.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed42/task_8.json",
+      "bytes": 738,
+      "sha256": "d44c10efe2b7d83aad99cbf2a2461c9530fa0203a7cd6c0e80d96dd8d3c63644"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed42/task_1.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed42/task_1.json",
+      "bytes": 766,
+      "sha256": "22008807d0aac82068bb740f2a15089b8f09e6c84529c806b20a0de86868911c"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed42/task_4.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed42/task_4.json",
+      "bytes": 795,
+      "sha256": "3835c95e6d8440e60b1fc9eaa96731a9a65bf8a4d1adc168114dc66b2615bf11"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed42/task_2.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed42/task_2.json",
+      "bytes": 751,
+      "sha256": "95ad58dd5b4f289cc5ff034a9508cf9e5a5da7543a3ea378da416bec2917041a"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed42/task_6.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed42/task_6.json",
+      "bytes": 793,
+      "sha256": "9dae7c07bceff3536a674eec0586649375c7341615bdcbb175e0c0d32a2553c2"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed42/task_3.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed42/task_3.json",
+      "bytes": 775,
+      "sha256": "445bb966bfd475e14d54888092a4614b15020e6d63be53c36ea24eefa4522d1a"
+    },
+    {
+      "file": "evaluations/C2/eval/kv4_ka4/seed42/task_0.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed42/task_0.json",
+      "bytes": 768,
+      "sha256": "b270f6c5cf47a9566faacc4970b94045f3d346964d6c9e54a7ceae54c04b6142"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed43/summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed43/summary.json",
+      "bytes": 50877,
+      "sha256": "ab16d6bd7b231ae1ca652f2010724131d410211a4abeebfd9d0a7833bde4da3f"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed43/protocol.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed43/protocol.json",
+      "bytes": 1143,
+      "sha256": "e0ce0ef13ed8d7a4371ad7354b73092151057cfa0f7f0eb2173e37cb50521ce3"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed43/runtime.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed43/runtime.json",
+      "bytes": 240,
+      "sha256": "8a8f2a63af2e979e971d6928ef1bc1de36bda5292593e5c0ddf1574f40b87a13"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed43/attempts.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed43/attempts.jsonl",
+      "bytes": 222,
+      "sha256": "df1e016fce2b8f65e0591c5588f1476e897511952e43948ec405c7b4cb2a160a"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed43/task_9.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed43/task_9.json",
+      "bytes": 766,
+      "sha256": "1d5c274f96f78374adf2439794e8a9bc429d9c2cab54eb4fc34252da0ccc4664"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed43/task_7.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed43/task_7.json",
+      "bytes": 773,
+      "sha256": "d67c21584d534b79d5117f306cf4c7f8b2d6bfe6bdd9b36d11025189af34254b"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed43/task_5.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed43/task_5.json",
+      "bytes": 774,
+      "sha256": "73f57345d60f08392f2edea2d4ec849976fdbb551a339a54c45c80913a84a040"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed43/task_8.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed43/task_8.json",
+      "bytes": 738,
+      "sha256": "a234ba1d4e26095b377c80662287a8fc1cb4ca871307ae2efc8533afc2fadcc3"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed43/task_1.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed43/task_1.json",
+      "bytes": 766,
+      "sha256": "434f124706e5126ef81168b3d47c2caae45cd349eb4bc74cbd7bba395317f796"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed43/task_4.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed43/task_4.json",
+      "bytes": 795,
+      "sha256": "efcbadafb5c238ea57f5a2f1b81d91affce82d25ff3c2c7af3e340ddd489a449"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed43/task_2.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed43/task_2.json",
+      "bytes": 750,
+      "sha256": "9dc301f2b553e671e6d844ccb5ad2808b5684fe03be733015e6bcfa22a0332af"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed43/task_6.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed43/task_6.json",
+      "bytes": 793,
+      "sha256": "5982766813847645fca518098a6001aaae278f266ec434f94b2597426003d435"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed43/task_3.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed43/task_3.json",
+      "bytes": 774,
+      "sha256": "874a005055e67f79cd46b428f30aa9184dd8624b73f80ab8649a6c2265da04be"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed43/task_0.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed43/task_0.json",
+      "bytes": 768,
+      "sha256": "342d1cd62239138847309040d11f85a83a257b959a4823dcd988be1762911bbe"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed42/summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed42/summary.json",
+      "bytes": 50867,
+      "sha256": "756a69f3db4e7542448d9bec316960545675564233e89461a42b051411972f36"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed42/protocol.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed42/protocol.json",
+      "bytes": 1143,
+      "sha256": "acb3f01f214de1024a52f21a6103a6146ee4da45112e78347e80300628016cdf"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed42/runtime.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed42/runtime.json",
+      "bytes": 241,
+      "sha256": "64eb743673c215d8753f92ef4b744e09c82e1d00a118e2f541fc5acf5b0508c2"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed42/latency.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed42/latency.json",
+      "bytes": 11569,
+      "sha256": "6f4d8c9dd49565a379d6de4f90a1595970abfdd3448361ea57ccdf781903e5fb"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed42/attempts.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed42/attempts.jsonl",
+      "bytes": 668,
+      "sha256": "d3453117f77fe57c47bee7457ca483b666dc1570c186158cfc2b565f220681eb"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed42/task_9.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed42/task_9.json",
+      "bytes": 765,
+      "sha256": "f8e8ad983008678f06cf3c87f07df44d134281f3ba9ac5fae9a11679ff775d06"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed42/task_7.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed42/task_7.json",
+      "bytes": 772,
+      "sha256": "c8ef41d86a20f03dddee15f2a7aeb2b25dea15847fedc927b7a97e30762833fb"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed42/task_5.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed42/task_5.json",
+      "bytes": 774,
+      "sha256": "e3716dddbdaa89f156c782643cd8432ea6dd97d7eee723ae74e9cde9f7dfc486"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed42/task_8.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed42/task_8.json",
+      "bytes": 739,
+      "sha256": "a3a6485c4a526a7b16d033dc2271e5ffefc38d4032c18324f7e59c1ff08b57ac"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed42/task_1.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed42/task_1.json",
+      "bytes": 764,
+      "sha256": "84a92a36bd96c084a0b600a831722dc53de35f6a63f5f5140144a512fa5e544c"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed42/task_4.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed42/task_4.json",
+      "bytes": 794,
+      "sha256": "30ea4e97a008e74691166f1a04f7d8ccbbd9517d082ec7f1104624807e49eef3"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed42/task_2.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed42/task_2.json",
+      "bytes": 751,
+      "sha256": "755b7c7a11e53cbd496e543a04fb7494e942394ae029422860819963622ef40d"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed42/task_6.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed42/task_6.json",
+      "bytes": 793,
+      "sha256": "6a2a3578e2d0dc4b91a024189c35e580d0ed8bfc6f9dbe81da688075f0eeb3b6"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed42/task_3.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed42/task_3.json",
+      "bytes": 775,
+      "sha256": "60c3e13f0a63068cb7164870b42c53ef999555b49a2b16102a7d0c8f26a275ee"
+    },
+    {
+      "file": "evaluations/C3/eval/kv4_ka4/seed42/task_0.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed42/task_0.json",
+      "bytes": 769,
+      "sha256": "887051e1bbae8829b14097618b5c1a7db9709754acfabd9eacc68725087860b8"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed43/summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed43/summary.json",
+      "bytes": 50975,
+      "sha256": "6ef2bed14e3bbd894eb0eafe7edc2864f856a79f787fa31f5238a9523ba332ca"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed43/protocol.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed43/protocol.json",
+      "bytes": 1146,
+      "sha256": "40f5739b0fe4df9a9b3eabc1dccbeedc17c940fe8fe45cd82cd8cd8bc9fbcfd5"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed43/runtime.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed43/runtime.json",
+      "bytes": 240,
+      "sha256": "b0aff877692aaae58b3f591e125dff9d80ee2918d0d4624e67a9275a6d26ec15"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed43/attempts.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed43/attempts.jsonl",
+      "bytes": 222,
+      "sha256": "07afead0254002d05180f2153ea6f3989f46a930a5785de1c2fef553f5136cfc"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed43/task_9.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed43/task_9.json",
+      "bytes": 765,
+      "sha256": "090e915995359bc516a8c148ad786759720d156ea4dd4ceebba46b6c1cfc0456"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed43/task_7.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed43/task_7.json",
+      "bytes": 773,
+      "sha256": "a7ae2b16b5e5972e8b7c8a1e1da837ff2fb13666d466d6bf577cecc95fa92b79"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed43/task_5.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed43/task_5.json",
+      "bytes": 773,
+      "sha256": "3a40bfc4e136411e07ef406e816092cdd244b4f0de849a7e1ceb074821d8438c"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed43/task_8.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed43/task_8.json",
+      "bytes": 738,
+      "sha256": "bd007a1d6306f285cf62458a1246697de142853c46bd3cf890553fe39dc5d3cf"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed43/task_1.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed43/task_1.json",
+      "bytes": 765,
+      "sha256": "24c75d76c27fdcbd321947396c7fa4c392b78a92291676b1278052cf7a066008"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed43/task_4.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed43/task_4.json",
+      "bytes": 794,
+      "sha256": "4217172f22be71ce18331a72efae04a21f8ccf562811d3a45ee4dd027ceb0bdb"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed43/task_2.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed43/task_2.json",
+      "bytes": 751,
+      "sha256": "34c942d7f724767dc82d296360facbf080dedc5fa96871db4ee2ce2beb2cca5a"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed43/task_6.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed43/task_6.json",
+      "bytes": 793,
+      "sha256": "c614891e597246034e8a33ef5f48a29837f335d0cffda9edbc92bc6293a369a5"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed43/task_3.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed43/task_3.json",
+      "bytes": 774,
+      "sha256": "3ad117167ffdbce6fc920a3f90a104961753f36a8baa3b32b05c27128fca26f9"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed43/task_0.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed43/task_0.json",
+      "bytes": 768,
+      "sha256": "825425825cebdc08d582eed26331db83ba148677f00c55a6b91e4742760d9ac3"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed42/summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed42/summary.json",
+      "bytes": 50939,
+      "sha256": "8277d15cb4b7213204ad0f935ba2ee6cf44bc3e5cd9a5e2759a64d0b21abbb50"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed42/protocol.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed42/protocol.json",
+      "bytes": 1146,
+      "sha256": "6c3d56c69e11e49683f2e1e1b8115a8a96bb78a5726448e2ed199b3d111da679"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed42/runtime.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed42/runtime.json",
+      "bytes": 242,
+      "sha256": "8ffa5c8171b7721575623fdc34945f27cf35677ea5e689597a39a84e6a054ca5"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed42/latency.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed42/latency.json",
+      "bytes": 11902,
+      "sha256": "7e5e6ab4bba94ea86ece58786597f72cdb7ecf0b1879d6cb7e5baa93bdedd4d6"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed42/attempts.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed42/attempts.jsonl",
+      "bytes": 1117,
+      "sha256": "3e7fcea2f13c1d42ab2d29b8e65ecea23d497b34afa3b88bd2d4a97fc08b2afc"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed42/task_9.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed42/task_9.json",
+      "bytes": 766,
+      "sha256": "d4ac5d7291467598f5c9d37fd1bead7e2ce31f846768a3ec7bdcb2ef56ced60c"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed42/task_7.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed42/task_7.json",
+      "bytes": 772,
+      "sha256": "585d5c5ce03e300c9d092033a9bc95d244b8da02d7efb099588216349c0604e6"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed42/task_5.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed42/task_5.json",
+      "bytes": 772,
+      "sha256": "8dcc36d45f57533bec3bfbf284841756eb4f0a48cfaa0b7f2e4ff9a42446b7da"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed42/task_8.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed42/task_8.json",
+      "bytes": 737,
+      "sha256": "490bf417fae3d69cd4af997a7a3b04f17b61a974a50d602193e8e83fa87de415"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed42/task_1.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed42/task_1.json",
+      "bytes": 762,
+      "sha256": "1a8da3ab1f6f36b0dedfe3910cdca9a155cc558b4d5d3b735d51fc64411e3e49"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed42/task_4.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed42/task_4.json",
+      "bytes": 795,
+      "sha256": "4b8f25bb456916419a88c7e6fc122e36be479d1310666cf73963d5e456b080c9"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed42/task_2.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed42/task_2.json",
+      "bytes": 752,
+      "sha256": "8b8f3cc8f4dac8f8dd30978e2c6fc41ac248851502ae3c3a221375b5b7f65774"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed42/task_6.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed42/task_6.json",
+      "bytes": 794,
+      "sha256": "b6f8151d4e8fcb9f36ba46138457ac3410427c744c1a8fa6fdb6b03854f0e0ec"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed42/task_3.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed42/task_3.json",
+      "bytes": 774,
+      "sha256": "6fcb3521e38ff11c103b9ff1ade6bd72581119575c1b78a555ddbc5d5e38c913"
+    },
+    {
+      "file": "evaluations/S1-L2/eval/kv4_ka4/seed42/task_0.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval/kv4_ka4/seed42/task_0.json",
+      "bytes": 768,
+      "sha256": "3cb7b89d411e211c76d87c962d1445638dcd7dc410207a823231be65cad2d778"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed43/summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed43/summary.json",
+      "bytes": 50886,
+      "sha256": "f31850801c193fbdfdb9027181902bd5f0902cc7b16810ecd7e031fae27f2e6a"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed43/protocol.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed43/protocol.json",
+      "bytes": 1143,
+      "sha256": "80e4a6434c463e8c30436245c6a84c243e7eaa3e82109e14f6090ebfaa192505"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed43/runtime.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed43/runtime.json",
+      "bytes": 240,
+      "sha256": "072bb524a8f80c1ba5d0c9dffe8ae7f2d2d29198b9dfa3e4f4f51c97c0641fd4"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed43/attempts.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed43/attempts.jsonl",
+      "bytes": 222,
+      "sha256": "697f0fadb43450e667b8d05501f4ec3d41420a3d3c22f98163bcbb3199a327a2"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed43/task_9.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed43/task_9.json",
+      "bytes": 766,
+      "sha256": "4d0983cdc0d0187176c71ff3fca77cda1f9ababb3ea8ef78079b3d32a0f67fe4"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed43/task_7.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed43/task_7.json",
+      "bytes": 773,
+      "sha256": "6c165639e0181a53d08c97921f2357a0c8d78f061831d7b54d49523906ce4e30"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed43/task_5.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed43/task_5.json",
+      "bytes": 774,
+      "sha256": "5f59935156c1d2c345be748beaec9fc4f60d5a52d3fb3a42a388010033718dc8"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed43/task_8.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed43/task_8.json",
+      "bytes": 738,
+      "sha256": "1a93d7f941476309abebab99234cb3ca76cd1061e7de82825beaeb360ef7af79"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed43/task_1.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed43/task_1.json",
+      "bytes": 766,
+      "sha256": "a848b1df7213aac785e170544718eb9cda09468503fa491f4e03f8a763604fd1"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed43/task_4.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed43/task_4.json",
+      "bytes": 795,
+      "sha256": "7522ebb6af941230a794d8d7d7316a6bb4d52abf68d364ffd4f76da73a0bc592"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed43/task_2.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed43/task_2.json",
+      "bytes": 751,
+      "sha256": "7a621c42955cf6e21a639a2b2d345197de4cfbedc81e0546bb571a4739467b12"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed43/task_6.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed43/task_6.json",
+      "bytes": 794,
+      "sha256": "8d6c670fc72db941bd2ac2bb83c38cb21d7df523a10441ef6e0bc2b75247bebf"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed43/task_3.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed43/task_3.json",
+      "bytes": 775,
+      "sha256": "42b71ad9c5ead79fcc52ec3f54b1705755b51951fa8b111288bda244869c12e4"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed43/task_0.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed43/task_0.json",
+      "bytes": 768,
+      "sha256": "dc5ea8d31c803931496c4493023c67309b0772f7fb0a0b05db5e9bf2ad2d550d"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed42/summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed42/summary.json",
+      "bytes": 50862,
+      "sha256": "19779d515a6a096f6771fde12720205a90548c1895bff2cdf3f5dcc9eb35840a"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed42/protocol.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed42/protocol.json",
+      "bytes": 1143,
+      "sha256": "38b7a22f80a58c60f461d925d0a155f8c90c6e0a68fdc1afdde3eaf2e4fdadef"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed42/runtime.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed42/runtime.json",
+      "bytes": 242,
+      "sha256": "a396e8c40a47949bfc7af880b7865ed91968fe9badc54aefbcf3d0eed36bf446"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed42/latency.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed42/latency.json",
+      "bytes": 11586,
+      "sha256": "2041edd78808ce0e360e132e8ccda6fc4a82d83b4d2c3703e9d425744191ce15"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed42/attempts.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed42/attempts.jsonl",
+      "bytes": 1787,
+      "sha256": "bc040b70c77dd9325766197fbbbcfb6df35133ab477398c697e81444af2e8f2a"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed42/task_9.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed42/task_9.json",
+      "bytes": 766,
+      "sha256": "f709eec6be954e1d06f54fedc642b432eb0c6b94921dc97765e46fa9bf5610f8"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed42/task_7.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed42/task_7.json",
+      "bytes": 773,
+      "sha256": "0834b09440b4970acedcc3acc0c2403c2719156517332371c27a26a6d5efeac0"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed42/task_5.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed42/task_5.json",
+      "bytes": 771,
+      "sha256": "e1ffea9e65e7b4054a911af6677d601c50077f981d00fb546c1e38a3c6fbad47"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed42/task_8.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed42/task_8.json",
+      "bytes": 739,
+      "sha256": "865d330c1c0217059c393b47c830e6ca7cccc968f96d553d2c32365b1cfe754d"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed42/task_1.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed42/task_1.json",
+      "bytes": 764,
+      "sha256": "ffc622c95f0c4d65c154b5a8dc50c60dcc46d056a73a36d0016591dd16a6b328"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed42/task_4.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed42/task_4.json",
+      "bytes": 792,
+      "sha256": "88c1dd529e151486dd1b9e20dd946aa119b04e6f707b4998e6af20c9589966df"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed42/task_2.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed42/task_2.json",
+      "bytes": 751,
+      "sha256": "f1681b2877f1478f00cf503e141b27b95cb368e8a6c8f17b8a642897a3dc6896"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed42/task_6.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed42/task_6.json",
+      "bytes": 793,
+      "sha256": "ceb8c26fef04c5dc6e080e7608158ad7c09332d5fe6cc9c845a45573c157c8a8"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed42/task_3.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed42/task_3.json",
+      "bytes": 775,
+      "sha256": "b3d190ee1924f946706527ae966524b39370608a7bb3b36eaba046b3ea237382"
+    },
+    {
+      "file": "evaluations/C1/eval/kv4_ka4/seed42/task_0.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed42/task_0.json",
+      "bytes": 769,
+      "sha256": "b3eb8a1d072d2ce0d9c37a3a870a8c82510f88abaa7337a4380f71fb6b29b216"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed43/summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed43/summary.json",
+      "bytes": 51008,
+      "sha256": "725f2a3a98553f4c1223939bf09764604138f552cc4c61740c66cdcf4ce7bee0"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed43/protocol.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed43/protocol.json",
+      "bytes": 1146,
+      "sha256": "566dcc9c06b0adf81812e716e3bf2d1a6c2def0de14e2ad2898b800decb122b9"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed43/runtime.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed43/runtime.json",
+      "bytes": 238,
+      "sha256": "ed84ca75bbe1fed6d5e34067746a5c441e1e09357512361197b09c33ddc22e0a"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed43/attempts.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed43/attempts.jsonl",
+      "bytes": 220,
+      "sha256": "3642ab50b0121b7487f338dfc68119f501d90e38ee02427f8db0d7e52db4dec5"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed43/task_9.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed43/task_9.json",
+      "bytes": 765,
+      "sha256": "31754f18ae901749ec55bceca262d1b15fd98e97eb05bc581e8bda2432989087"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed43/task_7.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed43/task_7.json",
+      "bytes": 772,
+      "sha256": "f97cdd6c25a536c9e7cc53d7f12414ffee716d731daa61d8f7e2ed2778d93188"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed43/task_5.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed43/task_5.json",
+      "bytes": 773,
+      "sha256": "d1663ef251fea288f0ba29929ee2515b1bbea9963421adff7904a7fb8752afc8"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed43/task_8.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed43/task_8.json",
+      "bytes": 738,
+      "sha256": "c8578760dbb7bf9536f2759bda883ed3d024c9eb3c8580122d6ce2c0527f5781"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed43/task_1.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed43/task_1.json",
+      "bytes": 766,
+      "sha256": "23ee34bdf2f4a75aaeba7d40eb6ce226b5203eba0be90c2f2510135e9b68400c"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed43/task_4.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed43/task_4.json",
+      "bytes": 794,
+      "sha256": "17621bdfcd32873ab2ab233e42dec0a9be28ebc01c72bcd47937b84934f63c02"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed43/task_2.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed43/task_2.json",
+      "bytes": 751,
+      "sha256": "6d5399d7dc8788bb2e0931c8841a422086b839969899b1f44df6e0b0b179c6d5"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed43/task_6.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed43/task_6.json",
+      "bytes": 793,
+      "sha256": "a989450dc78fac74217291705c75d0a678157a9f53590d3a494caed526eb4c24"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed43/task_3.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed43/task_3.json",
+      "bytes": 774,
+      "sha256": "87e9a65a83dd50877a4a2c8e38fcbb3f249dbbfcac51f978b47b24f3063adefe"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed43/task_0.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed43/task_0.json",
+      "bytes": 768,
+      "sha256": "6f1c66800ecabeee396568bd937a5f919db6ac20b813b8e3441b21f0a8d0c39e"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed42/summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed42/summary.json",
+      "bytes": 50955,
+      "sha256": "b1abdba7183ab64ccc9eeee6eccc102fd23aafcc2244970aad6763ddac883f7e"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed42/protocol.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed42/protocol.json",
+      "bytes": 1146,
+      "sha256": "05c94ac3722d351867aac2dd783f949f8a884f4d631ba640c63697eea55ad9e6"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed42/runtime.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed42/runtime.json",
+      "bytes": 241,
+      "sha256": "f48a1ec64c63c03fced896f633050e9e32e56575b2abc3b18bea371945635ff8"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed42/latency.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed42/latency.json",
+      "bytes": 11902,
+      "sha256": "3cedd9e94780020a7417383c68a53d37356240f537846223b774c05dee882171"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed42/attempts.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed42/attempts.jsonl",
+      "bytes": 668,
+      "sha256": "fe79c6fb2ab1958924e4864d11c20040ab7af8cf72e01ae8fc99487422e7ace6"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed42/task_9.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed42/task_9.json",
+      "bytes": 766,
+      "sha256": "64470c7087fc0a67278178444df03775f99bfafb8c21939f570f23550fec6a95"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed42/task_7.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed42/task_7.json",
+      "bytes": 772,
+      "sha256": "7e0322103d96135dc8f41f9e01bbe65e5afaa4e06e21fae75a7dc76c105505f5"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed42/task_5.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed42/task_5.json",
+      "bytes": 774,
+      "sha256": "ec03cd9547954cc928b97e269b7f2c96c49be4e906be12ec5cb178320eccd681"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed42/task_8.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed42/task_8.json",
+      "bytes": 738,
+      "sha256": "f35affa9d12a063d44ddda8d64121cf9a28c01b139323f6a3ab90d7164117d77"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed42/task_1.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed42/task_1.json",
+      "bytes": 763,
+      "sha256": "fdc26e873cb891a53d2df9cf54c979d1a31caa2a051aa36d868ed4606f756e55"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed42/task_4.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed42/task_4.json",
+      "bytes": 794,
+      "sha256": "88a312813b43e680f2db8a8c558c7274e6851a60adea0a3093a4ff4d87f5ae24"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed42/task_2.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed42/task_2.json",
+      "bytes": 752,
+      "sha256": "fe7470a40680571fb91b5c29e07cefd18403c8dd26d1202aa789acfd8273ef3a"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed42/task_6.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed42/task_6.json",
+      "bytes": 793,
+      "sha256": "4e0c520be3eeaccb7b24fd50032f8553b250f8b05e1c7c93f199ee3368c24ef8"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed42/task_3.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed42/task_3.json",
+      "bytes": 774,
+      "sha256": "99adff011e3969f98f5bbf26cd241159840d7aae1553dea0deb81b57c4420e98"
+    },
+    {
+      "file": "evaluations/S1-L3/eval/kv4_ka4/seed42/task_0.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/eval/kv4_ka4/seed42/task_0.json",
+      "bytes": 767,
+      "sha256": "adb82680f976ac8aa628d6ce1b5512028e713a7092c4d6f66ee28d387f971cb0"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed43/summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed43/summary.json",
+      "bytes": 50870,
+      "sha256": "bb38b2783fc202a90fad2176b471a8313c16e5b599345b7430044e4f7ef37753"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed43/protocol.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed43/protocol.json",
+      "bytes": 1154,
+      "sha256": "7dc63861adf1374aea48280e3248b565b70c911faf1e84ac2398e8a2757333f3"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed43/runtime.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed43/runtime.json",
+      "bytes": 241,
+      "sha256": "726e3c6c2a11daab2630729ba45da65551b42cbae3f6f908fc51ef474d98e91a"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed43/attempts.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed43/attempts.jsonl",
+      "bytes": 223,
+      "sha256": "c29c4ec66d134366e3a7907641e80db94a69c25f6f27928aacca8b3273182fae"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed43/task_9.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed43/task_9.json",
+      "bytes": 765,
+      "sha256": "181e633ff8f27cec650988a75d418508a8c8931cb3186fbb95d003198f556fa3"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed43/task_7.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed43/task_7.json",
+      "bytes": 773,
+      "sha256": "67a8b4f47777b05da68156cd36cff70c7add7a2b83d31c1aed9e0c38c9c48255"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed43/task_5.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed43/task_5.json",
+      "bytes": 774,
+      "sha256": "473e78a47c7c80f9b6deae9fedd20e6eecd69dda2678b8e5c93e8b574da0c684"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed43/task_8.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed43/task_8.json",
+      "bytes": 739,
+      "sha256": "afc677a23a618ca8585b98ef74a6176e79c51fecc6b32fb43d007cc230017e10"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed43/task_1.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed43/task_1.json",
+      "bytes": 764,
+      "sha256": "10752004cc97b551423b1049828832248a901b3d26bd62c8f8b4ad6d4e00872a"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed43/task_4.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed43/task_4.json",
+      "bytes": 794,
+      "sha256": "61da8399c7996c1a10e044af349ba94b0fce99e78531d3f0fc7c1049a4d32c69"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed43/task_2.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed43/task_2.json",
+      "bytes": 752,
+      "sha256": "b2925ae9e38275ad293ff4788c4d8b6c0891d50098b83706c4e0f0c20b057eb8"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed43/task_6.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed43/task_6.json",
+      "bytes": 794,
+      "sha256": "884114a543d63331cd945b5e0e3db6559d3d07806b755b6cff281b18862acc89"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed43/task_3.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed43/task_3.json",
+      "bytes": 774,
+      "sha256": "750447706605cf4f0d9a47b62f350c8be5560fc52b5af9e4ef303c0d936e9ff9"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed43/task_0.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed43/task_0.json",
+      "bytes": 769,
+      "sha256": "ee4e4a1c26f7f67448ec20d955b8722e9b5955337ed86e958d081378d27df04c"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed42/summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed42/summary.json",
+      "bytes": 50866,
+      "sha256": "b9401e4eb6e6ead6bf43e99016d9c6a21caa84c541c3def1b73d69c9386dfce8"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed42/protocol.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed42/protocol.json",
+      "bytes": 1154,
+      "sha256": "7ed6e6d586fc64e0ee1405226f5d90cee19c19c0a89245db825120b4341338a4"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed42/runtime.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed42/runtime.json",
+      "bytes": 242,
+      "sha256": "9b3ef484dc134576efce960270a18efcbce1fd8903299758b354bb7def932fd9"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed42/latency.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed42/latency.json",
+      "bytes": 11599,
+      "sha256": "3fbacb195212d25242d9670aefdc9ce9549ca2251f165dab16a912b5c794306e"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed42/attempts.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed42/attempts.jsonl",
+      "bytes": 1783,
+      "sha256": "ecec5228ff1902a4aca0d11167ea05ac765e2a6054670690c2417bfd8b7370ff"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed42/task_9.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed42/task_9.json",
+      "bytes": 765,
+      "sha256": "4df94468d24da6cc21fa0a7c3c8c3a1a0e8816f5a2d4b4b37f2c240cc9f783f5"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed42/task_7.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed42/task_7.json",
+      "bytes": 773,
+      "sha256": "06921197b72bbd9073ceb1824df5888d7d7a26d09422d85339a195c14bc58274"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed42/task_5.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed42/task_5.json",
+      "bytes": 772,
+      "sha256": "1dab8bb4501ce6fb909f5f96cd2d651c011d6f09d4736ad27c764c9af827b5b4"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed42/task_8.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed42/task_8.json",
+      "bytes": 738,
+      "sha256": "5f3061db05439e37e0b6fd58a36cce55b97e7b2ef8ef88090770626bcd47e931"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed42/task_1.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed42/task_1.json",
+      "bytes": 766,
+      "sha256": "78dd743ab6945c579e98039c19664fe685fffdae2d2526192344226d44685547"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed42/task_4.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed42/task_4.json",
+      "bytes": 795,
+      "sha256": "6df1db06c6055cac2d1650edb2838c7f6cd8185e2c2686b43385251e6ab53233"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed42/task_2.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed42/task_2.json",
+      "bytes": 752,
+      "sha256": "9fe102db3def79621dfef37ae6650fb1e353f546c82f215801bfc72dc1eb1379"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed42/task_6.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed42/task_6.json",
+      "bytes": 792,
+      "sha256": "6e4046f7cf4a67ce4afdf9faa982d75e8087cf5e312931f4f4e6a995a990a888"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed42/task_3.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed42/task_3.json",
+      "bytes": 774,
+      "sha256": "dc8410017bbd9ad8a33dc96be7447ff35b6664e5a960e94776b672cebb6cf57c"
+    },
+    {
+      "file": "evaluations/teacher/eval/kv4_ka4/seed42/task_0.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed42/task_0.json",
+      "bytes": 768,
+      "sha256": "e0eae4719d431ea683320fb445ab94439aa5c51a414ae2c1eecd8e01d477c8d0"
+    },
+    {
+      "file": "evaluations/P0-S/eval/kv4_ka4/seed42/summary.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/summary.json",
+      "bytes": 51250,
+      "sha256": "e6d9d5df717b23f9f196714f3b63ac96469ffe373bf8b22f54150cc1a6a77bfa"
+    },
+    {
+      "file": "evaluations/P0-S/eval/kv4_ka4/seed42/protocol.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/protocol.json",
+      "bytes": 1145,
+      "sha256": "36a01ff2caa712bfb766ae93de00be18ad398645856b6d8f5f6dcde21606771f"
+    },
+    {
+      "file": "evaluations/P0-S/eval/kv4_ka4/seed42/runtime.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/runtime.json",
+      "bytes": 241,
+      "sha256": "5e14aa4f8f2408f653701bca3528937e5d02fb7ee46cda512dbef556aed0d5ea"
+    },
+    {
+      "file": "evaluations/P0-S/eval/kv4_ka4/seed42/latency.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/latency.json",
+      "bytes": 11580,
+      "sha256": "a772bba6394c12fa2fc116886065328d46491d38b0cd2189576d1add0ea7fe51"
+    },
+    {
+      "file": "evaluations/P0-S/eval/kv4_ka4/seed42/attempts.jsonl",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/attempts.jsonl",
+      "bytes": 1114,
+      "sha256": "b6f7782c2198c9bf8d6d99b849b25c54b06f82550c996535deb9cde98b1a817d"
+    },
+    {
+      "file": "evaluations/P0-S/eval/kv4_ka4/seed42/task_9.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/task_9.json",
+      "bytes": 764,
+      "sha256": "ed9664a40e738d088cbbccd64fdd44c1649e873e76823f7e4be487310d69e685"
+    },
+    {
+      "file": "evaluations/P0-S/eval/kv4_ka4/seed42/task_7.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/task_7.json",
+      "bytes": 769,
+      "sha256": "0363da9cec9bf9bd77928476c2fd87b5a5950a34b1848504d6304049de61bad4"
+    },
+    {
+      "file": "evaluations/P0-S/eval/kv4_ka4/seed42/task_5.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/task_5.json",
+      "bytes": 773,
+      "sha256": "7ac3ec60ea6a5cf0f814570cf7097893ac56868945899094af99765795f761e7"
+    },
+    {
+      "file": "evaluations/P0-S/eval/kv4_ka4/seed42/task_8.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/task_8.json",
+      "bytes": 735,
+      "sha256": "fa68373b1b956e6ae96e1f78a230c3a91c10a4a4d26ceb43ea6934a6945416bc"
+    },
+    {
+      "file": "evaluations/P0-S/eval/kv4_ka4/seed42/task_1.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/task_1.json",
+      "bytes": 763,
+      "sha256": "48032086594bf2e214cd936aa475970acd763854ef8eb732e0ecdf751da477a2"
+    },
+    {
+      "file": "evaluations/P0-S/eval/kv4_ka4/seed42/task_4.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/task_4.json",
+      "bytes": 793,
+      "sha256": "84cc727ff2f4036caa8c1e7ae93b21fafdbcbf5c43264e87efa38288cbbfdb70"
+    },
+    {
+      "file": "evaluations/P0-S/eval/kv4_ka4/seed42/task_2.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/task_2.json",
+      "bytes": 750,
+      "sha256": "ab635c56c5c56d02b63af64d7de766334f495334d210f68d00552651654a8d5c"
+    },
+    {
+      "file": "evaluations/P0-S/eval/kv4_ka4/seed42/task_6.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/task_6.json",
+      "bytes": 790,
+      "sha256": "f506a4226b55b77567f96a07731d070278ef2b9ad1d50c6ffee147f7f207f6e7"
+    },
+    {
+      "file": "evaluations/P0-S/eval/kv4_ka4/seed42/task_3.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/task_3.json",
+      "bytes": 774,
+      "sha256": "618e2893fc7012d7c754ae16cf59493c467c3a90049cc5c20bc067011a79397d"
+    },
+    {
+      "file": "evaluations/P0-S/eval/kv4_ka4/seed42/task_0.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/eval/kv4_ka4/seed42/task_0.json",
+      "bytes": 767,
+      "sha256": "245cdbd1c7d73b7cf9aad623d2ea56a6bbe0038c855d91b2cf3cf9eff0e5cf27"
+    },
+    {
+      "file": "evaluations/S1-L2/eval_raw/kv4_ka4/seed42/protocol.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval_raw/kv4_ka4/seed42/protocol.json",
+      "bytes": 1146,
+      "sha256": "d85c2065dd58ed3314f6dc7eae65d9fc72b08dbfa6235c5ad0d9b3fa282e3b9b"
+    },
+    {
+      "file": "evaluations/S1-L2/eval_raw/kv4_ka4/seed42/runtime.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval_raw/kv4_ka4/seed42/runtime.json",
+      "bytes": 237,
+      "sha256": "59594f3b40076f023f5d3c2034f12aff4d5393599918ef363b763f53ecdfb81f"
+    },
+    {
+      "file": "evaluations/S1-L2/eval_raw/kv4_ka4/seed42/task_5.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval_raw/kv4_ka4/seed42/task_5.json",
+      "bytes": 774,
+      "sha256": "7358994c44e0a73581ee6c77b667c6384071864d0ebccdfda61128384c9c346f"
+    },
+    {
+      "file": "evaluations/S1-L2/eval_raw/kv4_ka4/seed42/task_1.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval_raw/kv4_ka4/seed42/task_1.json",
+      "bytes": 766,
+      "sha256": "9dbc2e1b9005e68cc8cb5753ddb8f821be29fbfb7372e0403c724712d4bc9f35"
+    },
+    {
+      "file": "evaluations/S1-L2/eval_raw/kv4_ka4/seed42/task_2.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval_raw/kv4_ka4/seed42/task_2.json",
+      "bytes": 752,
+      "sha256": "737fcb3963b434e0f17e515a194d8c4099466bff60bba2a2bc5de2339ff6e0da"
+    },
+    {
+      "file": "evaluations/S1-L2/eval_raw/kv4_ka4/seed42/task_3.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval_raw/kv4_ka4/seed42/task_3.json",
+      "bytes": 774,
+      "sha256": "004075b8e6db06be035f1476bc8648219b7388714288776fe316668c5f83b405"
+    },
+    {
+      "file": "evaluations/S1-L2/eval_raw/kv4_ka4/seed42/task_0.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/eval_raw/kv4_ka4/seed42/task_0.json",
+      "bytes": 768,
+      "sha256": "2d49391c92dc48a1f722689d4ac1e178d94143b10f075429891586abe37cbf68"
+    },
+    {
+      "file": "training/P0-S/train_args.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/train_args.json",
+      "bytes": 1206,
+      "sha256": "97d497ab8bfd389b6af5f4dd89b6ab5a0335844d6e9b0f025a62f768d836e1e6"
+    },
+    {
+      "file": "training/P0-S/deepspeed_config.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/deepspeed_config.json",
+      "bytes": 731,
+      "sha256": "dfd56073bcad500d40bdec4d72549f7681b52f29b3ab44aed73b8bc1c164140e"
+    },
+    {
+      "file": "training/P0-S/gradient_coverage.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/gradient_coverage.json",
+      "bytes": 2810,
+      "sha256": "19b6b17e6b49e69888f8e291297a944f9195429fb33ee5399adae86f5d504ea8"
+    },
+    {
+      "file": "training/P0-S/split_manifest.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/split_manifest.json",
+      "bytes": 1254656,
+      "sha256": "9c876430392054bea3d9813bc8a324e09998954ac1e904d831fa295b7bebeb30"
+    },
+    {
+      "file": "training/P0-S/open_loop/step_00001000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/open_loop/step_00001000.json",
+      "bytes": 116987,
+      "sha256": "c954798ea1f5c598f5cb10abe77041eece5ee5c06669d87de4850f57f3054451"
+    },
+    {
+      "file": "training/P0-S/open_loop/step_00002000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/open_loop/step_00002000.json",
+      "bytes": 117020,
+      "sha256": "d7475e0b4caffa1db459ac3833863b9a8528de79a1bff21ac31474a7359c2b61"
+    },
+    {
+      "file": "training/C1/train_args.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/train_args.json",
+      "bytes": 1200,
+      "sha256": "b32807fa43c6f6478676bfc7514b7ce11380023a497980b5135930b0764b7a25"
+    },
+    {
+      "file": "training/C1/deepspeed_config.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/deepspeed_config.json",
+      "bytes": 730,
+      "sha256": "8a35d6aafe837958f4a5b5105aee065b7b5d381f74a4cca98c23674dfdc5c81e"
+    },
+    {
+      "file": "training/C1/gradient_coverage.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/gradient_coverage.json",
+      "bytes": 1958,
+      "sha256": "ee180fd99b5888eb9b4723c0d245b0ad962bbf4403b45ab745a7103840142110"
+    },
+    {
+      "file": "training/C1/split_manifest.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/split_manifest.json",
+      "bytes": 1254656,
+      "sha256": "9c876430392054bea3d9813bc8a324e09998954ac1e904d831fa295b7bebeb30"
+    },
+    {
+      "file": "training/C1/open_loop/step_00006000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/open_loop/step_00006000.json",
+      "bytes": 937,
+      "sha256": "dbf6e57b20493655f26da643a198d8452f9981edeefed014e2d83eede0e0fc61"
+    },
+    {
+      "file": "training/C1/open_loop/step_00003000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/open_loop/step_00003000.json",
+      "bytes": 937,
+      "sha256": "f066b415bbd82068fd08d2dbb68e973be8362d112754a549fe63cc411bd39423"
+    },
+    {
+      "file": "training/C1/open_loop/step_00005000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/open_loop/step_00005000.json",
+      "bytes": 936,
+      "sha256": "678c1d42ed48c2c145279c16ef7a3d718d86188b983bd9cd00c27adcc769eeaa"
+    },
+    {
+      "file": "training/C1/open_loop/step_00007000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/open_loop/step_00007000.json",
+      "bytes": 937,
+      "sha256": "6648ff03a9521fc4ba49760881935fbf238cc5b671640849fd59bc576cc77dea"
+    },
+    {
+      "file": "training/C1/open_loop/step_00001000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/open_loop/step_00001000.json",
+      "bytes": 935,
+      "sha256": "b69b0ae299d9dfcf4f86eaba8da75826b908942ae89a15af0347ce148ce37ec0"
+    },
+    {
+      "file": "training/C1/open_loop/step_00004000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/open_loop/step_00004000.json",
+      "bytes": 936,
+      "sha256": "422c9b862f9a999049d68bad4e96111f2c92d60adf5a62d5233d853e79d47972"
+    },
+    {
+      "file": "training/C1/open_loop/step_00008000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/open_loop/step_00008000.json",
+      "bytes": 936,
+      "sha256": "696739a538b36951f9b952cf887a23403074191f1de9d20bb794235ac72955ec"
+    },
+    {
+      "file": "training/C1/open_loop/step_00002000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/open_loop/step_00002000.json",
+      "bytes": 937,
+      "sha256": "41f0235494cc47e6555260f42813b655abb66cfb219cd359aa8f0c58a0a26c27"
+    },
+    {
+      "file": "training/C2/train_args.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/train_args.json",
+      "bytes": 1200,
+      "sha256": "3a7a369635d959c66fa238bcb8a2dabe3d7fe6cf5124fa31db015c2aa148c20f"
+    },
+    {
+      "file": "training/C2/deepspeed_config.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/deepspeed_config.json",
+      "bytes": 731,
+      "sha256": "dfd56073bcad500d40bdec4d72549f7681b52f29b3ab44aed73b8bc1c164140e"
+    },
+    {
+      "file": "training/C2/gradient_coverage.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/gradient_coverage.json",
+      "bytes": 1946,
+      "sha256": "edd2e83e218e3a6696f216fbed4a22e72cd5e11ad4e643afd26596424b468f21"
+    },
+    {
+      "file": "training/C2/split_manifest.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/split_manifest.json",
+      "bytes": 1254656,
+      "sha256": "9c876430392054bea3d9813bc8a324e09998954ac1e904d831fa295b7bebeb30"
+    },
+    {
+      "file": "training/C2/open_loop/step_00006000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/open_loop/step_00006000.json",
+      "bytes": 934,
+      "sha256": "70f52ee59e197a7cb3e5ba8b2c500af0acdb86d7a7a287e85ff2d62cd578f12e"
+    },
+    {
+      "file": "training/C2/open_loop/step_00003000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/open_loop/step_00003000.json",
+      "bytes": 934,
+      "sha256": "9bef8e4e56120b3546517a49f089fa722ca11cdd2817fd607cbd5342cf1e7c0d"
+    },
+    {
+      "file": "training/C2/open_loop/step_00005000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/open_loop/step_00005000.json",
+      "bytes": 934,
+      "sha256": "f6ba13a62c646871b3082d54aa8d612a34fb44c9fe32a20e33a9a0a14d0d3fcf"
+    },
+    {
+      "file": "training/C2/open_loop/step_00007000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/open_loop/step_00007000.json",
+      "bytes": 934,
+      "sha256": "9ae0206b284830f151da9b8d3adb957975310eee6dbba236bd9679e83ec84e11"
+    },
+    {
+      "file": "training/C2/open_loop/step_00001000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/open_loop/step_00001000.json",
+      "bytes": 934,
+      "sha256": "b6e68420d49ca69a68849ac9c3aef850c0f92f5f37c507b6c88ca625a9d773ef"
+    },
+    {
+      "file": "training/C2/open_loop/step_00004000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/open_loop/step_00004000.json",
+      "bytes": 933,
+      "sha256": "5785d0c581d218013c7e8335c40957a8b2443785420b2c215923bf07d7ea667d"
+    },
+    {
+      "file": "training/C2/open_loop/step_00008000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/open_loop/step_00008000.json",
+      "bytes": 936,
+      "sha256": "72803d272e64650b93b8b593543d4bb0f5c75a68ec8e1196014f7147ccb05189"
+    },
+    {
+      "file": "training/C2/open_loop/step_00002000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/open_loop/step_00002000.json",
+      "bytes": 935,
+      "sha256": "115575d48ce7b7463fd2488176d71279d2a6adbfbc02d90de2d3af2e1c5357eb"
+    },
+    {
+      "file": "training/C3/train_args.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/train_args.json",
+      "bytes": 1205,
+      "sha256": "d5b483aa02d13ad8087ed038a8a19c23f8186309c6c03180f9a059e4d64efe87"
+    },
+    {
+      "file": "training/C3/deepspeed_config.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/deepspeed_config.json",
+      "bytes": 730,
+      "sha256": "8a35d6aafe837958f4a5b5105aee065b7b5d381f74a4cca98c23674dfdc5c81e"
+    },
+    {
+      "file": "training/C3/gradient_coverage.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/gradient_coverage.json",
+      "bytes": 1946,
+      "sha256": "d5115003befd269329469505ee6f349e8c924cff1ed6e5631a9c4779715fddd6"
+    },
+    {
+      "file": "training/C3/split_manifest.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/split_manifest.json",
+      "bytes": 1254656,
+      "sha256": "9c876430392054bea3d9813bc8a324e09998954ac1e904d831fa295b7bebeb30"
+    },
+    {
+      "file": "training/C3/open_loop/step_00006000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/open_loop/step_00006000.json",
+      "bytes": 941,
+      "sha256": "4aa5dd8f03cb4823e61200021b2faabd6e0b5af76afd335ebce54bfbd2c2c853"
+    },
+    {
+      "file": "training/C3/open_loop/step_00003000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/open_loop/step_00003000.json",
+      "bytes": 942,
+      "sha256": "6c81433d909316018e0ab2789cd27b331f05626f07b5c73f416a51206ffaf3f0"
+    },
+    {
+      "file": "training/C3/open_loop/step_00005000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/open_loop/step_00005000.json",
+      "bytes": 939,
+      "sha256": "812d4f5b22241202ff0e887f0b5f81caf04a6dd3633ae8874f7f38d51a49e567"
+    },
+    {
+      "file": "training/C3/open_loop/step_00007000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/open_loop/step_00007000.json",
+      "bytes": 942,
+      "sha256": "749f761cb093b403d48595db7339e1e35ee615f5450ee4076e83a9cf7a0a0378"
+    },
+    {
+      "file": "training/C3/open_loop/step_00001000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/open_loop/step_00001000.json",
+      "bytes": 941,
+      "sha256": "c504b9dc8b0c1bc1cc7d6ae52167f881ea73ab74bf61f4f549d31f741a09aebe"
+    },
+    {
+      "file": "training/C3/open_loop/step_00004000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/open_loop/step_00004000.json",
+      "bytes": 942,
+      "sha256": "a3c79e471f28167833f83346fea9b1800bdc7912ca6c2f218202fa940ce85dbd"
+    },
+    {
+      "file": "training/C3/open_loop/step_00008000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/open_loop/step_00008000.json",
+      "bytes": 942,
+      "sha256": "d17ae48baa745c0cd0511931a574abf7630c0cdc4ce7596bf8de66a7593e1559"
+    },
+    {
+      "file": "training/C3/open_loop/step_00002000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/open_loop/step_00002000.json",
+      "bytes": 941,
+      "sha256": "d48a3d15cc158ebf40e7e3fef33f3a3d7a64aeca56b863d74e3e59fa29fb156a"
+    },
+    {
+      "file": "training/S1-L2/train_args.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/train_args.json",
+      "bytes": 1208,
+      "sha256": "e4dc55aa505cab56092ac9df705720f94dd9269c4e725856b4dbbb830fe02964"
+    },
+    {
+      "file": "training/S1-L2/deepspeed_config.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/deepspeed_config.json",
+      "bytes": 731,
+      "sha256": "dfd56073bcad500d40bdec4d72549f7681b52f29b3ab44aed73b8bc1c164140e"
+    },
+    {
+      "file": "training/S1-L2/gradient_coverage.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/gradient_coverage.json",
+      "bytes": 2810,
+      "sha256": "19b6b17e6b49e69888f8e291297a944f9195429fb33ee5399adae86f5d504ea8"
+    },
+    {
+      "file": "training/S1-L2/split_manifest.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/split_manifest.json",
+      "bytes": 1254656,
+      "sha256": "9c876430392054bea3d9813bc8a324e09998954ac1e904d831fa295b7bebeb30"
+    },
+    {
+      "file": "training/S1-L2/open_loop/step_00006000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/open_loop/step_00006000.json",
+      "bytes": 116979,
+      "sha256": "48942c3ea60d4bc55bc83847cd5159f1d22e76b8b656d45826d052cca48b738e"
+    },
+    {
+      "file": "training/S1-L2/open_loop/step_00003000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/open_loop/step_00003000.json",
+      "bytes": 116907,
+      "sha256": "0c94092b49ea3dd9dff5658c65b56efb70e54cf9d3cde0034e73232b25fba0e6"
+    },
+    {
+      "file": "training/S1-L2/open_loop/step_00005000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/open_loop/step_00005000.json",
+      "bytes": 116966,
+      "sha256": "16d153dde059a1e00db50ff8aab8c8f0cb803a4f72449694d08d08058610fa2e"
+    },
+    {
+      "file": "training/S1-L2/open_loop/step_00007000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/open_loop/step_00007000.json",
+      "bytes": 116915,
+      "sha256": "e674fae895b3981b6ad0ffd5c49f50fa82389d4e66a77cf5c3f74d5c29a0e59c"
+    },
+    {
+      "file": "training/S1-L2/open_loop/step_00001000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/open_loop/step_00001000.json",
+      "bytes": 116952,
+      "sha256": "0c842035e437cadd030bf6e262d5a8fd271aec9d2d9b2172284e71f30039da90"
+    },
+    {
+      "file": "training/S1-L2/open_loop/step_00004000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/open_loop/step_00004000.json",
+      "bytes": 116997,
+      "sha256": "06cedb1e5017afcef26cf85669388ef78661b298ca9ed9b8c14b6cc366692476"
+    },
+    {
+      "file": "training/S1-L2/open_loop/step_00008000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/open_loop/step_00008000.json",
+      "bytes": 117062,
+      "sha256": "6980c9c6ad98da71850ab9f4fd1646732cc8cca3bb60adee569473b00041ca54"
+    },
+    {
+      "file": "training/S1-L2/open_loop/step_00002000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/open_loop/step_00002000.json",
+      "bytes": 117001,
+      "sha256": "f8129be13e1f16737999d53b81e1b05e6af3f223643455c9ea8270e570ae259c"
+    },
+    {
+      "file": "training/S1-L3/train_args.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/train_args.json",
+      "bytes": 1291,
+      "sha256": "28fcdf7b7249937f7842e218679da50cc22b10bc61e1051ebada83d569cb9e36"
+    },
+    {
+      "file": "training/S1-L3/deepspeed_config.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/deepspeed_config.json",
+      "bytes": 731,
+      "sha256": "dfd56073bcad500d40bdec4d72549f7681b52f29b3ab44aed73b8bc1c164140e"
+    },
+    {
+      "file": "training/S1-L3/gradient_coverage.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/gradient_coverage.json",
+      "bytes": 2813,
+      "sha256": "d47be0dc21d8f3d6bbffb9fb38ef434cde3ec34a60be58fdf4437a75932ae1fc"
+    },
+    {
+      "file": "training/S1-L3/split_manifest.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/split_manifest.json",
+      "bytes": 1254656,
+      "sha256": "9c876430392054bea3d9813bc8a324e09998954ac1e904d831fa295b7bebeb30"
+    },
+    {
+      "file": "training/S1-L3/open_loop/step_00006000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/open_loop/step_00006000.json",
+      "bytes": 116977,
+      "sha256": "88709eb8a12a9bdb85f9c3945c68648b19b0e889af3423260cb5642c0235afd0"
+    },
+    {
+      "file": "training/S1-L3/open_loop/step_00003000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/open_loop/step_00003000.json",
+      "bytes": 117004,
+      "sha256": "54ab917618b7ff8a5255516653b67d362a977654ee33469acb895090333c1cdc"
+    },
+    {
+      "file": "training/S1-L3/open_loop/step_00005000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/open_loop/step_00005000.json",
+      "bytes": 116974,
+      "sha256": "eb7e8692745eb80e3fdaf9cb2e9aabe8cd254b1daf3dbc64503b39a6ae950154"
+    },
+    {
+      "file": "training/S1-L3/open_loop/step_00007000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/open_loop/step_00007000.json",
+      "bytes": 116997,
+      "sha256": "d411bf963b1eb324b2290d7a2cc5ebfe13978adc5ad17a26946a99e4cdba1aed"
+    },
+    {
+      "file": "training/S1-L3/open_loop/step_00001000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/open_loop/step_00001000.json",
+      "bytes": 117009,
+      "sha256": "9506eb24ae45d2461a9dd86059d8190ce1cd3384358316dafc61ad1c6707d57d"
+    },
+    {
+      "file": "training/S1-L3/open_loop/step_00004000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/open_loop/step_00004000.json",
+      "bytes": 117034,
+      "sha256": "4752bd0c1192481c1d159f0cfb0e27b27805772014c2ab7cb5419e1a29c0a6a4"
+    },
+    {
+      "file": "training/S1-L3/open_loop/step_00008000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/open_loop/step_00008000.json",
+      "bytes": 116945,
+      "sha256": "dc7ef718f1135de6af64402f5a466f2ba98180287757ddb1a50867ea5b3fd062"
+    },
+    {
+      "file": "training/S1-L3/open_loop/step_00002000.json",
+      "source": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/open_loop/step_00002000.json",
+      "bytes": 116917,
+      "sha256": "c81ab9a888f199c6d1f43ab37e79a144a83128ba237a6d90ed18029749de649f"
+    },
+    {
+      "file": "verification/infrastructure.json",
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/infrastructure.json",
+      "bytes": 5512,
+      "sha256": "bfe5afc1341e92ffa4aea6fb8c1f0a9ac6e4ea022c0ba37d971c5081cce55c68"
+    },
+    {
+      "file": "verification/infrastructure_evidence/outputs/loopwam_v1/pytest_final.xml",
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/pytest_final.xml",
+      "bytes": 20604,
+      "sha256": "5ed873250b1dc9801e327f039b04ea3e1a8784b70dea615ef57db19874c98ba7"
+    },
+    {
+      "file": "verification/infrastructure_evidence/outputs/loopwam_v1/conversion_audit.json",
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/conversion_audit.json",
+      "bytes": 1009,
+      "sha256": "164745a68f9ff61580acf3265ce7a59d8b22186a66db163379b5979640eb5fe1"
+    },
+    {
+      "file": "verification/infrastructure_evidence/runs/loopwam_validation/coupled16/gradient_coverage.json",
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/coupled16/gradient_coverage.json",
+      "bytes": 2811,
+      "sha256": "81118311093d55c02f4de484b00b5bcce77425c3acdd36f2b967fa84463bd1a8"
+    },
+    {
+      "file": "verification/infrastructure_evidence/runs/loopwam_validation/coupled16/timing_initial10.json",
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/coupled16/timing_initial10.json",
+      "bytes": 2035,
+      "sha256": "cc7ad8e0a1d68a1968d40d0f545f2ae3fa8e6593c688021886203a01f070ce13"
+    },
+    {
+      "file": "verification/infrastructure_evidence/runs/loopwam_validation/coupled16/timing.json",
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/coupled16/timing.json",
+      "bytes": 2041,
+      "sha256": "21a8018d7ea6b4dc4378da48ba7554aa15fc401d9f09199441f136f0e87c2c75"
+    },
+    {
+      "file": "verification/infrastructure_evidence/runs/loopwam_validation/fork_fixed12/timing.json",
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/fork_fixed12/timing.json",
+      "bytes": 2156,
+      "sha256": "b8a4f084003856cf12ea6889262457db5e7b5d1de933955aee65e41d7e82c62d"
+    },
+    {
+      "file": "verification/infrastructure_evidence/runs/loopwam_validation/coupled16/open_loop/step_00000011.json",
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/coupled16/open_loop/step_00000011.json",
+      "bytes": 976,
+      "sha256": "028018c71a45658cd54fd81b9721c53f3db62d3ebe931e4c9d13282aa324a618"
+    },
+    {
+      "file": "verification/infrastructure_evidence/outputs/loopwam_v1/overfit_diagnostic_protocol.json",
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/overfit_diagnostic_protocol.json",
+      "bytes": 3305,
+      "sha256": "af0a87c9b73d3f044b5c98cabc87136025dfbb6115e2dc0503c53a9470c91216"
+    },
+    {
+      "file": "verification/infrastructure_evidence/outputs/loopwam_v1/cached_training_evidence.json",
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/cached_training_evidence.json",
+      "bytes": 5423,
+      "sha256": "3a86f15e6b99298f83332108beee82291aac3c3241c9a648ca0070127b492e86"
+    },
+    {
+      "file": "verification/infrastructure_evidence/outputs/loopwam_v1/delay_smoke/result.json",
+      "source": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/delay_smoke/result.json",
+      "bytes": 29447,
+      "sha256": "165dc142f3682cfbc43d972f457cdada01e944bf0612d97a2dd26a78b076ab9f"
+    }
+  ]
+}

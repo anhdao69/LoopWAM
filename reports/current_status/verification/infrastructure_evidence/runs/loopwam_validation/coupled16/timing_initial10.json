@@ -1,0 +1,57 @@
+{
+  "checkpoint_seconds": 31.61945171095431,
+  "complete": true,
+  "dataset_counts": {
+    "train": {
+      "episodes": 368,
+      "unpadded_windows": 87066,
+      "windows": 98842
+    },
+    "validation": {
+      "episodes": 20,
+      "unpadded_windows": 4798,
+      "windows": 5438
+    }
+  },
+  "diagnostic_seconds": 0.0,
+  "ema_checkpoint": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/coupled16/ema.pt",
+  "global_batch": 128,
+  "global_step": 10,
+  "grad_accum": 2,
+  "init": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/loopwam_r32.pt",
+  "initialization_seconds": 139.77179718017578,
+  "interrupted": false,
+  "loss": "L3",
+  "manifest_sha256": "11f9bb815dcdb07e441bd7d00a4acf638979d6dffa69be2c72b8e650a0982082",
+  "max_memory_allocated_gb": 70.990810112,
+  "max_steps": 10,
+  "mean_seconds_per_step": 4.159930157661438,
+  "micro_batch": 16,
+  "mode": "coupled",
+  "output": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/coupled16",
+  "raw_checkpoint": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/coupled16/raw.pt",
+  "samples_per_second": 30.76974736324827,
+  "seconds_per_step": 3.234824009032713,
+  "seed": 42,
+  "signal": null,
+  "stage2_mode": "coupled",
+  "stage3_mode": "decoupled",
+  "start_step": 0,
+  "state_path": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/coupled16/state",
+  "stats_sha256": "30f81ad7d5076e97323e3328bce003e01a04cb21327b5bacd21bb72846768638",
+  "steps": 10,
+  "steps_completed": 10,
+  "teacher": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/fastwam_release/libero_uncond_2cam224.pt",
+  "teacher_identity": {
+    "mtime_ns": 1791217740000000000,
+    "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/fastwam_release/libero_uncond_2cam224.pt",
+    "size": 12041735140
+  },
+  "timing_measured_seconds": 29.113416081294417,
+  "timing_measured_steps": 9,
+  "timing_warmup_steps": 1,
+  "training_seconds": 41.59930157661438,
+  "version": 2,
+  "world_size": 4,
+  "zero_stage": 1
+}

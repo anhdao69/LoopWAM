@@ -1,0 +1,1656 @@
+{
+  "protocol": {
+    "matrix": [
+      {
+        "id": "P0-S",
+        "arch": "loopwam",
+        "loss": "L2",
+        "mode": "fixed",
+        "start": 0,
+        "end": 2000,
+        "fork": null,
+        "pairs": [
+          [
+            4,
+            4
+          ]
+        ],
+        "seed_offset": 0
+      },
+      {
+        "id": "C1",
+        "arch": "untied30",
+        "loss": "L3",
+        "mode": "fixed",
+        "start": 0,
+        "end": 8000,
+        "fork": null,
+        "pairs": [
+          [
+            4,
+            4
+          ]
+        ],
+        "seed_offset": 0
+      },
+      {
+        "id": "C2",
+        "arch": "untied12",
+        "loss": "L3",
+        "mode": "fixed",
+        "start": 0,
+        "end": 8000,
+        "fork": null,
+        "pairs": [
+          [
+            4,
+            4
+          ]
+        ],
+        "seed_offset": 0
+      },
+      {
+        "id": "C3",
+        "arch": "untied_v30a12",
+        "loss": "L3",
+        "mode": "fixed",
+        "start": 0,
+        "end": 8000,
+        "fork": null,
+        "pairs": [
+          [
+            4,
+            4
+          ]
+        ],
+        "seed_offset": 0
+      },
+      {
+        "id": "S1-L2",
+        "arch": "loopwam",
+        "loss": "L2",
+        "mode": "fixed",
+        "start": 0,
+        "end": 8000,
+        "fork": null,
+        "pairs": [
+          [
+            4,
+            4
+          ]
+        ],
+        "seed_offset": 0
+      },
+      {
+        "id": "S1-L3",
+        "arch": "loopwam",
+        "loss": "L3",
+        "mode": "fixed",
+        "start": 0,
+        "end": 8000,
+        "fork": null,
+        "pairs": [
+          [
+            4,
+            4
+          ]
+        ],
+        "seed_offset": 0
+      },
+      {
+        "id": "S2-cont",
+        "arch": "loopwam",
+        "loss": "recipe",
+        "mode": "fixed",
+        "start": 8000,
+        "end": 14000,
+        "fork": "S1*",
+        "pairs": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            4,
+            4
+          ]
+        ],
+        "seed_offset": 0
+      },
+      {
+        "id": "S2-base",
+        "arch": "loopwam",
+        "loss": "recipe",
+        "mode": "coupled",
+        "start": 8000,
+        "end": 14000,
+        "fork": "S1*",
+        "pairs": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            4,
+            4
+          ]
+        ],
+        "seed_offset": 0
+      },
+      {
+        "id": "S3-coupled",
+        "arch": "loopwam",
+        "loss": "recipe",
+        "mode": "coupled",
+        "start": 14000,
+        "end": 22000,
+        "fork": "S2*",
+        "pairs": [
+          [
+            4,
+            4
+          ],
+          [
+            4,
+            2
+          ],
+          [
+            4,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "seed_offset": 0
+      },
+      {
+        "id": "S3-late",
+        "arch": "loopwam",
+        "loss": "recipe",
+        "mode": "decoupled",
+        "start": 14000,
+        "end": 22000,
+        "fork": "S2*",
+        "pairs": [
+          [
+            4,
+            4
+          ],
+          [
+            4,
+            2
+          ],
+          [
+            4,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "seed_offset": 0
+      },
+      {
+        "id": "S3-Konly",
+        "arch": "loopwam",
+        "loss": "recipe",
+        "mode": "konly",
+        "start": 8000,
+        "end": 22000,
+        "fork": "S1*",
+        "pairs": [
+          [
+            4,
+            4
+          ],
+          [
+            4,
+            2
+          ],
+          [
+            4,
+            1
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        "seed_offset": 0
+      },
+      {
+        "id": "S3-2stage",
+        "arch": "loopwam",
+        "loss": "recipe",
+        "mode": "decoupled",
+        "start": 8000,
+        "end": 22000,
+        "fork": "S1*",
+        "pairs": [
+          [
+            4,
+            4
+          ],
+          [
+            4,
+            2
+          ],
+          [
+            4,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "seed_offset": 0
+      },
+      {
+        "id": "F-Long-s1",
+        "arch": "loopwam",
+        "loss": "recipe",
+        "mode": "three_stage",
+        "start": 0,
+        "end": 22000,
+        "fork": null,
+        "pairs": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            4,
+            1
+          ],
+          [
+            4,
+            2
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            4,
+            4
+          ]
+        ],
+        "seed_offset": 1
+      },
+      {
+        "id": "F-Long-s2",
+        "arch": "loopwam",
+        "loss": "recipe",
+        "mode": "three_stage",
+        "start": 0,
+        "end": 22000,
+        "fork": null,
+        "pairs": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            4,
+            1
+          ],
+          [
+            4,
+            2
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            4,
+            4
+          ]
+        ],
+        "seed_offset": 2
+      }
+    ],
+    "evaluation": {
+      "suite": "libero_10",
+      "tasks": 10,
+      "initial_states": 50,
+      "initial_state_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49
+      ],
+      "action_horizon": 32,
+      "euler_steps": 10,
+      "sigma_shift": 5.0,
+      "replan_steps": 10,
+      "max_steps": 700,
+      "num_steps_wait": 30,
+      "compiled": true,
+      "text_cfg_scale": 1.0,
+      "binarize_gripper": true,
+      "weights": "stage_end_ema"
+    },
+    "executable_source": {
+      "version": 1,
+      "sha256": "1b8a7bcd49ade78852aacffdefe96d21dc1379f1733fcfd2afab335a0e30e848",
+      "files": {
+        "configs/data/libero_2cam.yaml": "4f1d5d55fe58c828c4fa673c7785004550243974d331ad5cbd050a7a2bbddbbe",
+        "configs/data/libero_2cam_lerobot_v30.yaml": "9c243358de9e978f210d827569cf8bf074fec6b7a3d47b079e8827342562edc1",
+        "configs/data/robotwin.yaml": "f1ba509fac21fc59d5a210d6f68bcf94640729ce00dce695b7ca6df24c7b5aa7",
+        "configs/model/fastwam.yaml": "30231374dd419ef304cb5d4950f93841858f6501d8efe3d520c31ad502fd2da8",
+        "configs/model/fastwam_idm.yaml": "69b73a9c5218bd2a57bcc24af705acc55f400d4cdd753d6219df20567cf8bc9d",
+        "configs/model/fastwam_joint.yaml": "233b8add4263f1385b1392dab31f0de5deec9e17d2321af84b3ed69bf1c4a809",
+        "configs/model/fastwam_optional_idm.yaml": "d86af6f474ac66cfa9b380dc143ceabeaaae387ac5454beb194c1a5fd235aa79",
+        "configs/sim_libero.yaml": "005c4da6d40abc2304ff6f9a06feca1204f330c1ac7c3919f807d1b58dfd016c",
+        "configs/sim_robotwin.yaml": "b96b579a8f243c935f1e17f8f3d6e9b7cb6bf2f2a6823272f626ecc33d68056f",
+        "configs/task/libero_idm_2cam224_1e-4.yaml": "5df6cf62843806b0d9d2fb48b873945865bbfa74d135c58032651d54d6992c4e",
+        "configs/task/libero_joint_2cam224_1e-4.yaml": "1c46f34058c9c5363bab6814a0b86eb13be3a0077e944db7d39cf151da07636e",
+        "configs/task/libero_optional_idm_2cam224_1e-4.yaml": "367794491e728cba5fdb63929e69ab19f3c75b89eb6631754ae6a67d114d542c",
+        "configs/task/libero_uncond_2cam224_1e-4.yaml": "27bdc30545aa06bca81137690a241d469d5a67a433881976bd79da3d4171d1a0",
+        "configs/task/robotwin_idm_3cam_384_1e-4.yaml": "2e67c9f301105752962af825e57e5b46ef5e6ba4290e397e5efc7abb88652619",
+        "configs/task/robotwin_joint_3cam_384_1e-4.yaml": "daf4cb5246728ba60ae6903fbfd9d5e029d7172f30916b8143f81783450fa874",
+        "configs/task/robotwin_uncond_3cam_384_1e-4.yaml": "2f78a207415b452b05e0238f3e00eb9942d7960413076b5b3cdcf1ce09caef9f",
+        "configs/train.yaml": "42a60765bfdd842af01aacdde6066ce63be00698377fe7729110b795be684016",
+        "experiments/libero/action_ensembler.py": "13490f701ea9be8d618e199189648c5c3184b5d6a41b32665565e093c0209534",
+        "experiments/libero/eval_libero_single.py": "3854ba516fd0369eb538fea29eee2e4735fcccb19626a1009e29f782e00051f4",
+        "experiments/libero/libero_utils.py": "e7acb0656d3e3847f799065ffef40c5c4ede081fbd85e35e245c42a9f089df42",
+        "experiments/libero/run_libero_manager.py": "5076fa41771241b8dda679204bf7f536d6d4e4630506874498811fbb0599e2cb",
+        "experiments/libero/summarize_results.py": "52f780b16b15efbc1b0d1a214d3784f1b483b7910a1fa40669add8679dfef1b7",
+        "experiments/libero/worker_pool.py": "557f2f39f42b977935169eb4fd093c4c047223b865bc4ec97e840c5f785c4e40",
+        "scripts/activate_fastwam.sh": "0e4a7e2b255b4f51fbf0534578c539006f7e4242caf0c17d67d530e41bf350c9",
+        "scripts/loopwam/cache_latents.py": "dc4ed5b2b32d1a37e743d11f3aee6440ff087871387ab2a6826314d2f1c0b68d",
+        "scripts/loopwam/check_overfit.py": "2d40aa325837f2c1ce185fe5bf2cb9229b1a3f7e508c5859cf7d7d0b4578d768",
+        "scripts/loopwam/continue_campaign.sbatch": "a3500fc9a5c69a0443ff6c5570d193f0187d6edf8893cf0c952cda2cff225432",
+        "scripts/loopwam/diagnose_conversion.py": "dde7bcc6a6d7e544e8dc20e2bbc1a2eb547e223f77893fe5d8ba575a62483e03",
+        "scripts/loopwam/evaluate.py": "44001f13d7e43683ad827e473de5807734f7620ba607c7b9e2f7b5b0c7697f16",
+        "scripts/loopwam/plot_initialization.py": "136cbd7f951230dfc954bae8e4c23689c0888b3a08ae5d475830c58f2276685c",
+        "scripts/loopwam/plot_overfit.py": "726b032883b371c0bc8e93fc05ebef02d2a5463a267cd6f41e438fa28d912a7d",
+        "scripts/loopwam/run_campaign.sh": "45d6e23d19a12a31f39f1e7cde37eb08eb49a0c4d0a2fe9572f7c241e9264782",
+        "scripts/loopwam/train.py": "60c6c2e80d481f978be6ad35af2bbf143d11b1ce8ec49dd92250df9827588476",
+        "scripts/loopwam/verify_infrastructure.py": "6af1ae78f879398eb353486c63748f635e8c83a2dd4672c68ce0766a65b1f20c",
+        "src/fastwam/__init__.py": "c4149c5ff0f9abd1517360daf761e692feb8570eb7a0caa2dfde52d4412c3e23",
+        "src/fastwam/datasets/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "src/fastwam/datasets/dataset_utils.py": "3bc17590049c7cb54061acf8d731b07892e7f530c5d7eeac2613fa77a285a392",
+        "src/fastwam/datasets/lerobot/base_lerobot_dataset.py": "c076b4028c5414d3c08199f1501698c3a4e15ac4fe09c6c7a67fa7f462a13b4a",
+        "src/fastwam/datasets/lerobot/constants.py": "11ac9260341e1560c5eb0dd7acb79ed63c74180b8ab4113c27622ff213db417f",
+        "src/fastwam/datasets/lerobot/lerobot/datasets/compute_stats.py": "7d7daab219332b5abdfd5ec67ccaf3502e8eb583a17a4e482c3f3d4f7a691e89",
+        "src/fastwam/datasets/lerobot/lerobot/datasets/utils.py": "40f1b94e6ceb50765fb8dfa3d498887c2a0fc2eb49f09770c5f36190e7110c98",
+        "src/fastwam/datasets/lerobot/lerobot/datasets/video_utils.py": "cb647a1e955c3279e39ce8d7af7a37ea7432bbd71534c183f9ceebc8557dd89f",
+        "src/fastwam/datasets/lerobot/lerobot/lerobot_dataset.py": "a71b26a73a0e460198b8316db2acb77b43a719d4ab9706150e2ba53773ffda64",
+        "src/fastwam/datasets/lerobot/processors/base_processor.py": "1f47bc85fee11e3d16714b2f1e3a2dc874f4609a1706a788617156d34b48b58e",
+        "src/fastwam/datasets/lerobot/processors/fastwam_processor.py": "3aa0e275b3815b67785c6e38ac5fc400472f9d09ac18b2ab269ea77bf574ade4",
+        "src/fastwam/datasets/lerobot/robot_video_dataset.py": "04f830e4c7dcc93be8e1d3514e502719aed94e62074364edbc1257e533a27de9",
+        "src/fastwam/datasets/lerobot/transforms/action_state_merger.py": "669d6991415fc5eca44b32b129d15fee1e06e2f17d59d90350c252598033b427",
+        "src/fastwam/datasets/lerobot/transforms/image.py": "4d7ab61d0844918525244db653831f0f632730046b2714a6163ff57c441a16fa",
+        "src/fastwam/datasets/lerobot/transforms/misc.py": "8b505bd9e3a54ab2db7efcd64f0929d2e0303f5db1123de1074fd01fa9887e2b",
+        "src/fastwam/datasets/lerobot/transforms/relative_action.py": "e555e0558e948c4eea3d1119e274fa5d923af30862eec4380fb8528f4a319c47",
+        "src/fastwam/datasets/lerobot/transforms/rotation.py": "0de34b252d60b956cda07c0c19baebbd3c8a28916face700c6664c5815e11e91",
+        "src/fastwam/datasets/lerobot/utils/normalizer.py": "5ac89a646cd6395e98feaa832f8fdf7c7e00857080af3d9c15710e243c43ad43",
+        "src/fastwam/datasets/lerobot/utils/rotation.py": "6169162f98faf02a3fe5201e2b8a1069fe299840d036ee7cad8af5fa8f561542",
+        "src/fastwam/datasets/lerobot3/__init__.py": "26f0c3a4afdbd54f723cab81d2288781844e61ee367fd88bc0a821c7929cb79f",
+        "src/fastwam/datasets/lerobot3/base_lerobot_dataset.py": "7dc96f86caf8239795a0dce0161e25969ac002ebf037dfb9695608c40d89d769",
+        "src/fastwam/datasets/lerobot3/lerobot_dataset.py": "4acae53b736c47c1ed6cb42ad41a68cb0a64cf6578791c5f9e50a8dd9f5541e1",
+        "src/fastwam/datasets/lerobot3/robot_video_dataset.py": "62230146222dfe0719c43f72d9f8e913cd4998d8f68a3f9d09b9b8d3db7441d5",
+        "src/fastwam/loop/__init__.py": "fcc2f3136679624c520a1c7fd84993369bdaf48c4b519cfc17f42f73e7c98627",
+        "src/fastwam/loop/campaign.py": "f339e54208400d729da7798298dedd0c1d3e421df516d4053b9aa09913468629",
+        "src/fastwam/loop/convert.py": "421c0f0d0f17a7b5ceb51426608872978d95f314fa27d0eed92a50a0d88b1ba0",
+        "src/fastwam/loop/data.py": "631249f9c8cd4b8eb70842574bd7ca924c237990ab39d3eb0ae3f1cdfea9d289",
+        "src/fastwam/loop/diagnostics.py": "c362ac1f9ce4976b5faa2716d6f1b5701bd37f184989dfa9ca6accee528ea14f",
+        "src/fastwam/loop/evaluation.py": "9d28fa2f0d9465df7691aa5e15f65cc8470b1a9ebb4418a15cf55b506032f687",
+        "src/fastwam/loop/losses.py": "865a8b26acb94c578005d8e1baa0d5b1392f4e2b892ab18c86a57d915f2c8ea8",
+        "src/fastwam/loop/model.py": "728265ae0ddee47761834bcf7f5b934eeb952060abb8040071a6087fcf3906ee",
+        "src/fastwam/loop/mot.py": "827b0a3cb498ea10392f3ed8ae4e32a1fd38de938fb18e387ebfe33f5075d34d",
+        "src/fastwam/loop/reporting.py": "a5f6e550a960be535b7b58fcb0af61de940dab6901f8fda7a26f4bc567012f78",
+        "src/fastwam/loop/runtime.py": "0ceeb11a72e09be37ccfa6a09f36b19e798b19acee5789d3416af0e025156e1b",
+        "src/fastwam/loop/sampler.py": "d20255999d7e275541991e8942458241af1e5d598f337cddd1be3caa10b893a4",
+        "src/fastwam/loop/schedule.py": "9022afcbb313024147ece669f53d676a71993f6fefa92412833a74691f776bf8",
+        "src/fastwam/loop/slots.py": "1f834e29c6606fdf766d3a54242a3b449a1a915066cb639cbdefb36c2abacba9",
+        "src/fastwam/loop/trainer.py": "d5d4ed45abbcaade873cfffb90874762f7cca9100ea9d9f6735e65eb7528e6d4",
+        "src/fastwam/models/__init__.py": "ae4c5733f4bbf7caf31df2ae6f789516f6a10cd84a321f7d0375a7034253ac6d",
+        "src/fastwam/models/wan22/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "src/fastwam/models/wan22/action_dit.py": "631fdf598fbe06a95a41c1a27acd9de16f2187f3a2009e10690197527d18283b",
+        "src/fastwam/models/wan22/fastwam.py": "154c339efd33fae119fe902d6efb91cde7475e3cfd0e7b50e606278c1c3eac09",
+        "src/fastwam/models/wan22/fastwam_idm.py": "5ebdaabb42d4e6c0c6543760ad2ea9b3c8ef9415ebab44fbf845f73f52280bba",
+        "src/fastwam/models/wan22/fastwam_joint.py": "a61aab79cfc607af02ab816849329a13c1dcd0bbcbf63c6584a345d8a67bb2b6",
+        "src/fastwam/models/wan22/fastwam_optional_idm.py": "bd508293545895bae159a42998992cece9c1f1aca373e6f03521ea05f55749b2",
+        "src/fastwam/models/wan22/helpers/__init__.py": "f26116de229557a37a4812dc4ee75971f5f9e8b80240786ea4d0e5b0ff703cbf",
+        "src/fastwam/models/wan22/helpers/gradient.py": "ba5d8f7272eb029dc6cd2849ca99b70f6ad5abb838d21c818beb0590620dc793",
+        "src/fastwam/models/wan22/helpers/io.py": "1c6c1bc8a975b47092912833194fce25e2e3ac886fbab72d73af3ff5a00b3c62",
+        "src/fastwam/models/wan22/helpers/loader.py": "792f66bd0609c1365256aa24d43301340f81260c1651d89b04d2ae8224a08726",
+        "src/fastwam/models/wan22/helpers/state_dict_converters.py": "81d213373e5056a8d8bf31768b9b04164138ea78d0b306e316334841499f4bf9",
+        "src/fastwam/models/wan22/mot.py": "2383e4cfa00efa9cde889493e0b6c861bc7b17d24d731f5ff38d3ebf8ab7f541",
+        "src/fastwam/models/wan22/schedulers/scheduler_continuous.py": "2ececce284f7b9fe876965fbf5e11ca7b69caaf693979266b0f63062a589f181",
+        "src/fastwam/models/wan22/wan22.py": "b85349beeeb018d5be3f5b932bee3d640274d09c5e1e0fa0fa01e8ad0e02356e",
+        "src/fastwam/models/wan22/wan_video_dit.py": "578712e83fac2815d3e3a3fd9134178028082deba361433122fe3c5764982dd6",
+        "src/fastwam/models/wan22/wan_video_text_encoder.py": "aedf7f131556a39b99a273deec3a85d67f41b5367cef41f310f33a807ae60a87",
+        "src/fastwam/models/wan22/wan_video_vae.py": "cb2b1b53f35a1a201c640ec52d12a7c4cb4ba1df322155addd3dc409e04dc07c",
+        "src/fastwam/runtime.py": "230a814b7a42a3f74145513f5775a3c6cd56ffa244635c536b3d1f384c5f82d0",
+        "src/fastwam/trainer.py": "71a0c1e82cedc89f7abb3dc9fd30e41270af729901edcd527d0f21c88af860d5",
+        "src/fastwam/utils/__init__.py": "2893c05b99b17162941c70a41859c2808f8ae390be367a26cac7d5ab93ee197b",
+        "src/fastwam/utils/config_resolvers.py": "01c48cbd42b86e636b70ccc3e193a81147162ba890777102b2c61086fa415340",
+        "src/fastwam/utils/fs.py": "69e6df236b43360428a613686c8f37c531c0d16a3a2c5b06a725c46b49d657c5",
+        "src/fastwam/utils/logging_config.py": "cadc4f6ad487c3f37171a6defad36d23d9ab8bf262f73a461cd9ee9b03b757e7",
+        "src/fastwam/utils/misc.py": "05aa51247936a8d3faac27f90b78b65ff83a688259bed55d114b6a617ced532d",
+        "src/fastwam/utils/pytorch_utils.py": "ffc483e7fb435cd654326750eaffdbfc9243837c3140dcc74e45b24abb751a33",
+        "src/fastwam/utils/samplers.py": "4d3bd9b2d498f4ad8f2cf9765d60c4bf5368fa6fa2a7d42d0db6210f66899652",
+        "src/fastwam/utils/video_io.py": "9e9898b021a44e87aa1b4e6d13e3755a9869a2e27a7eb53c72a6802808d5bd80",
+        "src/fastwam/utils/video_metrics.py": "aaa37e458cc9e4bb79a17923b5ff5900c97b4309f7abd50db44cf76e9143ffd6"
+      }
+    },
+    "confirmation_delay": {
+      "version": 1,
+      "controller": "serial_receding_horizon_zero_order_command_hold",
+      "timing_scope": "observation_preprocess+compiled_infer_action+action_postprocess",
+      "control_period_source": "env.env.control_timestep",
+      "quantization": "ceil_to_next_control_tick",
+      "hold": "exact_last_processed_environment_command; initial_LIBERO_dummy_command",
+      "warmup_calls": 50,
+      "warmup_rng": "restore_python_numpy_torch_cpu_and_initialized_cuda",
+      "action_prefix": "first_10_unchanged_after_delay",
+      "delay_counts_toward_max_steps": true,
+      "execution": "discrete_event_emulation; not_buffered_or_asynchronous_hardware"
+    },
+    "confirmation_delay_pairs": [
+      [
+        4,
+        4
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        1
+      ]
+    ],
+    "raw_vs_ema": {
+      "stage": "selected_S1",
+      "pair": [
+        4,
+        4
+      ],
+      "eval_seed": 42,
+      "selection": false
+    },
+    "teacher": {
+      "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/fastwam_release/libero_uncond_2cam224.pt",
+      "bytes": 12041735140,
+      "mtime_ns": 1791217740000000000
+    },
+    "stats_sha256": "30f81ad7d5076e97323e3328bce003e01a04cb21327b5bacd21bb72846768638",
+    "training_seed": 42,
+    "evaluation_seeds": [
+      42,
+      43
+    ],
+    "batch": 128,
+    "batches": {
+      "loopwam": {
+        "micro_batch": 16,
+        "grad_accum": 2
+      },
+      "untied30": {
+        "micro_batch": 8,
+        "grad_accum": 4
+      },
+      "untied12": {
+        "micro_batch": 16,
+        "grad_accum": 2
+      },
+      "untied_v30a12": {
+        "micro_batch": 8,
+        "grad_accum": 4
+      }
+    },
+    "gradient_checkpointing": false,
+    "gpus": "0,1,2,3",
+    "latent_cache": {
+      "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/latent_cache",
+      "metadata_sha256": "5fda7d9a915134f63b1e4b2ae29dc87ee6753ae1297bf300dbc128cf0750cd15",
+      "cache_id": "9e3e14e18e97edaa4f620177f8e54b2ee621d78c0a61c3cf9af83c1cadce27c4",
+      "complete_sha256": "70a6199bd9ce548e8d25b3b158bac356050f1d65779e9d3a7d51827c40c850c6",
+      "source_metadata": {
+        "cache_id": "9e3e14e18e97edaa4f620177f8e54b2ee621d78c0a61c3cf9af83c1cadce27c4",
+        "contexts": {
+          "0": {
+            "processed_sha256": "027574ddb2ef7f9e6e9720cdaea4de5e3038ee6b40684e4493bc6110abcdb52e",
+            "prompt": "A video recorded from a robot's point of view executing the following instruction: turn on the stove and put the moka pot on it",
+            "prompt_sha256": "ab4a7b38cafc00cd4f08f4a3c1937ae369dc1b6d59f77f7554999d2720177ce1",
+            "source_path": "/lustre/fs1/groups/yshang/an221229/data/FastWAM/text_embeds_cache/libero/ab4a7b38cafc00cd4f08f4a3c1937ae369dc1b6d59f77f7554999d2720177ce1.t5_len128.wan22ti2v5b.pt",
+            "source_sha256": "ce7303a9a924b06617953ab6f49d2909f000d31feea063c76cc2abcb83701938",
+            "task": "turn on the stove and put the moka pot on it"
+          },
+          "1": {
+            "processed_sha256": "dbc6a428c7470726734a7897ebbbb45695521b4d10e2da5a63664e8cecdd6d99",
+            "prompt": "A video recorded from a robot's point of view executing the following instruction: put the black bowl in the bottom drawer of the cabinet and close it",
+            "prompt_sha256": "fe5b483ce54fd0b450d3504eacf0f05018a50ab184fa53c7e2744b8a52e957cf",
+            "source_path": "/lustre/fs1/groups/yshang/an221229/data/FastWAM/text_embeds_cache/libero/fe5b483ce54fd0b450d3504eacf0f05018a50ab184fa53c7e2744b8a52e957cf.t5_len128.wan22ti2v5b.pt",
+            "source_sha256": "c326d75a026a4b3ede72c35b719a463986904491f35a3824067b5f60421ac754",
+            "task": "put the black bowl in the bottom drawer of the cabinet and close it"
+          },
+          "2": {
+            "processed_sha256": "d1646c08a07b04cdcbb0cf4cb3ec0e26f4235dcc065bcd76a61eb840bdec41a5",
+            "prompt": "A video recorded from a robot's point of view executing the following instruction: put the yellow and white mug in the microwave and close it",
+            "prompt_sha256": "88251b67639631ce11c41f703e85001fff4b505e1eafcc355389e15e15da67ee",
+            "source_path": "/lustre/fs1/groups/yshang/an221229/data/FastWAM/text_embeds_cache/libero/88251b67639631ce11c41f703e85001fff4b505e1eafcc355389e15e15da67ee.t5_len128.wan22ti2v5b.pt",
+            "source_sha256": "39c00fcdcc892d79f8dab3cf6163a9ec6cf60a332fd42a249b3c5b1b0111d704",
+            "task": "put the yellow and white mug in the microwave and close it"
+          },
+          "3": {
+            "processed_sha256": "60d0a86226ed50a02dd73555e09d2d6a334413369e410a18b2ae82ef99249675",
+            "prompt": "A video recorded from a robot's point of view executing the following instruction: put both moka pots on the stove",
+            "prompt_sha256": "d5d6f37fc1c8d15053ce2a356e5e09ef36977a0dfe672f9393dcc6f5bd597352",
+            "source_path": "/lustre/fs1/groups/yshang/an221229/data/FastWAM/text_embeds_cache/libero/d5d6f37fc1c8d15053ce2a356e5e09ef36977a0dfe672f9393dcc6f5bd597352.t5_len128.wan22ti2v5b.pt",
+            "source_sha256": "fdda1d482d650225ecc847847eb410d426c37acf849afe69ce09c81299d6a763",
+            "task": "put both moka pots on the stove"
+          },
+          "4": {
+            "processed_sha256": "0ff80e21efffcb2f01ffcd15762c05e50d6ce3e88ba50db93e944b67a06da894",
+            "prompt": "A video recorded from a robot's point of view executing the following instruction: put both the alphabet soup and the cream cheese box in the basket",
+            "prompt_sha256": "4f93dc39fd7c885bf14d50d7db40823defd127f7df28071700e2791d3bf22dd5",
+            "source_path": "/lustre/fs1/groups/yshang/an221229/data/FastWAM/text_embeds_cache/libero/4f93dc39fd7c885bf14d50d7db40823defd127f7df28071700e2791d3bf22dd5.t5_len128.wan22ti2v5b.pt",
+            "source_sha256": "2a7394b876ea1097ee94be716116197d2a98700cf7cccadc64e6979d6c1f0a70",
+            "task": "put both the alphabet soup and the cream cheese box in the basket"
+          },
+          "5": {
+            "processed_sha256": "1fb0cf922cc09199b8cb5fd73eaebf67a6ea1a5da7bddd90266cc80f19ad8c6b",
+            "prompt": "A video recorded from a robot's point of view executing the following instruction: put both the alphabet soup and the tomato sauce in the basket",
+            "prompt_sha256": "53bde11d507045010a731dc81bb02e80859e58b9315a8b303b5d0fd6f9b561ef",
+            "source_path": "/lustre/fs1/groups/yshang/an221229/data/FastWAM/text_embeds_cache/libero/53bde11d507045010a731dc81bb02e80859e58b9315a8b303b5d0fd6f9b561ef.t5_len128.wan22ti2v5b.pt",
+            "source_sha256": "5ced0254dea01e39e2c3da2481cb370b168be2f02a3df0ce2abfd6d4a888e2b1",
+            "task": "put both the alphabet soup and the tomato sauce in the basket"
+          },
+          "6": {
+            "processed_sha256": "80572df53e75c342a5ca42edacec67c8652e2a5ad0096d876c5965899d7c9a4d",
+            "prompt": "A video recorded from a robot's point of view executing the following instruction: put both the cream cheese box and the butter in the basket",
+            "prompt_sha256": "84727b22433531438a399799d28d16d49fc56ec7ab0a4cf6a827ea7b2347df35",
+            "source_path": "/lustre/fs1/groups/yshang/an221229/data/FastWAM/text_embeds_cache/libero/84727b22433531438a399799d28d16d49fc56ec7ab0a4cf6a827ea7b2347df35.t5_len128.wan22ti2v5b.pt",
+            "source_sha256": "e1919024e5f568d7546ab6ea4c443fe3b96fe14850637b20e6fadbe2c7fa353f",
+            "task": "put both the cream cheese box and the butter in the basket"
+          },
+          "7": {
+            "processed_sha256": "69de88d2da66a5498e0ba4ae761aa580ee0c651677eff2c6bb4244acf042f201",
+            "prompt": "A video recorded from a robot's point of view executing the following instruction: put the white mug on the left plate and put the yellow and white mug on the right plate",
+            "prompt_sha256": "517025c832018e9c689a3982853b7745b52cadd7a6cfb10e3f6476844aabedbe",
+            "source_path": "/lustre/fs1/groups/yshang/an221229/data/FastWAM/text_embeds_cache/libero/517025c832018e9c689a3982853b7745b52cadd7a6cfb10e3f6476844aabedbe.t5_len128.wan22ti2v5b.pt",
+            "source_sha256": "26072e9daed8a29c9e3dc095dc1813a669635807d0097f8c64ba564d6c262482",
+            "task": "put the white mug on the left plate and put the yellow and white mug on the right plate"
+          },
+          "8": {
+            "processed_sha256": "a1d7d2d0e32bb2a7849bf73f252f6d65e16377dedf4551fc42593c76ba53e535",
+            "prompt": "A video recorded from a robot's point of view executing the following instruction: put the white mug on the plate and put the chocolate pudding to the right of the plate",
+            "prompt_sha256": "fd92daee5b46a4b3dd8426ff9cceea75d709cee1c7b19244b1026205cc33ba3c",
+            "source_path": "/lustre/fs1/groups/yshang/an221229/data/FastWAM/text_embeds_cache/libero/fd92daee5b46a4b3dd8426ff9cceea75d709cee1c7b19244b1026205cc33ba3c.t5_len128.wan22ti2v5b.pt",
+            "source_sha256": "fd0a48407eea38c3ede01a268454b64ba369b07137de158a42e54fbd6e1846dd",
+            "task": "put the white mug on the plate and put the chocolate pudding to the right of the plate"
+          },
+          "9": {
+            "processed_sha256": "4cd85eba790871f1d6fc1689c237ed35b8f64002575ac04a63fa1391fc61cd2b",
+            "prompt": "A video recorded from a robot's point of view executing the following instruction: pick up the book and place it in the back compartment of the caddy",
+            "prompt_sha256": "b75715591c78b61ee4e9abf6a84eda0e63b04bd38514a0ebd207770d415357dc",
+            "source_path": "/lustre/fs1/groups/yshang/an221229/data/FastWAM/text_embeds_cache/libero/b75715591c78b61ee4e9abf6a84eda0e63b04bd38514a0ebd207770d415357dc.t5_len128.wan22ti2v5b.pt",
+            "source_sha256": "1c66b69b54439c915e9436e1d21539035373fc2baa90977a8375b2be26ad4689",
+            "task": "pick up the book and place it in the back compartment of the caddy"
+          }
+        },
+        "dataset_file_count": 1164,
+        "dataset_files_sha256": "1810dab046f2a9bef4f183056795d0d705c9a02828369941cbe0b4044e3a2b33",
+        "encoder_method_sha256": "1f694639a05780b29e82eb96ef7becf50a780063741e624fb52444a483a5c21a",
+        "encoding": {
+          "autocast_dtype": "torch.bfloat16",
+          "cuda_matmul_allow_tf32": false,
+          "cudnn_allow_tf32": true,
+          "cudnn_benchmark": false,
+          "cudnn_deterministic": true,
+          "encode_batch_size": 1,
+          "input_dtype": "torch.float32",
+          "latent_dtype": "torch.bfloat16",
+          "latent_shape": [
+            48,
+            3,
+            14,
+            28
+          ],
+          "posterior": "mean, no sampling",
+          "temporal_reset": "per clip",
+          "weights_dtype": "torch.bfloat16"
+        },
+        "encoding_backend": {
+          "cuda_version": "12.8",
+          "cudnn_version": 90701,
+          "device_capability": [
+            9,
+            0
+          ],
+          "device_name": "NVIDIA H100 80GB HBM3"
+        },
+        "expected_windows": 104280,
+        "format": "loopwam_latent_cache_v1",
+        "manifest_sha256": "11f9bb815dcdb07e441bd7d00a4acf638979d6dffa69be2c72b8e650a0982082",
+        "preprocessing": {
+          "_target_": "fastwam.datasets.lerobot.robot_video_dataset.RobotVideoDataset",
+          "action_video_freq_ratio": 4,
+          "camera_key": null,
+          "concat_multi_camera": "horizontal",
+          "context_len": 128,
+          "dataset_dirs": [
+            "/lustre/fs1/groups/yshang/an221229/data/FastWAM/libero_mujoco3.3.2/libero_10_no_noops_lerobot"
+          ],
+          "global_sample_stride": 1,
+          "is_training_set": true,
+          "num_frames": 33,
+          "pretrained_norm_stats": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/fastwam_release/libero_uncond_2cam224_dataset_stats.json",
+          "processor": {
+            "_target_": "fastwam.datasets.lerobot.processors.fastwam_processor.FastWAMProcessor",
+            "action_output_dim": 7,
+            "action_state_merger": {
+              "_target_": "fastwam.datasets.lerobot.transforms.action_state_merger.ConcatLeftAlign"
+            },
+            "action_state_transforms": null,
+            "delta_action_dim_mask": {
+              "default": [
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                false
+              ]
+            },
+            "norm_default_mode": "min/max",
+            "norm_exception_mode": null,
+            "num_obs_steps": 33,
+            "num_output_cameras": 2,
+            "proprio_output_dim": 8,
+            "shape_meta": {
+              "action": [
+                {
+                  "key": "default",
+                  "raw_shape": 7,
+                  "shape": 7
+                }
+              ],
+              "images": [
+                {
+                  "key": "image",
+                  "raw_shape": [
+                    3,
+                    512,
+                    512
+                  ],
+                  "shape": [
+                    3,
+                    224,
+                    224
+                  ]
+                },
+                {
+                  "key": "wrist_image",
+                  "raw_shape": [
+                    3,
+                    512,
+                    512
+                  ],
+                  "shape": [
+                    3,
+                    224,
+                    224
+                  ]
+                }
+              ],
+              "state": [
+                {
+                  "key": "default",
+                  "raw_shape": 8,
+                  "shape": 8
+                }
+              ]
+            },
+            "train_transforms": [
+              {
+                "_target_": "fastwam.datasets.lerobot.transforms.image.ToTensor"
+              },
+              {
+                "_target_": "torchvision.transforms.Resize",
+                "size": [
+                  224,
+                  224
+                ]
+              }
+            ],
+            "use_stepwise_action_norm": false,
+            "val_transforms": [
+              {
+                "_target_": "fastwam.datasets.lerobot.transforms.image.ToTensor"
+              },
+              {
+                "_target_": "torchvision.transforms.Resize",
+                "size": [
+                  224,
+                  224
+                ]
+              }
+            ]
+          },
+          "shape_meta": {
+            "action": [
+              {
+                "key": "default",
+                "raw_shape": 7,
+                "shape": 7
+              }
+            ],
+            "images": [
+              {
+                "key": "image",
+                "raw_shape": [
+                  3,
+                  512,
+                  512
+                ],
+                "shape": [
+                  3,
+                  224,
+                  224
+                ]
+              },
+              {
+                "key": "wrist_image",
+                "raw_shape": [
+                  3,
+                  512,
+                  512
+                ],
+                "shape": [
+                  3,
+                  224,
+                  224
+                ]
+              }
+            ],
+            "state": [
+              {
+                "key": "default",
+                "raw_shape": 8,
+                "shape": 8
+              }
+            ]
+          },
+          "skip_padding_as_possible": false,
+          "text_embedding_cache_dir": "/lustre/fs1/groups/yshang/an221229/data/FastWAM/text_embeds_cache/libero",
+          "use_text_embed_cache": true,
+          "val_set_proportion": 0.0,
+          "video_backend": "pyav",
+          "video_size": [
+            224,
+            448
+          ]
+        },
+        "preprocessing_sha256": "bb5684f788f6f520d6d827217408be3090b05c1896b4d7bb0eac0680dcac23d8",
+        "source_sha256": {
+          "scripts/loopwam/cache_latents.py": "dc4ed5b2b32d1a37e743d11f3aee6440ff087871387ab2a6826314d2f1c0b68d",
+          "src/fastwam/datasets/dataset_utils.py": "3bc17590049c7cb54061acf8d731b07892e7f530c5d7eeac2613fa77a285a392",
+          "src/fastwam/datasets/lerobot/base_lerobot_dataset.py": "c076b4028c5414d3c08199f1501698c3a4e15ac4fe09c6c7a67fa7f462a13b4a",
+          "src/fastwam/datasets/lerobot/lerobot/datasets/utils.py": "40f1b94e6ceb50765fb8dfa3d498887c2a0fc2eb49f09770c5f36190e7110c98",
+          "src/fastwam/datasets/lerobot/lerobot/datasets/video_utils.py": "cb647a1e955c3279e39ce8d7af7a37ea7432bbd71534c183f9ceebc8557dd89f",
+          "src/fastwam/datasets/lerobot/lerobot/lerobot_dataset.py": "a71b26a73a0e460198b8316db2acb77b43a719d4ab9706150e2ba53773ffda64",
+          "src/fastwam/datasets/lerobot/processors/base_processor.py": "1f47bc85fee11e3d16714b2f1e3a2dc874f4609a1706a788617156d34b48b58e",
+          "src/fastwam/datasets/lerobot/processors/fastwam_processor.py": "3aa0e275b3815b67785c6e38ac5fc400472f9d09ac18b2ab269ea77bf574ade4",
+          "src/fastwam/datasets/lerobot/robot_video_dataset.py": "04f830e4c7dcc93be8e1d3514e502719aed94e62074364edbc1257e533a27de9",
+          "src/fastwam/datasets/lerobot/transforms/action_state_merger.py": "669d6991415fc5eca44b32b129d15fee1e06e2f17d59d90350c252598033b427",
+          "src/fastwam/datasets/lerobot/transforms/image.py": "4d7ab61d0844918525244db653831f0f632730046b2714a6163ff57c441a16fa",
+          "src/fastwam/datasets/lerobot/utils/normalizer.py": "5ac89a646cd6395e98feaa832f8fdf7c7e00857080af3d9c15710e243c43ad43",
+          "src/fastwam/loop/data.py": "631249f9c8cd4b8eb70842574bd7ca924c237990ab39d3eb0ae3f1cdfea9d289",
+          "src/fastwam/models/wan22/helpers/loader.py": "792f66bd0609c1365256aa24d43301340f81260c1651d89b04d2ae8224a08726",
+          "src/fastwam/models/wan22/helpers/state_dict_converters.py": "81d213373e5056a8d8bf31768b9b04164138ea78d0b306e316334841499f4bf9",
+          "src/fastwam/models/wan22/wan_video_vae.py": "cb2b1b53f35a1a201c640ec52d12a7c4cb4ba1df322155addd3dc409e04dc07c"
+        },
+        "stats_sha256": "30f81ad7d5076e97323e3328bce003e01a04cb21327b5bacd21bb72846768638",
+        "vae": {
+          "mtime_ns": 1791217562000000000,
+          "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/Wan-AI/Wan2.2-TI2V-5B/Wan2.2_VAE.pth",
+          "scale": "WanVideoVAE38.mean, WanVideoVAE38.inv_std; source-hashed buffers",
+          "sha256": "20eb789667fa5e60e7516bf509512f6cb61f01b0aa0695eadaea930c13892b36",
+          "size": 2818839170
+        },
+        "versions": {
+          "av": "15.1.0",
+          "lerobot": null,
+          "numpy": "2.2.6",
+          "torch": "2.7.1+cu128",
+          "torchvision": "0.22.1+cu128"
+        }
+      }
+    },
+    "zero_stage": 1,
+    "well_above_pp": 3,
+    "converted_dir": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1",
+    "latency_match_tolerance": 0.05,
+    "teacher_reproduction": "Long only; full-suite reproduction deferred",
+    "ol1_clear_improvement_fraction": 0.1
+  },
+  "runs": {
+    "P0-S": {
+      "status": "complete",
+      "command": [
+        "torchrun",
+        "--standalone",
+        "--nproc_per_node=4",
+        "scripts/loopwam/train.py",
+        "--init",
+        "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/loopwam_r32.pt",
+        "--output",
+        "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S",
+        "--mode",
+        "fixed",
+        "--loss",
+        "L2",
+        "--max-steps",
+        "2000",
+        "--seed",
+        "42",
+        "--micro-batch",
+        "16",
+        "--grad-accum",
+        "2",
+        "--zero-stage",
+        "1",
+        "--workers",
+        "2",
+        "--stats",
+        "checkpoints/fastwam_release/libero_uncond_2cam224_dataset_stats.json",
+        "--teacher",
+        "checkpoints/fastwam_release/libero_uncond_2cam224.pt",
+        "--text-cache",
+        "data/text_embeds_cache/libero",
+        "--diagnostic-pairs",
+        "4,4",
+        "--latent-cache",
+        "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/latent_cache",
+        "--time-budget-seconds",
+        "59938.47898745537",
+        "--checkpoint-reserve-seconds",
+        "300.0"
+      ],
+      "fork": null,
+      "loss": "L2",
+      "updated_at": 1791309469.26034,
+      "step": 2000
+    },
+    "C1": {
+      "status": "complete",
+      "command": [
+        "torchrun",
+        "--standalone",
+        "--nproc_per_node=4",
+        "scripts/loopwam/train.py",
+        "--init",
+        "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/untied30.pt",
+        "--output",
+        "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1",
+        "--mode",
+        "fixed",
+        "--loss",
+        "L3",
+        "--max-steps",
+        "8000",
+        "--seed",
+        "42",
+        "--micro-batch",
+        "8",
+        "--grad-accum",
+        "4",
+        "--zero-stage",
+        "1",
+        "--workers",
+        "2",
+        "--stats",
+        "checkpoints/fastwam_release/libero_uncond_2cam224_dataset_stats.json",
+        "--teacher",
+        "checkpoints/fastwam_release/libero_uncond_2cam224.pt",
+        "--text-cache",
+        "data/text_embeds_cache/libero",
+        "--diagnostic-pairs",
+        "4,4",
+        "--latent-cache",
+        "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/latent_cache",
+        "--time-budget-seconds",
+        "50537.90967822075",
+        "--checkpoint-reserve-seconds",
+        "300.0"
+      ],
+      "fork": null,
+      "loss": "L3",
+      "updated_at": 1791309469.46645,
+      "step": 8000
+    },
+    "C2": {
+      "status": "complete",
+      "command": [
+        "torchrun",
+        "--standalone",
+        "--nproc_per_node=4",
+        "scripts/loopwam/train.py",
+        "--init",
+        "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/untied12.pt",
+        "--output",
+        "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2",
+        "--mode",
+        "fixed",
+        "--loss",
+        "L3",
+        "--max-steps",
+        "8000",
+        "--seed",
+        "42",
+        "--micro-batch",
+        "16",
+        "--grad-accum",
+        "2",
+        "--zero-stage",
+        "1",
+        "--workers",
+        "2",
+        "--stats",
+        "checkpoints/fastwam_release/libero_uncond_2cam224_dataset_stats.json",
+        "--teacher",
+        "checkpoints/fastwam_release/libero_uncond_2cam224.pt",
+        "--text-cache",
+        "data/text_embeds_cache/libero",
+        "--diagnostic-pairs",
+        "4,4",
+        "--latent-cache",
+        "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/latent_cache",
+        "--time-budget-seconds",
+        "34702.5904815197",
+        "--checkpoint-reserve-seconds",
+        "300.0"
+      ],
+      "fork": null,
+      "loss": "L3",
+      "updated_at": 1791309470.2948585,
+      "step": 8000
+    },
+    "C3": {
+      "status": "complete",
+      "command": [
+        "torchrun",
+        "--standalone",
+        "--nproc_per_node=4",
+        "scripts/loopwam/train.py",
+        "--init",
+        "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/untied_v30a12.pt",
+        "--output",
+        "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3",
+        "--mode",
+        "fixed",
+        "--loss",
+        "L3",
+        "--max-steps",
+        "8000",
+        "--seed",
+        "42",
+        "--micro-batch",
+        "8",
+        "--grad-accum",
+        "4",
+        "--zero-stage",
+        "1",
+        "--workers",
+        "2",
+        "--stats",
+        "checkpoints/fastwam_release/libero_uncond_2cam224_dataset_stats.json",
+        "--teacher",
+        "checkpoints/fastwam_release/libero_uncond_2cam224.pt",
+        "--text-cache",
+        "data/text_embeds_cache/libero",
+        "--diagnostic-pairs",
+        "4,4",
+        "--latent-cache",
+        "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/latent_cache",
+        "--time-budget-seconds",
+        "26835.93222260475",
+        "--checkpoint-reserve-seconds",
+        "300.0"
+      ],
+      "fork": null,
+      "loss": "L3",
+      "updated_at": 1791309470.4130092,
+      "step": 8000
+    },
+    "S1-L2": {
+      "status": "complete",
+      "command": [
+        "torchrun",
+        "--standalone",
+        "--nproc_per_node=4",
+        "scripts/loopwam/train.py",
+        "--init",
+        "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/loopwam_r32.pt",
+        "--output",
+        "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2",
+        "--mode",
+        "fixed",
+        "--loss",
+        "L2",
+        "--max-steps",
+        "8000",
+        "--seed",
+        "42",
+        "--micro-batch",
+        "16",
+        "--grad-accum",
+        "2",
+        "--zero-stage",
+        "1",
+        "--workers",
+        "2",
+        "--stats",
+        "checkpoints/fastwam_release/libero_uncond_2cam224_dataset_stats.json",
+        "--teacher",
+        "checkpoints/fastwam_release/libero_uncond_2cam224.pt",
+        "--text-cache",
+        "data/text_embeds_cache/libero",
+        "--diagnostic-pairs",
+        "4,4",
+        "--latent-cache",
+        "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/latent_cache",
+        "--time-budget-seconds",
+        "13697.125419855118",
+        "--checkpoint-reserve-seconds",
+        "300.0"
+      ],
+      "fork": null,
+      "loss": "L2",
+      "updated_at": 1791309470.469921,
+      "step": 8000
+    },
+    "S1-L3": {
+      "status": "complete",
+      "command": [
+        "torchrun",
+        "--standalone",
+        "--nproc_per_node=4",
+        "scripts/loopwam/train.py",
+        "--init",
+        "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/loopwam_r32.pt",
+        "--output",
+        "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3",
+        "--mode",
+        "fixed",
+        "--loss",
+        "L3",
+        "--max-steps",
+        "8000",
+        "--seed",
+        "42",
+        "--micro-batch",
+        "16",
+        "--grad-accum",
+        "2",
+        "--zero-stage",
+        "1",
+        "--workers",
+        "2",
+        "--stats",
+        "checkpoints/fastwam_release/libero_uncond_2cam224_dataset_stats.json",
+        "--teacher",
+        "checkpoints/fastwam_release/libero_uncond_2cam224.pt",
+        "--text-cache",
+        "data/text_embeds_cache/libero",
+        "--diagnostic-pairs",
+        "4,4",
+        "--latent-cache",
+        "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/latent_cache",
+        "--time-budget-seconds",
+        "64775.65503501892",
+        "--checkpoint-reserve-seconds",
+        "300.0",
+        "--resume",
+        "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/state"
+      ],
+      "fork": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/state",
+      "loss": "L3",
+      "updated_at": 1791309470.500614,
+      "error": "Command '['torchrun', '--standalone', '--nproc_per_node=4', 'scripts/loopwam/train.py', '--init', '/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/loopwam_r32.pt', '--output', '/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3', '--mode', 'fixed', '--loss', 'L3', '--max-steps', '8000', '--seed', '42', '--micro-batch', '16', '--grad-accum', '2', '--zero-stage', '1', '--workers', '2', '--stats', 'checkpoints/fastwam_release/libero_uncond_2cam224_dataset_stats.json', '--teacher', 'checkpoints/fastwam_release/libero_uncond_2cam224.pt', '--text-cache', 'data/text_embeds_cache/libero', '--diagnostic-pairs', '4,4', '--latent-cache', '/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/latent_cache', '--time-budget-seconds', '65396.96442604065', '--checkpoint-reserve-seconds', '300.0', '--resume', '/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L3/state']' returned non-zero exit status 1.",
+      "step": 8000
+    }
+  },
+  "decisions": {
+    "P0-S": {
+      "status": "pass",
+      "first_ten_mean": 1.7065915882587432,
+      "last_ten_mean": 0.2649598836898804,
+      "criterion": "Finite loss; final10 logged-interval mean lower than initial10"
+    },
+    "P0-R": {
+      "status": "pass",
+      "scope": "Long only, two eval seeds",
+      "observed_pct": 95.0,
+      "reference_pct": 95.2,
+      "tolerance_pp": 1.5,
+      "full_libero": "deferred"
+    },
+    "G0": {
+      "gate": "G0",
+      "status": "pass",
+      "checks": {
+        "infrastructure": {
+          "status": "pass"
+        },
+        "width": {
+          "status": "pass",
+          "margin_pp": -3,
+          "comparison": {
+            "status": "tie",
+            "gap_pp": -1.6,
+            "mcnemar_p": 0.30199561318966445,
+            "gain": 19,
+            "loss": 27,
+            "episodes": 500,
+            "eval_seeds": [
+              42
+            ]
+          }
+        }
+      }
+    },
+    "S1*": {
+      "status": "pass",
+      "winner": "S1-L2",
+      "loss": "L2",
+      "comparison": {
+        "status": "clear",
+        "gap_pp": -5.2,
+        "mcnemar_p": 0.0011581662922060382,
+        "gain": 98,
+        "loss": 150,
+        "episodes": 1000,
+        "eval_seeds": [
+          42,
+          43
+        ]
+      },
+      "tie_rule": "under 2pp: fewer loss terms"
+    }
+  },
+  "created_at": 1791228199.4794562,
+  "launch_git_commit": "ca4da856be63573aabefd7a3ad46710d43f7fda9",
+  "allocation": {
+    "job_id": "872933",
+    "deadline": 1791363191.0,
+    "checkpoint_reserve_seconds": 300.0,
+    "started_at": 1791309466.1509466
+  },
+  "launch_arguments": {
+    "output": "outputs/loopwam_v1/campaign",
+    "teacher": "checkpoints/fastwam_release/libero_uncond_2cam224.pt",
+    "stats": "checkpoints/fastwam_release/libero_uncond_2cam224_dataset_stats.json",
+    "text_cache": "data/text_embeds_cache/libero",
+    "latent_cache": "checkpoints/loopwam_v1/latent_cache",
+    "converted_dir": "checkpoints/loopwam_v1",
+    "infrastructure": "outputs/loopwam_v1/infrastructure.json",
+    "seed": 42,
+    "eval_seeds": [
+      42,
+      43
+    ],
+    "gpus": "0,1,2,3",
+    "micro_batch": 8,
+    "micro_batch_map": "loopwam=16,untied12=16",
+    "grad_accum": null,
+    "gradient_checkpointing": false,
+    "checkpoint_reserve_seconds": 300.0,
+    "zero_stage": 1,
+    "workers": 2,
+    "well_above_pp": 3.0,
+    "latency_match_tolerance": 0.05
+  },
+  "status": "running",
+  "infrastructure_evidence": {
+    "path": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/infrastructure.json",
+    "sha256": "bfe5afc1341e92ffa4aea6fb8c1f0a9ac6e4ea022c0ba37d971c5081cce55c68",
+    "evidence": {
+      "status": "pass",
+      "all_14_tests_passed": true,
+      "requirements": [
+        {
+          "id": 1,
+          "requirement": "conversion equality",
+          "tests": [
+            "test_end_to_end_velocity_full_rank_conversion_equality"
+          ],
+          "status": "pass"
+        },
+        {
+          "id": 2,
+          "requirement": "target shapes and head maps",
+          "tests": [
+            "test_width_slicing_preserves_whole_heads_and_segmented_modulation"
+          ],
+          "status": "pass"
+        },
+        {
+          "id": 3,
+          "requirement": "shared storage and compact serialization",
+          "tests": [
+            "test_rank_zero_retains_exact_bias_and_shares_base_weights",
+            "test_checkpoint_export_drops_unused_teacher_backing_storage"
+          ],
+          "status": "pass"
+        },
+        {
+          "id": 4,
+          "requirement": "residual composition",
+          "tests": [
+            "test_full_rank_fold_reproduces_thirty_layer_composition"
+          ],
+          "status": "pass"
+        },
+        {
+          "id": 5,
+          "requirement": "all ten schedules and suffix alignment",
+          "tests": [
+            "test_schedule_all_pairs_and_suffix_slots"
+          ],
+          "status": "pass"
+        },
+        {
+          "id": 6,
+          "requirement": "future/action branch isolation",
+          "tests": [
+            "test_cache_causality_and_future_isolation",
+            "test_dense_separate_stream_equals_joint_attention"
+          ],
+          "status": "pass"
+        },
+        {
+          "id": 7,
+          "requirement": "first-frame cache causality",
+          "tests": [
+            "test_cache_causality_and_future_isolation"
+          ],
+          "status": "pass"
+        },
+        {
+          "id": 8,
+          "requirement": "first-frame coda equality",
+          "tests": [
+            "test_prefix_and_first_frame_coda_at_all_exits"
+          ],
+          "status": "pass"
+        },
+        {
+          "id": 9,
+          "requirement": "prefix elasticity",
+          "tests": [
+            "test_prefix_and_first_frame_coda_at_all_exits"
+          ],
+          "status": "pass"
+        },
+        {
+          "id": 10,
+          "requirement": "distributed deterministic sampling and boundaries",
+          "tests": [
+            "test_stage_sampler_reproducible_and_uniform",
+            "test_sampler_resume_is_independent_of_prefetch_and_microbatch"
+          ],
+          "status": "pass"
+        },
+        {
+          "id": 11,
+          "requirement": "teacher/student shift guard",
+          "tests": [
+            "test_shift_guard"
+          ],
+          "status": "pass"
+        },
+        {
+          "id": 12,
+          "requirement": "teacher normalization and gripper",
+          "tests": [
+            "test_teacher_action_and_proprio_normalization_roundtrip"
+          ],
+          "status": "pass"
+        },
+        {
+          "id": 13,
+          "requirement": "finite gradient coverage and shallow distributed training",
+          "tests": [
+            "test_teacher_receives_identical_noisy_inputs_and_own_context",
+            "test_checkpointed_gradient_equals_uncheckpointed"
+          ],
+          "status": "pass"
+        },
+        {
+          "id": 14,
+          "requirement": "strict checkpoint roundtrip at all budgets",
+          "tests": [
+            "test_canonical_save_reload_every_budget"
+          ],
+          "status": "pass"
+        }
+      ],
+      "scope": "P0-T infrastructure only; overfit, P0-S and teacher reproduction have separate gates",
+      "generated_at": 1791227509.139978,
+      "executed_pytest_cases": 153,
+      "junit": {
+        "path": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/pytest_final.xml",
+        "sha256": "5ed873250b1dc9801e327f039b04ea3e1a8784b70dea615ef57db19874c98ba7"
+      },
+      "production_evidence": [
+        {
+          "path": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/conversion_audit.json",
+          "sha256": "164745a68f9ff61580acf3265ce7a59d8b22186a66db163379b5979640eb5fe1"
+        },
+        {
+          "path": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/coupled16/gradient_coverage.json",
+          "sha256": "81118311093d55c02f4de484b00b5bcce77425c3acdd36f2b967fa84463bd1a8"
+        },
+        {
+          "path": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/coupled16/timing_initial10.json",
+          "sha256": "cc7ad8e0a1d68a1968d40d0f545f2ae3fa8e6593c688021886203a01f070ce13"
+        },
+        {
+          "path": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/coupled16/timing.json",
+          "sha256": "21a8018d7ea6b4dc4378da48ba7554aa15fc401d9f09199441f136f0e87c2c75"
+        },
+        {
+          "path": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/fork_fixed12/timing.json",
+          "sha256": "b8a4f084003856cf12ea6889262457db5e7b5d1de933955aee65e41d7e82c62d"
+        },
+        {
+          "path": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/coupled16/open_loop/step_00000011.json",
+          "sha256": "028018c71a45658cd54fd81b9721c53f3db62d3ebe931e4c9d13282aa324a618"
+        }
+      ],
+      "commit": "acaeca88081037cedbad488e0459de92ad00701c",
+      "overfit_evidence": {
+        "status": "pass",
+        "path": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/overfit_diagnostic_protocol.json",
+        "sha256": "af0a87c9b73d3f044b5c98cabc87136025dfbb6115e2dc0503c53a9470c91216"
+      },
+      "cached_training_evidence": {
+        "status": "pass",
+        "path": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/cached_training_evidence.json",
+        "sha256": "3a86f15e6b99298f83332108beee82291aac3c3241c9a648ca0070127b492e86"
+      },
+      "delay_integration_evidence": {
+        "status": "pass",
+        "path": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/delay_smoke/result.json",
+        "sha256": "165dc142f3682cfbc43d972f457cdada01e944bf0612d97a2dd26a78b076ab9f",
+        "scope": "one real episode integration smoke; not campaign success-rate evidence"
+      }
+    }
+  },
+  "overfit_evidence": {
+    "status": "pass",
+    "path": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/overfit_diagnostic_protocol.json",
+    "sha256": "af0a87c9b73d3f044b5c98cabc87136025dfbb6115e2dc0503c53a9470c91216"
+  },
+  "initial_checkpoints": {
+    "loopwam": {
+      "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/loopwam_r32.pt",
+      "bytes": 2160261923,
+      "mtime_ns": 1791220939000000000
+    },
+    "untied30": {
+      "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/untied30.pt",
+      "bytes": 4936614432,
+      "mtime_ns": 1791221025000000000
+    },
+    "untied12": {
+      "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/untied12.pt",
+      "bytes": 2036325541,
+      "mtime_ns": 1791221094000000000
+    },
+    "untied_v30a12": {
+      "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/untied_v30a12.pt",
+      "bytes": 4454245765,
+      "mtime_ns": 1791221121000000000
+    }
+  },
+  "initial_state_sha256": {
+    "0": "1899fe54c51e24a41d5f9e32254730d6777f4894ab68e0e873f1fa7ae2062030",
+    "1": "f8ac06ea8f43bb328d40cba1e6a9767da2f8f5386fd7ff3f845c64a96bf6d2ce",
+    "2": "02a8401f8d59f5447fc8c5a16f4c158dd8c426c3eaed6779927a2a53e9abf3c5",
+    "3": "e98ded151f64a036c74c872336dd09b968c379f3c9db7bc333aba37e7c235b86",
+    "4": "b6f20784b381c75d715f4fdaadda1fb460cbe24adcbad76f381a009419b8474e",
+    "5": "6cd3937ba18d64e72223222af36888d26ea201840415adbc4dae590454d0a5a8",
+    "6": "6e811394c4ff9a43ae23515d8512e9b657c04344b94dd5baed121b595490514f",
+    "7": "2113ea5923fcbbe1b57b428383934496072f062729d0b72d3021573d55d25abc",
+    "8": "44f992e911c84a1340589510ecdaf947a4872966f7678c8364d8bb5d13dc4dac",
+    "9": "6b75c8d4d1e1c40b5d99c78ceea380d99ccffb0a484a4cb2d3153488a0afbbe2"
+  },
+  "operational_source_migrations": [
+    {
+      "at": 1791298301.9436917,
+      "reason": "Audited allocation bootstrap change only; model/trainer/evaluator/configuration bytes unchanged",
+      "previous_sha256": "dd2c30054f41546bc3c4a592c73197d3077091ef66e0bd7ac0970d25c0a94028",
+      "new_sha256": "02741f8e43f6f7c357b566c68857da2a639cec66240381da35a28a4ade5f3753",
+      "changed_paths": [
+        "scripts/loopwam/run_campaign.sh"
+      ],
+      "previous_file_sha256": "91b71d29b451138dab2d38bd8d77142e774082bee663d1c7b642fca877cd3349",
+      "new_file_sha256": "0d52d69bc3e5407f1fa8aabd601415894713cb94b318ef81517d79d5882e3582",
+      "checkpoint_step": 1896,
+      "existing_artifacts": "trusted: numerical code and protocols unchanged",
+      "metadata_bootstrap": "scripts/operations/capture_gpu_metadata.py",
+      "metadata_wrapper": "scripts/operations/bin/nvidia-smi"
+    },
+    {
+      "at": 1791309454.9392014,
+      "reason": "Audited parallel orchestration routing only; model/trainer/evaluator/configuration bytes unchanged",
+      "previous_sha256": "02741f8e43f6f7c357b566c68857da2a639cec66240381da35a28a4ade5f3753",
+      "new_sha256": "1b8a7bcd49ade78852aacffdefe96d21dc1379f1733fcfd2afab335a0e30e848",
+      "changed_paths": [
+        "scripts/loopwam/run_campaign.sh"
+      ],
+      "previous_file_sha256": "0d52d69bc3e5407f1fa8aabd601415894713cb94b318ef81517d79d5882e3582",
+      "new_file_sha256": "45d6e23d19a12a31f39f1e7cde37eb08eb49a0c4d0a2fe9572f7c241e9264782",
+      "checkpoint_step": 8000,
+      "existing_artifacts": "trusted: numerical code and protocols unchanged",
+      "allocation_ids": [
+        "872933",
+        "873007"
+      ],
+      "retired_steps": [
+        "872933.6",
+        "873007.5"
+      ]
+    }
+  ],
+  "parallel_operations_source": {
+    "version": 1,
+    "sha256": "c0388e3a67c807e67316cd6c7ab94e621ae0e669a7a0855a3aacb0c49dd68f46",
+    "files": {
+      "scripts/operations/bin/nvidia-smi": "160a701946a1cc34a7e1e76cbb1a4c3c375efd2ae0702c0cad6f23c34b6711e1",
+      "scripts/operations/capture_gpu_metadata.py": "9e3c3731f256be05012cbf56a835fff6c759273b9e27994952f44e1046577b1a",
+      "scripts/operations/loopwam_secondary_evaluation.py": "19af57d2840d9cdffa1f2ad6ef3a4cb20e2dc4327ab4021e228c79197c0a0b64",
+      "scripts/operations/parallel_campaign.py": "5aaa117dfeb638758fdb0ae9a078dc9672b25d6a3ce4f1e377bd60a5a87b3131",
+      "scripts/operations/run_on_allocation.sh": "6010a18c7f5bf5ab1e45fdea59fe55096ab521bd199013b5d61dccb3d1a435b1"
+    }
+  },
+  "parallel_dispatch": {
+    "allocations": [
+      {
+        "job_id": "872933",
+        "node": "evc102",
+        "deadline": 1791363191.0
+      },
+      {
+        "job_id": "873007",
+        "node": "evc104",
+        "deadline": 1791363191.0
+      }
+    ],
+    "started_at": 1791309466.1546772,
+    "common_deadline": 1791363191.0,
+    "policy": "independent stage pipelines; four GPUs/global128 each",
+    "hardware": [
+      {
+        "job_id": "872933",
+        "node": "evc102",
+        "captured_at": 1791309465.9540415,
+        "deadline": 1791363191.0,
+        "queries": [
+          {
+            "args": [
+              "--query-gpu=name,driver_version",
+              "--format=csv,noheader",
+              "--id=0"
+            ],
+            "seconds": 5.264940023422241,
+            "stdout": "NVIDIA H100 80GB HBM3, 580.105.08\n"
+          },
+          {
+            "args": [
+              "--query-gpu=index,uuid,name,driver_version",
+              "--format=csv,noheader"
+            ],
+            "seconds": 5.2945427894592285,
+            "stdout": "0, GPU-ce46f31b-89ed-ed01-99bd-15cecce582d7, NVIDIA H100 80GB HBM3, 580.105.08\n1, GPU-ecc645b1-f616-aeba-5d96-b2017b8a4ae1, NVIDIA H100 80GB HBM3, 580.105.08\n2, GPU-45f825cd-291a-c50a-c1d5-05f003fcbe5b, NVIDIA H100 80GB HBM3, 580.105.08\n3, GPU-2c3f4238-f504-2360-f60a-b30bed047d6d, NVIDIA H100 80GB HBM3, 580.105.08\n"
+          }
+        ]
+      },
+      {
+        "job_id": "873007",
+        "node": "evc104",
+        "captured_at": 1791297636.3978717,
+        "deadline": 1791363191.0,
+        "queries": [
+          {
+            "args": [
+              "--query-gpu=name,driver_version",
+              "--format=csv,noheader",
+              "--id=0"
+            ],
+            "seconds": 4.031269550323486,
+            "stdout": "NVIDIA H100 80GB HBM3, 580.105.08\n"
+          },
+          {
+            "args": [
+              "--query-gpu=index,uuid,name,driver_version",
+              "--format=csv,noheader"
+            ],
+            "seconds": 0.05157160758972168,
+            "stdout": "0, GPU-b2a38017-93fa-8e18-5872-efcf55acd65d, NVIDIA H100 80GB HBM3, 580.105.08\n1, GPU-53e17a88-ce1d-98c1-b17f-75c3f12aefc8, NVIDIA H100 80GB HBM3, 580.105.08\n2, GPU-16f7fa76-5fef-ddae-fd2d-9985c15e9968, NVIDIA H100 80GB HBM3, 580.105.08\n3, GPU-95e9f337-dc26-de71-c2d3-35b1d7b8d457, NVIDIA H100 80GB HBM3, 580.105.08\n"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,4077 @@
+{
+  "ema_decay": 0.999,
+  "ema_updates": 1000,
+  "evaluated_pairs": [
+    [
+      4,
+      4
+    ]
+  ],
+  "global_step": 1000,
+  "loop_dynamics": {
+    "action": {
+      "cross_loop_cka": {
+        "matrix": [
+          [
+            0.9999999999999998,
+            0.9973531169759633,
+            0.9862553731610654,
+            0.949753465464121
+          ],
+          [
+            0.9973531169759633,
+            0.9999999999999993,
+            0.9918419592171657,
+            0.9453752882956579
+          ],
+          [
+            0.9862553731610654,
+            0.9918419592171657,
+            1.0,
+            0.9615390724809041
+          ],
+          [
+            0.949753465464121,
+            0.9453752882956579,
+            0.9615390724809041,
+            1.0
+          ]
+        ],
+        "valid_loops": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "loops": [
+        {
+          "loop": 1,
+          "slot": 0,
+          "state_l2": 78.13551979064941,
+          "state_rms": 0.4984170526266098,
+          "tokens": 32,
+          "update_l2": 17.761163234710693,
+          "update_rms": 0.11329631730914116
+        },
+        {
+          "loop": 2,
+          "slot": 1,
+          "state_l2": 74.89668159484863,
+          "state_rms": 0.4777568936347961,
+          "tokens": 32,
+          "update_l2": 20.719017505645752,
+          "update_rms": 0.13216411098837852
+        },
+        {
+          "loop": 3,
+          "slot": 2,
+          "state_l2": 70.32852134704589,
+          "state_rms": 0.44861714690923693,
+          "tokens": 32,
+          "update_l2": 30.341179943084718,
+          "update_rms": 0.19354272484779358
+        },
+        {
+          "loop": 4,
+          "slot": 3,
+          "state_l2": 76.37868003845215,
+          "state_rms": 0.4872103795409203,
+          "tokens": 32,
+          "update_l2": 37.407270431518555,
+          "update_rms": 0.2386164627969265
+        }
+      ]
+    },
+    "cka": "centered linear CKA across clips after mean pooling all video or action tokens; null means constant features",
+    "clips": 20,
+    "configuration": [
+      4,
+      4
+    ],
+    "norms": "mean across clips of the Frobenius norm and RMS over all token/hidden elements",
+    "scope": "full-budget pass only; later shallow configurations are excluded",
+    "tau": 0.5,
+    "updates": "exit minus preceding loop exit; loop 1 uses the prelude output",
+    "video": {
+      "cross_loop_cka": {
+        "matrix": [
+          [
+            0.9999999999999996,
+            0.997254157159446,
+            0.9914114361542883,
+            0.9947844557728506
+          ],
+          [
+            0.997254157159446,
+            1.0,
+            0.9953913338289682,
+            0.9960437581102634
+          ],
+          [
+            0.9914114361542883,
+            0.9953913338289682,
+            1.0,
+            0.9938509084709396
+          ],
+          [
+            0.9947844557728506,
+            0.9960437581102634,
+            0.9938509084709396,
+            1.0
+          ]
+        ],
+        "valid_loops": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "loops": [
+        {
+          "loop": 1,
+          "slot": 0,
+          "state_l2": 282.56510162353516,
+          "state_rms": 0.3641496479511261,
+          "tokens": 294,
+          "update_l2": 252.33574829101562,
+          "update_rms": 0.32519222646951673
+        },
+        {
+          "loop": 2,
+          "slot": 1,
+          "state_l2": 291.6407012939453,
+          "state_rms": 0.37584563344717026,
+          "tokens": 294,
+          "update_l2": 128.07583503723146,
+          "update_rms": 0.16505495607852935
+        },
+        {
+          "loop": 3,
+          "slot": 2,
+          "state_l2": 300.82637176513674,
+          "state_rms": 0.38768346458673475,
+          "tokens": 294,
+          "update_l2": 172.00853729248047,
+          "update_rms": 0.22167227193713188
+        },
+        {
+          "loop": 4,
+          "slot": 3,
+          "state_l2": 348.5296569824219,
+          "state_rms": 0.44916003942489624,
+          "tokens": 294,
+          "update_l2": 202.5689666748047,
+          "update_rms": 0.2610563673079014
+        }
+      ]
+    },
+    "window_ids": [
+      922,
+      8733,
+      16537,
+      18047,
+      21746,
+      22633,
+      32250,
+      39341,
+      47443,
+      51629,
+      56608,
+      57419,
+      70381,
+      73729,
+      82145,
+      82655,
+      90960,
+      95790,
+      100668,
+      102721
+    ]
+  },
+  "lora_norm_ratios": [
+    {
+      "adapter_frobenius": 18.275724411010742,
+      "module": "mixtures.video.blocks.3.self_attn.q",
+      "ratio": 0.678951300341405,
+      "shared_frobenius": 26.917577743530273,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 18.003454208374023,
+      "module": "mixtures.video.blocks.3.self_attn.q",
+      "ratio": 0.6688363410671754,
+      "shared_frobenius": 26.917577743530273,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.180212020874023,
+      "module": "mixtures.video.blocks.3.self_attn.q",
+      "ratio": 0.6382525271986386,
+      "shared_frobenius": 26.917577743530273,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.918214797973633,
+      "module": "mixtures.video.blocks.3.self_attn.q",
+      "ratio": 0.6656696590123282,
+      "shared_frobenius": 26.917577743530273,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 19.768457412719727,
+      "module": "mixtures.video.blocks.3.self_attn.k",
+      "ratio": 0.7294978143286512,
+      "shared_frobenius": 27.09872055053711,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 19.345523834228516,
+      "module": "mixtures.video.blocks.3.self_attn.k",
+      "ratio": 0.7138906723714333,
+      "shared_frobenius": 27.09872055053711,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.45120620727539,
+      "module": "mixtures.video.blocks.3.self_attn.k",
+      "ratio": 0.754692686288838,
+      "shared_frobenius": 27.09872055053711,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 19.528593063354492,
+      "module": "mixtures.video.blocks.3.self_attn.k",
+      "ratio": 0.7206463134277912,
+      "shared_frobenius": 27.09872055053711,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.929423332214355,
+      "module": "mixtures.video.blocks.3.self_attn.v",
+      "ratio": 0.5140713349054575,
+      "shared_frobenius": 27.096284866333008,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.515691757202148,
+      "module": "mixtures.video.blocks.3.self_attn.v",
+      "ratio": 0.4988023939029119,
+      "shared_frobenius": 27.096284866333008,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.506442070007324,
+      "module": "mixtures.video.blocks.3.self_attn.v",
+      "ratio": 0.4984610302347761,
+      "shared_frobenius": 27.096284866333008,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.499458312988281,
+      "module": "mixtures.video.blocks.3.self_attn.v",
+      "ratio": 0.4612978633288135,
+      "shared_frobenius": 27.096284866333008,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.24926471710205,
+      "module": "mixtures.video.blocks.3.self_attn.o",
+      "ratio": 0.4604899498613434,
+      "shared_frobenius": 26.60050392150879,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.07862377166748,
+      "module": "mixtures.video.blocks.3.self_attn.o",
+      "ratio": 0.45407499825222775,
+      "shared_frobenius": 26.60050392150879,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.032156944274902,
+      "module": "mixtures.video.blocks.3.self_attn.o",
+      "ratio": 0.45232815813484917,
+      "shared_frobenius": 26.60050392150879,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.827129364013672,
+      "module": "mixtures.video.blocks.3.self_attn.o",
+      "ratio": 0.44462050038271733,
+      "shared_frobenius": 26.60050392150879,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 21.138383865356445,
+      "module": "mixtures.video.blocks.3.cross_attn.q",
+      "ratio": 0.7818781865699209,
+      "shared_frobenius": 27.03539276123047,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.50031089782715,
+      "module": "mixtures.video.blocks.3.cross_attn.q",
+      "ratio": 0.6473111396007939,
+      "shared_frobenius": 27.03539276123047,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.298442840576172,
+      "module": "mixtures.video.blocks.3.cross_attn.q",
+      "ratio": 0.602855781845663,
+      "shared_frobenius": 27.03539276123047,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.541030883789062,
+      "module": "mixtures.video.blocks.3.cross_attn.q",
+      "ratio": 0.6488173128723103,
+      "shared_frobenius": 27.03539276123047,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 21.799596786499023,
+      "module": "mixtures.video.blocks.3.cross_attn.k",
+      "ratio": 0.8606978500753442,
+      "shared_frobenius": 25.327816009521484,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 19.505739212036133,
+      "module": "mixtures.video.blocks.3.cross_attn.k",
+      "ratio": 0.7701311161097878,
+      "shared_frobenius": 25.327816009521484,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.39323616027832,
+      "module": "mixtures.video.blocks.3.cross_attn.k",
+      "ratio": 0.805171521800849,
+      "shared_frobenius": 25.327816009521484,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.964096069335938,
+      "module": "mixtures.video.blocks.3.cross_attn.k",
+      "ratio": 0.8277103742957903,
+      "shared_frobenius": 25.327816009521484,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.32300853729248,
+      "module": "mixtures.video.blocks.3.cross_attn.v",
+      "ratio": 0.57580430169928,
+      "shared_frobenius": 23.138084411621094,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 14.65236759185791,
+      "module": "mixtures.video.blocks.3.cross_attn.v",
+      "ratio": 0.6332575908703473,
+      "shared_frobenius": 23.138084411621094,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 14.881264686584473,
+      "module": "mixtures.video.blocks.3.cross_attn.v",
+      "ratio": 0.6431502462282644,
+      "shared_frobenius": 23.138084411621094,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 14.268694877624512,
+      "module": "mixtures.video.blocks.3.cross_attn.v",
+      "ratio": 0.6166757205906841,
+      "shared_frobenius": 23.138084411621094,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.33518409729004,
+      "module": "mixtures.video.blocks.3.cross_attn.o",
+      "ratio": 0.6254325328373694,
+      "shared_frobenius": 26.11821937561035,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.877050399780273,
+      "module": "mixtures.video.blocks.3.cross_attn.o",
+      "ratio": 0.6844666607124901,
+      "shared_frobenius": 26.11821937561035,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 19.39922332763672,
+      "module": "mixtures.video.blocks.3.cross_attn.o",
+      "ratio": 0.7427467795048865,
+      "shared_frobenius": 26.11821937561035,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.761394500732422,
+      "module": "mixtures.video.blocks.3.cross_attn.o",
+      "ratio": 0.6800384913421136,
+      "shared_frobenius": 26.11821937561035,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 25.449661254882812,
+      "module": "mixtures.video.blocks.3.ffn.0",
+      "ratio": 0.535518794076209,
+      "shared_frobenius": 47.52337646484375,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 23.316287994384766,
+      "module": "mixtures.video.blocks.3.ffn.0",
+      "ratio": 0.49062776529848207,
+      "shared_frobenius": 47.52337646484375,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 22.295486450195312,
+      "module": "mixtures.video.blocks.3.ffn.0",
+      "ratio": 0.4691477775508815,
+      "shared_frobenius": 47.52337646484375,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 22.096757888793945,
+      "module": "mixtures.video.blocks.3.ffn.0",
+      "ratio": 0.46496607632962295,
+      "shared_frobenius": 47.52337646484375,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.413965225219727,
+      "module": "mixtures.video.blocks.3.ffn.2",
+      "ratio": 0.4002928516642352,
+      "shared_frobenius": 43.5030632019043,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.701316833496094,
+      "module": "mixtures.video.blocks.3.ffn.2",
+      "ratio": 0.3839112835797966,
+      "shared_frobenius": 43.5030632019043,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.389745712280273,
+      "module": "mixtures.video.blocks.3.ffn.2",
+      "ratio": 0.37674923340944944,
+      "shared_frobenius": 43.5030632019043,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 15.817941665649414,
+      "module": "mixtures.video.blocks.3.ffn.2",
+      "ratio": 0.36360523837680014,
+      "shared_frobenius": 43.5030632019043,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.46548843383789,
+      "module": "mixtures.video.blocks.4.self_attn.q",
+      "ratio": 0.6587088812565394,
+      "shared_frobenius": 26.51473045349121,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.911121368408203,
+      "module": "mixtures.video.blocks.4.self_attn.q",
+      "ratio": 0.675515875970364,
+      "shared_frobenius": 26.51473045349121,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.37006378173828,
+      "module": "mixtures.video.blocks.4.self_attn.q",
+      "ratio": 0.6173950668837678,
+      "shared_frobenius": 26.51473045349121,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 18.12708854675293,
+      "module": "mixtures.video.blocks.4.self_attn.q",
+      "ratio": 0.6836610531851032,
+      "shared_frobenius": 26.51473045349121,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.483684539794922,
+      "module": "mixtures.video.blocks.4.self_attn.k",
+      "ratio": 0.7587720488198332,
+      "shared_frobenius": 26.995834350585938,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 21.18082046508789,
+      "module": "mixtures.video.blocks.4.self_attn.k",
+      "ratio": 0.7845958820912741,
+      "shared_frobenius": 26.995834350585938,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 19.48117446899414,
+      "module": "mixtures.video.blocks.4.self_attn.k",
+      "ratio": 0.7216363167738621,
+      "shared_frobenius": 26.995834350585938,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.056270599365234,
+      "module": "mixtures.video.blocks.4.self_attn.k",
+      "ratio": 0.7429394601737849,
+      "shared_frobenius": 26.995834350585938,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.870753288269043,
+      "module": "mixtures.video.blocks.4.self_attn.v",
+      "ratio": 0.5177320942490938,
+      "shared_frobenius": 26.791372299194336,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.33159351348877,
+      "module": "mixtures.video.blocks.4.self_attn.v",
+      "ratio": 0.497607713580602,
+      "shared_frobenius": 26.791372299194336,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.990951538085938,
+      "module": "mixtures.video.blocks.4.self_attn.v",
+      "ratio": 0.4848930989054487,
+      "shared_frobenius": 26.791372299194336,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.223587036132812,
+      "module": "mixtures.video.blocks.4.self_attn.v",
+      "ratio": 0.4935763233199693,
+      "shared_frobenius": 26.791372299194336,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.342330932617188,
+      "module": "mixtures.video.blocks.4.self_attn.o",
+      "ratio": 0.4606049337960165,
+      "shared_frobenius": 26.795915603637695,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.837779998779297,
+      "module": "mixtures.video.blocks.4.self_attn.o",
+      "ratio": 0.4417755367602461,
+      "shared_frobenius": 26.795915603637695,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.353743553161621,
+      "module": "mixtures.video.blocks.4.self_attn.o",
+      "ratio": 0.46103084275592104,
+      "shared_frobenius": 26.795915603637695,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.36227035522461,
+      "module": "mixtures.video.blocks.4.self_attn.o",
+      "ratio": 0.49866817588463397,
+      "shared_frobenius": 26.795915603637695,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.154186248779297,
+      "module": "mixtures.video.blocks.4.cross_attn.q",
+      "ratio": 0.7440098835196843,
+      "shared_frobenius": 27.088600158691406,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 18.75904655456543,
+      "module": "mixtures.video.blocks.4.cross_attn.q",
+      "ratio": 0.6925070488940186,
+      "shared_frobenius": 27.088600158691406,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.59678840637207,
+      "module": "mixtures.video.blocks.4.cross_attn.q",
+      "ratio": 0.6126853476792514,
+      "shared_frobenius": 27.088600158691406,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.078937530517578,
+      "module": "mixtures.video.blocks.4.cross_attn.q",
+      "ratio": 0.6304843155595024,
+      "shared_frobenius": 27.088600158691406,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.795825958251953,
+      "module": "mixtures.video.blocks.4.cross_attn.k",
+      "ratio": 0.8245136179708393,
+      "shared_frobenius": 25.22193145751953,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.918975830078125,
+      "module": "mixtures.video.blocks.4.cross_attn.k",
+      "ratio": 0.8293962682957595,
+      "shared_frobenius": 25.22193145751953,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.08859634399414,
+      "module": "mixtures.video.blocks.4.cross_attn.k",
+      "ratio": 0.7964733540660318,
+      "shared_frobenius": 25.22193145751953,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.41007423400879,
+      "module": "mixtures.video.blocks.4.cross_attn.k",
+      "ratio": 0.8092193204309037,
+      "shared_frobenius": 25.22193145751953,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.47281551361084,
+      "module": "mixtures.video.blocks.4.cross_attn.v",
+      "ratio": 0.5921071745818006,
+      "shared_frobenius": 22.75401496887207,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 14.615036010742188,
+      "module": "mixtures.video.blocks.4.cross_attn.v",
+      "ratio": 0.6423058097982197,
+      "shared_frobenius": 22.75401496887207,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 14.334159851074219,
+      "module": "mixtures.video.blocks.4.cross_attn.v",
+      "ratio": 0.6299617834779323,
+      "shared_frobenius": 22.75401496887207,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.393656730651855,
+      "module": "mixtures.video.blocks.4.cross_attn.v",
+      "ratio": 0.5886282816010553,
+      "shared_frobenius": 22.75401496887207,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.786731719970703,
+      "module": "mixtures.video.blocks.4.cross_attn.o",
+      "ratio": 0.6532634961748702,
+      "shared_frobenius": 25.69672393798828,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.284732818603516,
+      "module": "mixtures.video.blocks.4.cross_attn.o",
+      "ratio": 0.6337279747372496,
+      "shared_frobenius": 25.69672393798828,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.049814224243164,
+      "module": "mixtures.video.blocks.4.cross_attn.o",
+      "ratio": 0.6245860080442478,
+      "shared_frobenius": 25.69672393798828,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 18.564456939697266,
+      "module": "mixtures.video.blocks.4.cross_attn.o",
+      "ratio": 0.7224445024391939,
+      "shared_frobenius": 25.69672393798828,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 24.933887481689453,
+      "module": "mixtures.video.blocks.4.ffn.0",
+      "ratio": 0.5271338141376535,
+      "shared_frobenius": 47.30086898803711,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 23.177703857421875,
+      "module": "mixtures.video.blocks.4.ffn.0",
+      "ratio": 0.49000587839694365,
+      "shared_frobenius": 47.30086898803711,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 21.946186065673828,
+      "module": "mixtures.video.blocks.4.ffn.0",
+      "ratio": 0.4639700397729321,
+      "shared_frobenius": 47.30086898803711,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 21.51204490661621,
+      "module": "mixtures.video.blocks.4.ffn.0",
+      "ratio": 0.4547917483726744,
+      "shared_frobenius": 47.30086898803711,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.488975524902344,
+      "module": "mixtures.video.blocks.4.ffn.2",
+      "ratio": 0.38198620568006714,
+      "shared_frobenius": 43.16641616821289,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.65057373046875,
+      "module": "mixtures.video.blocks.4.ffn.2",
+      "ratio": 0.3857298151781705,
+      "shared_frobenius": 43.16641616821289,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.37430191040039,
+      "module": "mixtures.video.blocks.4.ffn.2",
+      "ratio": 0.3793296586539001,
+      "shared_frobenius": 43.16641616821289,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.17592430114746,
+      "module": "mixtures.video.blocks.4.ffn.2",
+      "ratio": 0.37473401169354364,
+      "shared_frobenius": 43.16641616821289,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.333696365356445,
+      "module": "mixtures.video.blocks.5.self_attn.q",
+      "ratio": 0.6397361748378458,
+      "shared_frobenius": 27.095069885253906,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 18.342336654663086,
+      "module": "mixtures.video.blocks.5.self_attn.q",
+      "ratio": 0.6769621459675819,
+      "shared_frobenius": 27.095069885253906,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 18.2299861907959,
+      "module": "mixtures.video.blocks.5.self_attn.q",
+      "ratio": 0.6728156180441262,
+      "shared_frobenius": 27.095069885253906,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.67995834350586,
+      "module": "mixtures.video.blocks.5.self_attn.q",
+      "ratio": 0.7632369442516412,
+      "shared_frobenius": 27.095069885253906,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.424406051635742,
+      "module": "mixtures.video.blocks.5.self_attn.k",
+      "ratio": 0.7601763837177861,
+      "shared_frobenius": 26.867982864379883,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.185731887817383,
+      "module": "mixtures.video.blocks.5.self_attn.k",
+      "ratio": 0.7512931651664306,
+      "shared_frobenius": 26.867982864379883,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.13773536682129,
+      "module": "mixtures.video.blocks.5.self_attn.k",
+      "ratio": 0.7495067816765213,
+      "shared_frobenius": 26.867982864379883,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 21.63364601135254,
+      "module": "mixtures.video.blocks.5.self_attn.k",
+      "ratio": 0.8051831103418358,
+      "shared_frobenius": 26.867982864379883,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 14.234619140625,
+      "module": "mixtures.video.blocks.5.self_attn.v",
+      "ratio": 0.530526093099686,
+      "shared_frobenius": 26.831138610839844,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.64375114440918,
+      "module": "mixtures.video.blocks.5.self_attn.v",
+      "ratio": 0.5085043665980344,
+      "shared_frobenius": 26.831138610839844,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.040175437927246,
+      "module": "mixtures.video.blocks.5.self_attn.v",
+      "ratio": 0.4860090220941643,
+      "shared_frobenius": 26.831138610839844,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 14.924558639526367,
+      "module": "mixtures.video.blocks.5.self_attn.v",
+      "ratio": 0.5562402272968323,
+      "shared_frobenius": 26.831138610839844,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.728412628173828,
+      "module": "mixtures.video.blocks.5.self_attn.o",
+      "ratio": 0.47198637514879194,
+      "shared_frobenius": 26.967754364013672,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.223339080810547,
+      "module": "mixtures.video.blocks.5.self_attn.o",
+      "ratio": 0.45325757999048016,
+      "shared_frobenius": 26.967754364013672,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.22943115234375,
+      "module": "mixtures.video.blocks.5.self_attn.o",
+      "ratio": 0.45348348206044753,
+      "shared_frobenius": 26.967754364013672,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 15.05940055847168,
+      "module": "mixtures.video.blocks.5.self_attn.o",
+      "ratio": 0.5584224906233667,
+      "shared_frobenius": 26.967754364013672,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.34015464782715,
+      "module": "mixtures.video.blocks.5.cross_attn.q",
+      "ratio": 0.7656317117345827,
+      "shared_frobenius": 26.566499710083008,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.34726905822754,
+      "module": "mixtures.video.blocks.5.cross_attn.q",
+      "ratio": 0.6529753353861512,
+      "shared_frobenius": 26.566499710083008,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.484111785888672,
+      "module": "mixtures.video.blocks.5.cross_attn.q",
+      "ratio": 0.620484895103901,
+      "shared_frobenius": 26.566499710083008,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.865478515625,
+      "module": "mixtures.video.blocks.5.cross_attn.q",
+      "ratio": 0.6348400692479598,
+      "shared_frobenius": 26.566499710083008,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 21.640657424926758,
+      "module": "mixtures.video.blocks.5.cross_attn.k",
+      "ratio": 0.8795893893300858,
+      "shared_frobenius": 24.60313606262207,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.06722068786621,
+      "module": "mixtures.video.blocks.5.cross_attn.k",
+      "ratio": 0.815636699191085,
+      "shared_frobenius": 24.60313606262207,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.719270706176758,
+      "module": "mixtures.video.blocks.5.cross_attn.k",
+      "ratio": 0.84213941887084,
+      "shared_frobenius": 24.60313606262207,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.13268280029297,
+      "module": "mixtures.video.blocks.5.cross_attn.k",
+      "ratio": 0.8182974214770625,
+      "shared_frobenius": 24.60313606262207,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.828826904296875,
+      "module": "mixtures.video.blocks.5.cross_attn.v",
+      "ratio": 0.5788793219934035,
+      "shared_frobenius": 22.161487579345703,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 15.082043647766113,
+      "module": "mixtures.video.blocks.5.cross_attn.v",
+      "ratio": 0.6805519527408637,
+      "shared_frobenius": 22.161487579345703,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.933070182800293,
+      "module": "mixtures.video.blocks.5.cross_attn.v",
+      "ratio": 0.628706450003193,
+      "shared_frobenius": 22.161487579345703,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.407623291015625,
+      "module": "mixtures.video.blocks.5.cross_attn.v",
+      "ratio": 0.6049965392896911,
+      "shared_frobenius": 22.161487579345703,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.28482437133789,
+      "module": "mixtures.video.blocks.5.cross_attn.o",
+      "ratio": 0.6397192407860617,
+      "shared_frobenius": 25.456205368041992,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.893545150756836,
+      "module": "mixtures.video.blocks.5.cross_attn.o",
+      "ratio": 0.6636317120526213,
+      "shared_frobenius": 25.456205368041992,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 18.708240509033203,
+      "module": "mixtures.video.blocks.5.cross_attn.o",
+      "ratio": 0.7349186667279067,
+      "shared_frobenius": 25.456205368041992,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 19.279125213623047,
+      "module": "mixtures.video.blocks.5.cross_attn.o",
+      "ratio": 0.7573448176933031,
+      "shared_frobenius": 25.456205368041992,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 23.778423309326172,
+      "module": "mixtures.video.blocks.5.ffn.0",
+      "ratio": 0.5044241915309201,
+      "shared_frobenius": 47.13973617553711,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 23.223371505737305,
+      "module": "mixtures.video.blocks.5.ffn.0",
+      "ratio": 0.4926495858877746,
+      "shared_frobenius": 47.13973617553711,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 21.50658416748047,
+      "module": "mixtures.video.blocks.5.ffn.0",
+      "ratio": 0.4562304737428969,
+      "shared_frobenius": 47.13973617553711,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 21.5446720123291,
+      "module": "mixtures.video.blocks.5.ffn.0",
+      "ratio": 0.45703845121453146,
+      "shared_frobenius": 47.13973617553711,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.395771026611328,
+      "module": "mixtures.video.blocks.5.ffn.2",
+      "ratio": 0.37881254747767984,
+      "shared_frobenius": 43.28201675415039,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 15.945962905883789,
+      "module": "mixtures.video.blocks.5.ffn.2",
+      "ratio": 0.36842005298550934,
+      "shared_frobenius": 43.28201675415039,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.281381607055664,
+      "module": "mixtures.video.blocks.5.ffn.2",
+      "ratio": 0.3761696618606482,
+      "shared_frobenius": 43.28201675415039,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.303119659423828,
+      "module": "mixtures.video.blocks.5.ffn.2",
+      "ratio": 0.37667190399256273,
+      "shared_frobenius": 43.28201675415039,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.510663986206055,
+      "module": "mixtures.video.blocks.6.self_attn.q",
+      "ratio": 0.6612989164591245,
+      "shared_frobenius": 26.479196548461914,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 18.985694885253906,
+      "module": "mixtures.video.blocks.6.self_attn.q",
+      "ratio": 0.7170041904597261,
+      "shared_frobenius": 26.479196548461914,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.301725387573242,
+      "module": "mixtures.video.blocks.6.self_attn.q",
+      "ratio": 0.6156427502525621,
+      "shared_frobenius": 26.479196548461914,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.078624725341797,
+      "module": "mixtures.video.blocks.6.self_attn.q",
+      "ratio": 0.607217243012449,
+      "shared_frobenius": 26.479196548461914,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.125675201416016,
+      "module": "mixtures.video.blocks.6.self_attn.k",
+      "ratio": 0.7541820898398468,
+      "shared_frobenius": 26.68543243408203,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 19.469558715820312,
+      "module": "mixtures.video.blocks.6.self_attn.k",
+      "ratio": 0.7295950239485057,
+      "shared_frobenius": 26.68543243408203,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 19.266422271728516,
+      "module": "mixtures.video.blocks.6.self_attn.k",
+      "ratio": 0.7219827641661851,
+      "shared_frobenius": 26.68543243408203,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 18.771913528442383,
+      "module": "mixtures.video.blocks.6.self_attn.k",
+      "ratio": 0.7034517268855393,
+      "shared_frobenius": 26.68543243408203,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.39365005493164,
+      "module": "mixtures.video.blocks.6.self_attn.v",
+      "ratio": 0.499304598608344,
+      "shared_frobenius": 26.824607849121094,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.076447486877441,
+      "module": "mixtures.video.blocks.6.self_attn.v",
+      "ratio": 0.4874795396983181,
+      "shared_frobenius": 26.824607849121094,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.299832344055176,
+      "module": "mixtures.video.blocks.6.self_attn.v",
+      "ratio": 0.45852794617678555,
+      "shared_frobenius": 26.824607849121094,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.36749267578125,
+      "module": "mixtures.video.blocks.6.self_attn.v",
+      "ratio": 0.46105026941471094,
+      "shared_frobenius": 26.824607849121094,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.113726615905762,
+      "module": "mixtures.video.blocks.6.self_attn.o",
+      "ratio": 0.4532122998712668,
+      "shared_frobenius": 26.728591918945312,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.07055950164795,
+      "module": "mixtures.video.blocks.6.self_attn.o",
+      "ratio": 0.4515972834727705,
+      "shared_frobenius": 26.728591918945312,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.695860862731934,
+      "module": "mixtures.video.blocks.6.self_attn.o",
+      "ratio": 0.4375786385680074,
+      "shared_frobenius": 26.728591918945312,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.181314468383789,
+      "module": "mixtures.video.blocks.6.self_attn.o",
+      "ratio": 0.4557409722638488,
+      "shared_frobenius": 26.728591918945312,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.459102630615234,
+      "module": "mixtures.video.blocks.6.cross_attn.q",
+      "ratio": 0.7604326353477763,
+      "shared_frobenius": 26.904556274414062,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.63498878479004,
+      "module": "mixtures.video.blocks.6.cross_attn.q",
+      "ratio": 0.655464769792941,
+      "shared_frobenius": 26.904556274414062,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.02678871154785,
+      "module": "mixtures.video.blocks.6.cross_attn.q",
+      "ratio": 0.6328589305797301,
+      "shared_frobenius": 26.904556274414062,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.159896850585938,
+      "module": "mixtures.video.blocks.6.cross_attn.q",
+      "ratio": 0.6006379248838912,
+      "shared_frobenius": 26.904556274414062,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 21.126995086669922,
+      "module": "mixtures.video.blocks.6.cross_attn.k",
+      "ratio": 0.8439209188371163,
+      "shared_frobenius": 25.034330368041992,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.275075912475586,
+      "module": "mixtures.video.blocks.6.cross_attn.k",
+      "ratio": 0.8098908824163352,
+      "shared_frobenius": 25.034330368041992,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.38477897644043,
+      "module": "mixtures.video.blocks.6.cross_attn.k",
+      "ratio": 0.8142729874038481,
+      "shared_frobenius": 25.034330368041992,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 19.918899536132812,
+      "module": "mixtures.video.blocks.6.cross_attn.k",
+      "ratio": 0.7956633647992689,
+      "shared_frobenius": 25.034330368041992,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.867387771606445,
+      "module": "mixtures.video.blocks.6.cross_attn.v",
+      "ratio": 0.6101371739821676,
+      "shared_frobenius": 22.72831153869629,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 14.977814674377441,
+      "module": "mixtures.video.blocks.6.cross_attn.v",
+      "ratio": 0.6589937245834047,
+      "shared_frobenius": 22.72831153869629,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.87969970703125,
+      "module": "mixtures.video.blocks.6.cross_attn.v",
+      "ratio": 0.6106788743809782,
+      "shared_frobenius": 22.72831153869629,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 14.544073104858398,
+      "module": "mixtures.video.blocks.6.cross_attn.v",
+      "ratio": 0.6399099677992471,
+      "shared_frobenius": 22.72831153869629,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.44087791442871,
+      "module": "mixtures.video.blocks.6.cross_attn.o",
+      "ratio": 0.6425051286336301,
+      "shared_frobenius": 25.58871078491211,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.334211349487305,
+      "module": "mixtures.video.blocks.6.cross_attn.o",
+      "ratio": 0.6774163612692863,
+      "shared_frobenius": 25.58871078491211,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.296525955200195,
+      "module": "mixtures.video.blocks.6.cross_attn.o",
+      "ratio": 0.6368638925259622,
+      "shared_frobenius": 25.58871078491211,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.843069076538086,
+      "module": "mixtures.video.blocks.6.cross_attn.o",
+      "ratio": 0.6973023856699693,
+      "shared_frobenius": 25.58871078491211,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 23.231679916381836,
+      "module": "mixtures.video.blocks.6.ffn.0",
+      "ratio": 0.496634288092707,
+      "shared_frobenius": 46.77824401855469,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 22.696504592895508,
+      "module": "mixtures.video.blocks.6.ffn.0",
+      "ratio": 0.4851935994838304,
+      "shared_frobenius": 46.77824401855469,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 21.19251823425293,
+      "module": "mixtures.video.blocks.6.ffn.0",
+      "ratio": 0.4530421925595769,
+      "shared_frobenius": 46.77824401855469,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 21.78618812561035,
+      "module": "mixtures.video.blocks.6.ffn.0",
+      "ratio": 0.4657333464028452,
+      "shared_frobenius": 46.77824401855469,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.18196678161621,
+      "module": "mixtures.video.blocks.6.ffn.2",
+      "ratio": 0.396277673740745,
+      "shared_frobenius": 43.358402252197266,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.05648422241211,
+      "module": "mixtures.video.blocks.6.ffn.2",
+      "ratio": 0.370320016153234,
+      "shared_frobenius": 43.358402252197266,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.024385452270508,
+      "module": "mixtures.video.blocks.6.ffn.2",
+      "ratio": 0.36957970358463665,
+      "shared_frobenius": 43.358402252197266,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 15.829269409179688,
+      "module": "mixtures.video.blocks.6.ffn.2",
+      "ratio": 0.3650796290210973,
+      "shared_frobenius": 43.358402252197266,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.32479476928711,
+      "module": "mixtures.video.blocks.7.self_attn.q",
+      "ratio": 0.6594076412220612,
+      "shared_frobenius": 26.273269653320312,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.33528709411621,
+      "module": "mixtures.video.blocks.7.self_attn.q",
+      "ratio": 0.6217454968362425,
+      "shared_frobenius": 26.273269653320312,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.74675750732422,
+      "module": "mixtures.video.blocks.7.self_attn.q",
+      "ratio": 0.6374066771399284,
+      "shared_frobenius": 26.273269653320312,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.849929809570312,
+      "module": "mixtures.video.blocks.7.self_attn.q",
+      "ratio": 0.6413335695140968,
+      "shared_frobenius": 26.273269653320312,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 19.673450469970703,
+      "module": "mixtures.video.blocks.7.self_attn.k",
+      "ratio": 0.7430255232919579,
+      "shared_frobenius": 26.477489471435547,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 19.072174072265625,
+      "module": "mixtures.video.blocks.7.self_attn.k",
+      "ratio": 0.720316557687279,
+      "shared_frobenius": 26.477489471435547,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 19.307004928588867,
+      "module": "mixtures.video.blocks.7.self_attn.k",
+      "ratio": 0.7291856333062716,
+      "shared_frobenius": 26.477489471435547,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 18.202356338500977,
+      "module": "mixtures.video.blocks.7.self_attn.k",
+      "ratio": 0.6874653413851055,
+      "shared_frobenius": 26.477489471435547,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.893680572509766,
+      "module": "mixtures.video.blocks.7.self_attn.v",
+      "ratio": 0.5143151711427862,
+      "shared_frobenius": 27.01394271850586,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.096893310546875,
+      "module": "mixtures.video.blocks.7.self_attn.v",
+      "ratio": 0.4848197631504885,
+      "shared_frobenius": 27.01394271850586,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.522104263305664,
+      "module": "mixtures.video.blocks.7.self_attn.v",
+      "ratio": 0.46354226755383676,
+      "shared_frobenius": 27.01394271850586,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.643782615661621,
+      "module": "mixtures.video.blocks.7.self_attn.v",
+      "ratio": 0.46804654720023586,
+      "shared_frobenius": 27.01394271850586,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.242305755615234,
+      "module": "mixtures.video.blocks.7.self_attn.o",
+      "ratio": 0.45174924989917714,
+      "shared_frobenius": 27.099781036376953,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.235821723937988,
+      "module": "mixtures.video.blocks.7.self_attn.o",
+      "ratio": 0.45150998480443183,
+      "shared_frobenius": 27.099781036376953,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.099952697753906,
+      "module": "mixtures.video.blocks.7.self_attn.o",
+      "ratio": 0.4464963270925226,
+      "shared_frobenius": 27.099781036376953,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.308238983154297,
+      "module": "mixtures.video.blocks.7.self_attn.o",
+      "ratio": 0.4910828971381797,
+      "shared_frobenius": 27.099781036376953,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.602657318115234,
+      "module": "mixtures.video.blocks.7.cross_attn.q",
+      "ratio": 0.7736053926576669,
+      "shared_frobenius": 26.63199806213379,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.539087295532227,
+      "module": "mixtures.video.blocks.7.cross_attn.q",
+      "ratio": 0.6210231488056475,
+      "shared_frobenius": 26.63199806213379,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.82223129272461,
+      "module": "mixtures.video.blocks.7.cross_attn.q",
+      "ratio": 0.6316548707114464,
+      "shared_frobenius": 26.63199806213379,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.599319458007812,
+      "module": "mixtures.video.blocks.7.cross_attn.q",
+      "ratio": 0.6232847952031525,
+      "shared_frobenius": 26.63199806213379,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.9364070892334,
+      "module": "mixtures.video.blocks.7.cross_attn.k",
+      "ratio": 0.8460253627863148,
+      "shared_frobenius": 24.746784210205078,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.51030731201172,
+      "module": "mixtures.video.blocks.7.cross_attn.k",
+      "ratio": 0.8288069729703983,
+      "shared_frobenius": 24.746784210205078,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.20188331604004,
+      "module": "mixtures.video.blocks.7.cross_attn.k",
+      "ratio": 0.8163437780214363,
+      "shared_frobenius": 24.746784210205078,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 19.537092208862305,
+      "module": "mixtures.video.blocks.7.cross_attn.k",
+      "ratio": 0.789480040837209,
+      "shared_frobenius": 24.746784210205078,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.824177742004395,
+      "module": "mixtures.video.blocks.7.cross_attn.v",
+      "ratio": 0.601879708769912,
+      "shared_frobenius": 22.968339920043945,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 15.284506797790527,
+      "module": "mixtures.video.blocks.7.cross_attn.v",
+      "ratio": 0.6654597960060704,
+      "shared_frobenius": 22.968339920043945,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.860315322875977,
+      "module": "mixtures.video.blocks.7.cross_attn.v",
+      "ratio": 0.6034530737147614,
+      "shared_frobenius": 22.968339920043945,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 14.957928657531738,
+      "module": "mixtures.video.blocks.7.cross_attn.v",
+      "ratio": 0.6512411741380706,
+      "shared_frobenius": 22.968339920043945,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.24931526184082,
+      "module": "mixtures.video.blocks.7.cross_attn.o",
+      "ratio": 0.634339457033628,
+      "shared_frobenius": 25.616119384765625,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.558128356933594,
+      "module": "mixtures.video.blocks.7.cross_attn.o",
+      "ratio": 0.6854327969511156,
+      "shared_frobenius": 25.616119384765625,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 15.25306510925293,
+      "module": "mixtures.video.blocks.7.cross_attn.o",
+      "ratio": 0.5954479240256901,
+      "shared_frobenius": 25.616119384765625,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 14.819596290588379,
+      "module": "mixtures.video.blocks.7.cross_attn.o",
+      "ratio": 0.5785262032859616,
+      "shared_frobenius": 25.616119384765625,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 23.65469741821289,
+      "module": "mixtures.video.blocks.7.ffn.0",
+      "ratio": 0.5074352166564172,
+      "shared_frobenius": 46.61619186401367,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 22.609737396240234,
+      "module": "mixtures.video.blocks.7.ffn.0",
+      "ratio": 0.4850189707086367,
+      "shared_frobenius": 46.61619186401367,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 21.346603393554688,
+      "module": "mixtures.video.blocks.7.ffn.0",
+      "ratio": 0.45792250589292854,
+      "shared_frobenius": 46.61619186401367,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 22.180742263793945,
+      "module": "mixtures.video.blocks.7.ffn.0",
+      "ratio": 0.47581626419632156,
+      "shared_frobenius": 46.61619186401367,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.14508628845215,
+      "module": "mixtures.video.blocks.7.ffn.2",
+      "ratio": 0.3940516930966015,
+      "shared_frobenius": 43.50973892211914,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.462345123291016,
+      "module": "mixtures.video.blocks.7.ffn.2",
+      "ratio": 0.37836000700344397,
+      "shared_frobenius": 43.50973892211914,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.08067512512207,
+      "module": "mixtures.video.blocks.7.ffn.2",
+      "ratio": 0.36958794797426614,
+      "shared_frobenius": 43.50973892211914,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.46377944946289,
+      "module": "mixtures.video.blocks.7.ffn.2",
+      "ratio": 0.3783929726384353,
+      "shared_frobenius": 43.50973892211914,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 18.125980377197266,
+      "module": "mixtures.video.blocks.8.self_attn.q",
+      "ratio": 0.6980936994536374,
+      "shared_frobenius": 25.964967727661133,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.124813079833984,
+      "module": "mixtures.video.blocks.8.self_attn.q",
+      "ratio": 0.6595353115571366,
+      "shared_frobenius": 25.964967727661133,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.967174530029297,
+      "module": "mixtures.video.blocks.8.self_attn.q",
+      "ratio": 0.6534641101037741,
+      "shared_frobenius": 25.964967727661133,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.891132354736328,
+      "module": "mixtures.video.blocks.8.self_attn.q",
+      "ratio": 0.6505354650120277,
+      "shared_frobenius": 25.964967727661133,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.27364730834961,
+      "module": "mixtures.video.blocks.8.self_attn.k",
+      "ratio": 0.7640667657269882,
+      "shared_frobenius": 26.53386878967285,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.45001220703125,
+      "module": "mixtures.video.blocks.8.self_attn.k",
+      "ratio": 0.7707135498834804,
+      "shared_frobenius": 26.53386878967285,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 19.11073875427246,
+      "module": "mixtures.video.blocks.8.self_attn.k",
+      "ratio": 0.7202394383479608,
+      "shared_frobenius": 26.53386878967285,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 19.006589889526367,
+      "module": "mixtures.video.blocks.8.self_attn.k",
+      "ratio": 0.7163143090887617,
+      "shared_frobenius": 26.53386878967285,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.906007766723633,
+      "module": "mixtures.video.blocks.8.self_attn.v",
+      "ratio": 0.5203821337361013,
+      "shared_frobenius": 26.722684860229492,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.190168380737305,
+      "module": "mixtures.video.blocks.8.self_attn.v",
+      "ratio": 0.4935944292172455,
+      "shared_frobenius": 26.722684860229492,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.966742515563965,
+      "module": "mixtures.video.blocks.8.self_attn.v",
+      "ratio": 0.44781213332997394,
+      "shared_frobenius": 26.722684860229492,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.083741188049316,
+      "module": "mixtures.video.blocks.8.self_attn.v",
+      "ratio": 0.48961177578086196,
+      "shared_frobenius": 26.722684860229492,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.18393611907959,
+      "module": "mixtures.video.blocks.8.self_attn.o",
+      "ratio": 0.4570695434393021,
+      "shared_frobenius": 26.656635284423828,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.326404571533203,
+      "module": "mixtures.video.blocks.8.self_attn.o",
+      "ratio": 0.46241412091254613,
+      "shared_frobenius": 26.656635284423828,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.788084983825684,
+      "module": "mixtures.video.blocks.8.self_attn.o",
+      "ratio": 0.4422195396398649,
+      "shared_frobenius": 26.656635284423828,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.73515796661377,
+      "module": "mixtures.video.blocks.8.self_attn.o",
+      "ratio": 0.440234029591534,
+      "shared_frobenius": 26.656635284423828,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 18.079442977905273,
+      "module": "mixtures.video.blocks.8.cross_attn.q",
+      "ratio": 0.6751616188690123,
+      "shared_frobenius": 26.7779483795166,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.90702247619629,
+      "module": "mixtures.video.blocks.8.cross_attn.q",
+      "ratio": 0.6313785595736329,
+      "shared_frobenius": 26.7779483795166,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.74238395690918,
+      "module": "mixtures.video.blocks.8.cross_attn.q",
+      "ratio": 0.6252302722980831,
+      "shared_frobenius": 26.7779483795166,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 14.17724895477295,
+      "module": "mixtures.video.blocks.8.cross_attn.q",
+      "ratio": 0.5294374592796522,
+      "shared_frobenius": 26.7779483795166,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.335365295410156,
+      "module": "mixtures.video.blocks.8.cross_attn.k",
+      "ratio": 0.8259179376755685,
+      "shared_frobenius": 24.621532440185547,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.751680374145508,
+      "module": "mixtures.video.blocks.8.cross_attn.k",
+      "ratio": 0.8428265147410591,
+      "shared_frobenius": 24.621532440185547,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.46363639831543,
+      "module": "mixtures.video.blocks.8.cross_attn.k",
+      "ratio": 0.8311276500773814,
+      "shared_frobenius": 24.621532440185547,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 20.7347354888916,
+      "module": "mixtures.video.blocks.8.cross_attn.k",
+      "ratio": 0.8421383006627895,
+      "shared_frobenius": 24.621532440185547,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 14.243081092834473,
+      "module": "mixtures.video.blocks.8.cross_attn.v",
+      "ratio": 0.6345626793542779,
+      "shared_frobenius": 22.445507049560547,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 14.562301635742188,
+      "module": "mixtures.video.blocks.8.cross_attn.v",
+      "ratio": 0.6487847034860056,
+      "shared_frobenius": 22.445507049560547,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 14.042667388916016,
+      "module": "mixtures.video.blocks.8.cross_attn.v",
+      "ratio": 0.6256337786403873,
+      "shared_frobenius": 22.445507049560547,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.482744216918945,
+      "module": "mixtures.video.blocks.8.cross_attn.v",
+      "ratio": 0.6006878876537974,
+      "shared_frobenius": 22.445507049560547,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.651765823364258,
+      "module": "mixtures.video.blocks.8.cross_attn.o",
+      "ratio": 0.6599510112111198,
+      "shared_frobenius": 25.231821060180664,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.6638126373291,
+      "module": "mixtures.video.blocks.8.cross_attn.o",
+      "ratio": 0.6604284564948395,
+      "shared_frobenius": 25.231821060180664,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.405241012573242,
+      "module": "mixtures.video.blocks.8.cross_attn.o",
+      "ratio": 0.6898131122228487,
+      "shared_frobenius": 25.231821060180664,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.06305694580078,
+      "module": "mixtures.video.blocks.8.cross_attn.o",
+      "ratio": 0.6762515042058802,
+      "shared_frobenius": 25.231821060180664,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 23.9145565032959,
+      "module": "mixtures.video.blocks.8.ffn.0",
+      "ratio": 0.5146587742646375,
+      "shared_frobenius": 46.466819763183594,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 22.615222930908203,
+      "module": "mixtures.video.blocks.8.ffn.0",
+      "ratio": 0.48669616397605514,
+      "shared_frobenius": 46.466819763183594,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 21.688926696777344,
+      "module": "mixtures.video.blocks.8.ffn.0",
+      "ratio": 0.46676159047066584,
+      "shared_frobenius": 46.466819763183594,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 21.813919067382812,
+      "module": "mixtures.video.blocks.8.ffn.0",
+      "ratio": 0.4694515178477166,
+      "shared_frobenius": 46.466819763183594,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.326135635375977,
+      "module": "mixtures.video.blocks.8.ffn.2",
+      "ratio": 0.3777438802389607,
+      "shared_frobenius": 43.22011947631836,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.386106491088867,
+      "module": "mixtures.video.blocks.8.ffn.2",
+      "ratio": 0.3791314482614358,
+      "shared_frobenius": 43.22011947631836,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 15.290130615234375,
+      "module": "mixtures.video.blocks.8.ffn.2",
+      "ratio": 0.3537734462675956,
+      "shared_frobenius": 43.22011947631836,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.328271865844727,
+      "module": "mixtures.video.blocks.8.ffn.2",
+      "ratio": 0.3777933069988733,
+      "shared_frobenius": 43.22011947631836,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.63608169555664,
+      "module": "mixtures.action.blocks.3.self_attn.q",
+      "ratio": 0.7826830669919643,
+      "shared_frobenius": 21.25519561767578,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.666595458984375,
+      "module": "mixtures.action.blocks.3.self_attn.q",
+      "ratio": 0.7841186577988708,
+      "shared_frobenius": 21.25519561767578,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.095346450805664,
+      "module": "mixtures.action.blocks.3.self_attn.q",
+      "ratio": 0.7572429226396206,
+      "shared_frobenius": 21.25519561767578,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 15.846454620361328,
+      "module": "mixtures.action.blocks.3.self_attn.q",
+      "ratio": 0.7455332289289046,
+      "shared_frobenius": 21.25519561767578,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.63609504699707,
+      "module": "mixtures.action.blocks.3.self_attn.k",
+      "ratio": 0.8222198173408624,
+      "shared_frobenius": 21.44936752319336,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.466615676879883,
+      "module": "mixtures.action.blocks.3.self_attn.k",
+      "ratio": 0.8143184482243172,
+      "shared_frobenius": 21.44936752319336,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 18.192636489868164,
+      "module": "mixtures.action.blocks.3.self_attn.k",
+      "ratio": 0.8481665704220105,
+      "shared_frobenius": 21.44936752319336,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.384824752807617,
+      "module": "mixtures.action.blocks.3.self_attn.k",
+      "ratio": 0.8105052390943126,
+      "shared_frobenius": 21.44936752319336,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.77995491027832,
+      "module": "mixtures.action.blocks.3.self_attn.v",
+      "ratio": 0.6422510177372621,
+      "shared_frobenius": 21.45571517944336,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.324652671813965,
+      "module": "mixtures.action.blocks.3.self_attn.v",
+      "ratio": 0.6210304602001925,
+      "shared_frobenius": 21.45571517944336,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.590004920959473,
+      "module": "mixtures.action.blocks.3.self_attn.v",
+      "ratio": 0.6333978992217424,
+      "shared_frobenius": 21.45571517944336,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.167614936828613,
+      "module": "mixtures.action.blocks.3.self_attn.v",
+      "ratio": 0.6137113038042403,
+      "shared_frobenius": 21.45571517944336,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.618838787078857,
+      "module": "mixtures.action.blocks.3.self_attn.o",
+      "ratio": 0.6055954238178601,
+      "shared_frobenius": 10.929472923278809,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.668100357055664,
+      "module": "mixtures.action.blocks.3.self_attn.o",
+      "ratio": 0.6101026466567478,
+      "shared_frobenius": 10.929472923278809,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.731462478637695,
+      "module": "mixtures.action.blocks.3.self_attn.o",
+      "ratio": 0.6159000096244602,
+      "shared_frobenius": 10.929472923278809,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.701421737670898,
+      "module": "mixtures.action.blocks.3.self_attn.o",
+      "ratio": 0.6131514103848013,
+      "shared_frobenius": 10.929472923278809,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.388528823852539,
+      "module": "mixtures.action.blocks.3.cross_attn.q",
+      "ratio": 0.935762299358035,
+      "shared_frobenius": 13.238969802856445,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.39454174041748,
+      "module": "mixtures.action.blocks.3.cross_attn.q",
+      "ratio": 0.860681904264106,
+      "shared_frobenius": 13.238969802856445,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.996329307556152,
+      "module": "mixtures.action.blocks.3.cross_attn.q",
+      "ratio": 0.8306030961097577,
+      "shared_frobenius": 13.238969802856445,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.985397338867188,
+      "module": "mixtures.action.blocks.3.cross_attn.q",
+      "ratio": 0.8297773544658267,
+      "shared_frobenius": 13.238969802856445,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.823695182800293,
+      "module": "mixtures.action.blocks.3.cross_attn.k",
+      "ratio": 0.9523565288468622,
+      "shared_frobenius": 12.41519832611084,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.522195816040039,
+      "module": "mixtures.action.blocks.3.cross_attn.k",
+      "ratio": 0.8475253910290292,
+      "shared_frobenius": 12.41519832611084,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.739407539367676,
+      "module": "mixtures.action.blocks.3.cross_attn.k",
+      "ratio": 0.8650210215958654,
+      "shared_frobenius": 12.41519832611084,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.364433288574219,
+      "module": "mixtures.action.blocks.3.cross_attn.k",
+      "ratio": 0.8348181814201401,
+      "shared_frobenius": 12.41519832611084,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.722650527954102,
+      "module": "mixtures.action.blocks.3.cross_attn.v",
+      "ratio": 0.7549590410071974,
+      "shared_frobenius": 11.55380630493164,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.743581771850586,
+      "module": "mixtures.action.blocks.3.cross_attn.v",
+      "ratio": 0.84332223638643,
+      "shared_frobenius": 11.55380630493164,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.975914001464844,
+      "module": "mixtures.action.blocks.3.cross_attn.v",
+      "ratio": 0.7768793906155025,
+      "shared_frobenius": 11.55380630493164,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.450244903564453,
+      "module": "mixtures.action.blocks.3.cross_attn.v",
+      "ratio": 0.7313819083116826,
+      "shared_frobenius": 11.55380630493164,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 4.9398193359375,
+      "module": "mixtures.action.blocks.3.cross_attn.o",
+      "ratio": 0.7889702069377089,
+      "shared_frobenius": 6.261097431182861,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 5.635200023651123,
+      "module": "mixtures.action.blocks.3.cross_attn.o",
+      "ratio": 0.9000339134774505,
+      "shared_frobenius": 6.261097431182861,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 5.254582405090332,
+      "module": "mixtures.action.blocks.3.cross_attn.o",
+      "ratio": 0.8392430341237517,
+      "shared_frobenius": 6.261097431182861,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 4.857253074645996,
+      "module": "mixtures.action.blocks.3.cross_attn.o",
+      "ratio": 0.7757830201547194,
+      "shared_frobenius": 6.261097431182861,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.624079704284668,
+      "module": "mixtures.action.blocks.3.ffn.0",
+      "ratio": 0.7116375359146769,
+      "shared_frobenius": 19.144689559936523,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.926770210266113,
+      "module": "mixtures.action.blocks.3.ffn.0",
+      "ratio": 0.6752144070968666,
+      "shared_frobenius": 19.144689559936523,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.297257423400879,
+      "module": "mixtures.action.blocks.3.ffn.0",
+      "ratio": 0.6423325583265113,
+      "shared_frobenius": 19.144689559936523,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.03208065032959,
+      "module": "mixtures.action.blocks.3.ffn.0",
+      "ratio": 0.6284813662117947,
+      "shared_frobenius": 19.144689559936523,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.057229995727539,
+      "module": "mixtures.action.blocks.3.ffn.2",
+      "ratio": 0.584508568319298,
+      "shared_frobenius": 15.495461463928223,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.290157318115234,
+      "module": "mixtures.action.blocks.3.ffn.2",
+      "ratio": 0.5995405389985788,
+      "shared_frobenius": 15.495461463928223,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.133389472961426,
+      "module": "mixtures.action.blocks.3.ffn.2",
+      "ratio": 0.5894235221211694,
+      "shared_frobenius": 15.495461463928223,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.513772964477539,
+      "module": "mixtures.action.blocks.3.ffn.2",
+      "ratio": 0.5494365549742867,
+      "shared_frobenius": 15.495461463928223,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.28696060180664,
+      "module": "mixtures.action.blocks.4.self_attn.q",
+      "ratio": 0.7756436645085528,
+      "shared_frobenius": 20.99799346923828,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.43446922302246,
+      "module": "mixtures.action.blocks.4.self_attn.q",
+      "ratio": 0.7826685557883752,
+      "shared_frobenius": 20.99799346923828,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 15.469883918762207,
+      "module": "mixtures.action.blocks.4.self_attn.q",
+      "ratio": 0.7367315330117297,
+      "shared_frobenius": 20.99799346923828,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.329010009765625,
+      "module": "mixtures.action.blocks.4.self_attn.q",
+      "ratio": 0.7776462086097587,
+      "shared_frobenius": 20.99799346923828,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 18.141124725341797,
+      "module": "mixtures.action.blocks.4.self_attn.k",
+      "ratio": 0.8503139559884976,
+      "shared_frobenius": 21.334619522094727,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 18.8218994140625,
+      "module": "mixtures.action.blocks.4.self_attn.k",
+      "ratio": 0.8822233457020415,
+      "shared_frobenius": 21.334619522094727,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.426950454711914,
+      "module": "mixtures.action.blocks.4.self_attn.k",
+      "ratio": 0.8168390552577738,
+      "shared_frobenius": 21.334619522094727,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.56850814819336,
+      "module": "mixtures.action.blocks.4.self_attn.k",
+      "ratio": 0.8234741721078701,
+      "shared_frobenius": 21.334619522094727,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.420865058898926,
+      "module": "mixtures.action.blocks.4.self_attn.v",
+      "ratio": 0.6348330851645854,
+      "shared_frobenius": 21.140777587890625,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.045626640319824,
+      "module": "mixtures.action.blocks.4.self_attn.v",
+      "ratio": 0.6170835763293929,
+      "shared_frobenius": 21.140777587890625,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.322879791259766,
+      "module": "mixtures.action.blocks.4.self_attn.v",
+      "ratio": 0.6301981909544837,
+      "shared_frobenius": 21.140777587890625,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.618876457214355,
+      "module": "mixtures.action.blocks.4.self_attn.v",
+      "ratio": 0.6441994103856997,
+      "shared_frobenius": 21.140777587890625,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.61751651763916,
+      "module": "mixtures.action.blocks.4.self_attn.o",
+      "ratio": 0.6002368952450022,
+      "shared_frobenius": 11.02484130859375,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.644333362579346,
+      "module": "mixtures.action.blocks.4.self_attn.o",
+      "ratio": 0.6026692971444547,
+      "shared_frobenius": 11.02484130859375,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.8892717361450195,
+      "module": "mixtures.action.blocks.4.self_attn.o",
+      "ratio": 0.6248862494533054,
+      "shared_frobenius": 11.02484130859375,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 7.119276523590088,
+      "module": "mixtures.action.blocks.4.self_attn.o",
+      "ratio": 0.6457486619821625,
+      "shared_frobenius": 11.02484130859375,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.863974571228027,
+      "module": "mixtures.action.blocks.4.cross_attn.q",
+      "ratio": 0.9184116589007006,
+      "shared_frobenius": 12.917926788330078,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.732375144958496,
+      "module": "mixtures.action.blocks.4.cross_attn.q",
+      "ratio": 0.9082243100771714,
+      "shared_frobenius": 12.917926788330078,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.499316215515137,
+      "module": "mixtures.action.blocks.4.cross_attn.q",
+      "ratio": 0.8127709954975214,
+      "shared_frobenius": 12.917926788330078,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.696063041687012,
+      "module": "mixtures.action.blocks.4.cross_attn.q",
+      "ratio": 0.8280015219895599,
+      "shared_frobenius": 12.917926788330078,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.013242721557617,
+      "module": "mixtures.action.blocks.4.cross_attn.k",
+      "ratio": 0.9123255994921791,
+      "shared_frobenius": 12.071614265441895,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.281500816345215,
+      "module": "mixtures.action.blocks.4.cross_attn.k",
+      "ratio": 0.9345478217144013,
+      "shared_frobenius": 12.071614265441895,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.612107276916504,
+      "module": "mixtures.action.blocks.4.cross_attn.k",
+      "ratio": 0.8790959554842963,
+      "shared_frobenius": 12.071614265441895,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.023381233215332,
+      "module": "mixtures.action.blocks.4.cross_attn.k",
+      "ratio": 0.8303265008980483,
+      "shared_frobenius": 12.071614265441895,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.725775718688965,
+      "module": "mixtures.action.blocks.4.cross_attn.v",
+      "ratio": 0.8116949542429945,
+      "shared_frobenius": 10.750067710876465,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.955958366394043,
+      "module": "mixtures.action.blocks.4.cross_attn.v",
+      "ratio": 0.8331071586956408,
+      "shared_frobenius": 10.750067710876465,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.409750938415527,
+      "module": "mixtures.action.blocks.4.cross_attn.v",
+      "ratio": 0.7822974854295007,
+      "shared_frobenius": 10.750067710876465,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 7.3688740730285645,
+      "module": "mixtures.action.blocks.4.cross_attn.v",
+      "ratio": 0.6854723403809865,
+      "shared_frobenius": 10.750067710876465,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 5.3512701988220215,
+      "module": "mixtures.action.blocks.4.cross_attn.o",
+      "ratio": 0.8919187699714409,
+      "shared_frobenius": 5.999728202819824,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 5.3633952140808105,
+      "module": "mixtures.action.blocks.4.cross_attn.o",
+      "ratio": 0.8939396973949683,
+      "shared_frobenius": 5.999728202819824,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 5.015771389007568,
+      "module": "mixtures.action.blocks.4.cross_attn.o",
+      "ratio": 0.8359997685645486,
+      "shared_frobenius": 5.999728202819824,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 4.564846038818359,
+      "module": "mixtures.action.blocks.4.cross_attn.o",
+      "ratio": 0.7608421389277131,
+      "shared_frobenius": 5.999728202819824,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.40969467163086,
+      "module": "mixtures.action.blocks.4.ffn.0",
+      "ratio": 0.7059398704082679,
+      "shared_frobenius": 18.995519638061523,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.765201568603516,
+      "module": "mixtures.action.blocks.4.ffn.0",
+      "ratio": 0.6720111801008984,
+      "shared_frobenius": 18.995519638061523,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.053201675415039,
+      "module": "mixtures.action.blocks.4.ffn.0",
+      "ratio": 0.6345286628149889,
+      "shared_frobenius": 18.995519638061523,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.875245094299316,
+      "module": "mixtures.action.blocks.4.ffn.0",
+      "ratio": 0.6251603178311986,
+      "shared_frobenius": 18.995519638061523,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.951038360595703,
+      "module": "mixtures.action.blocks.4.ffn.2",
+      "ratio": 0.5832289135723775,
+      "shared_frobenius": 15.347384452819824,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.227555274963379,
+      "module": "mixtures.action.blocks.4.ffn.2",
+      "ratio": 0.6012461148236872,
+      "shared_frobenius": 15.347384452819824,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.929319381713867,
+      "module": "mixtures.action.blocks.4.ffn.2",
+      "ratio": 0.5818137552469571,
+      "shared_frobenius": 15.347384452819824,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.412015914916992,
+      "module": "mixtures.action.blocks.4.ffn.2",
+      "ratio": 0.5481074603152608,
+      "shared_frobenius": 15.347384452819824,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.31690216064453,
+      "module": "mixtures.action.blocks.5.self_attn.q",
+      "ratio": 0.7609376228609082,
+      "shared_frobenius": 21.443153381347656,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.76094627380371,
+      "module": "mixtures.action.blocks.5.self_attn.q",
+      "ratio": 0.7816455898871307,
+      "shared_frobenius": 21.443153381347656,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.700653076171875,
+      "module": "mixtures.action.blocks.5.self_attn.q",
+      "ratio": 0.7788338207149584,
+      "shared_frobenius": 21.443153381347656,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.894325256347656,
+      "module": "mixtures.action.blocks.5.self_attn.q",
+      "ratio": 0.8345006416786185,
+      "shared_frobenius": 21.443153381347656,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 18.157682418823242,
+      "module": "mixtures.action.blocks.5.self_attn.k",
+      "ratio": 0.8541101942744497,
+      "shared_frobenius": 21.259180068969727,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 18.0888614654541,
+      "module": "mixtures.action.blocks.5.self_attn.k",
+      "ratio": 0.8508729596705812,
+      "shared_frobenius": 21.259180068969727,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.910865783691406,
+      "module": "mixtures.action.blocks.5.self_attn.k",
+      "ratio": 0.8425003093056453,
+      "shared_frobenius": 21.259180068969727,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 18.850202560424805,
+      "module": "mixtures.action.blocks.5.self_attn.k",
+      "ratio": 0.8866853048551431,
+      "shared_frobenius": 21.259180068969727,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.523086547851562,
+      "module": "mixtures.action.blocks.5.self_attn.v",
+      "ratio": 0.6381425907376334,
+      "shared_frobenius": 21.19132423400879,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.132962226867676,
+      "module": "mixtures.action.blocks.5.self_attn.v",
+      "ratio": 0.6197329662764212,
+      "shared_frobenius": 21.19132423400879,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.285941123962402,
+      "module": "mixtures.action.blocks.5.self_attn.v",
+      "ratio": 0.6269519062258756,
+      "shared_frobenius": 21.19132423400879,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 14.904085159301758,
+      "module": "mixtures.action.blocks.5.self_attn.v",
+      "ratio": 0.70331070369746,
+      "shared_frobenius": 21.19132423400879,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.665457725524902,
+      "module": "mixtures.action.blocks.5.self_attn.o",
+      "ratio": 0.5995218571383721,
+      "shared_frobenius": 11.117956161499023,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.786271095275879,
+      "module": "mixtures.action.blocks.5.self_attn.o",
+      "ratio": 0.610388366053864,
+      "shared_frobenius": 11.117956161499023,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.900091648101807,
+      "module": "mixtures.action.blocks.5.self_attn.o",
+      "ratio": 0.6206259089234863,
+      "shared_frobenius": 11.117956161499023,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 7.649625778198242,
+      "module": "mixtures.action.blocks.5.self_attn.o",
+      "ratio": 0.6880424483673131,
+      "shared_frobenius": 11.117956161499023,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.777175903320312,
+      "module": "mixtures.action.blocks.5.cross_attn.q",
+      "ratio": 0.9248313673566744,
+      "shared_frobenius": 12.734403610229492,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.9884033203125,
+      "module": "mixtures.action.blocks.5.cross_attn.q",
+      "ratio": 0.8628910828211509,
+      "shared_frobenius": 12.734403610229492,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.576382637023926,
+      "module": "mixtures.action.blocks.5.cross_attn.q",
+      "ratio": 0.8305361570704389,
+      "shared_frobenius": 12.734403610229492,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.487915992736816,
+      "module": "mixtures.action.blocks.5.cross_attn.q",
+      "ratio": 0.8235890987711366,
+      "shared_frobenius": 12.734403610229492,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.672073364257812,
+      "module": "mixtures.action.blocks.5.cross_attn.k",
+      "ratio": 0.9757944448457416,
+      "shared_frobenius": 11.961610794067383,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.461923599243164,
+      "module": "mixtures.action.blocks.5.cross_attn.k",
+      "ratio": 0.874624979808905,
+      "shared_frobenius": 11.961610794067383,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.204431533813477,
+      "module": "mixtures.action.blocks.5.cross_attn.k",
+      "ratio": 0.8530984421324411,
+      "shared_frobenius": 11.961610794067383,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.980551719665527,
+      "module": "mixtures.action.blocks.5.cross_attn.k",
+      "ratio": 0.834381914901929,
+      "shared_frobenius": 11.961610794067383,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.504216194152832,
+      "module": "mixtures.action.blocks.5.cross_attn.v",
+      "ratio": 0.779116488671191,
+      "shared_frobenius": 10.915205001831055,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.545517921447754,
+      "module": "mixtures.action.blocks.5.cross_attn.v",
+      "ratio": 0.8745156797189304,
+      "shared_frobenius": 10.915205001831055,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.015297889709473,
+      "module": "mixtures.action.blocks.5.cross_attn.v",
+      "ratio": 0.7343240817158162,
+      "shared_frobenius": 10.915205001831055,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 7.540717124938965,
+      "module": "mixtures.action.blocks.5.cross_attn.v",
+      "ratio": 0.6908452130467535,
+      "shared_frobenius": 10.915205001831055,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 4.887390613555908,
+      "module": "mixtures.action.blocks.5.cross_attn.o",
+      "ratio": 0.8116970172655864,
+      "shared_frobenius": 6.021200656890869,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 5.354548454284668,
+      "module": "mixtures.action.blocks.5.cross_attn.o",
+      "ratio": 0.8892825134729132,
+      "shared_frobenius": 6.021200656890869,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 4.783058166503906,
+      "module": "mixtures.action.blocks.5.cross_attn.o",
+      "ratio": 0.7943695018750139,
+      "shared_frobenius": 6.021200656890869,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 5.0141777992248535,
+      "module": "mixtures.action.blocks.5.cross_attn.o",
+      "ratio": 0.8327538118973756,
+      "shared_frobenius": 6.021200656890869,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.070472717285156,
+      "module": "mixtures.action.blocks.5.ffn.0",
+      "ratio": 0.6933221366168042,
+      "shared_frobenius": 18.851947784423828,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.721970558166504,
+      "module": "mixtures.action.blocks.5.ffn.0",
+      "ratio": 0.6748358686139511,
+      "shared_frobenius": 18.851947784423828,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.688779830932617,
+      "module": "mixtures.action.blocks.5.ffn.0",
+      "ratio": 0.620030352544808,
+      "shared_frobenius": 18.851947784423828,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.564189910888672,
+      "module": "mixtures.action.blocks.5.ffn.0",
+      "ratio": 0.6134214906134755,
+      "shared_frobenius": 18.851947784423828,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.002642631530762,
+      "module": "mixtures.action.blocks.5.ffn.2",
+      "ratio": 0.5828435119452618,
+      "shared_frobenius": 15.44607162475586,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.15605640411377,
+      "module": "mixtures.action.blocks.5.ffn.2",
+      "ratio": 0.5927757313671327,
+      "shared_frobenius": 15.44607162475586,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.890731811523438,
+      "module": "mixtures.action.blocks.5.ffn.2",
+      "ratio": 0.5755982509671914,
+      "shared_frobenius": 15.44607162475586,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.510197639465332,
+      "module": "mixtures.action.blocks.5.ffn.2",
+      "ratio": 0.5509619433478345,
+      "shared_frobenius": 15.44607162475586,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 15.988828659057617,
+      "module": "mixtures.action.blocks.6.self_attn.q",
+      "ratio": 0.7638053048642258,
+      "shared_frobenius": 20.933120727539062,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.21356773376465,
+      "module": "mixtures.action.blocks.6.self_attn.q",
+      "ratio": 0.8223125427791056,
+      "shared_frobenius": 20.933120727539062,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 15.302898406982422,
+      "module": "mixtures.action.blocks.6.self_attn.q",
+      "ratio": 0.7310376033350026,
+      "shared_frobenius": 20.933120727539062,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 14.937376976013184,
+      "module": "mixtures.action.blocks.6.self_attn.q",
+      "ratio": 0.713576211136162,
+      "shared_frobenius": 20.933120727539062,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.826688766479492,
+      "module": "mixtures.action.blocks.6.self_attn.k",
+      "ratio": 0.8431062271273746,
+      "shared_frobenius": 21.144060134887695,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.563879013061523,
+      "module": "mixtures.action.blocks.6.self_attn.k",
+      "ratio": 0.8306767433034834,
+      "shared_frobenius": 21.144060134887695,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.334697723388672,
+      "module": "mixtures.action.blocks.6.self_attn.k",
+      "ratio": 0.8198377044334273,
+      "shared_frobenius": 21.144060134887695,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.867504119873047,
+      "module": "mixtures.action.blocks.6.self_attn.k",
+      "ratio": 0.7977419668818322,
+      "shared_frobenius": 21.144060134887695,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.433937072753906,
+      "module": "mixtures.action.blocks.6.self_attn.v",
+      "ratio": 0.6342584187746022,
+      "shared_frobenius": 21.1805419921875,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.115156173706055,
+      "module": "mixtures.action.blocks.6.self_attn.v",
+      "ratio": 0.6192077699684746,
+      "shared_frobenius": 21.1805419921875,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.853560447692871,
+      "module": "mixtures.action.blocks.6.self_attn.v",
+      "ratio": 0.6068570130279924,
+      "shared_frobenius": 21.1805419921875,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.24248218536377,
+      "module": "mixtures.action.blocks.6.self_attn.v",
+      "ratio": 0.6252192314176046,
+      "shared_frobenius": 21.1805419921875,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.854780673980713,
+      "module": "mixtures.action.blocks.6.self_attn.o",
+      "ratio": 0.6208612502102214,
+      "shared_frobenius": 11.04076099395752,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.829570770263672,
+      "module": "mixtures.action.blocks.6.self_attn.o",
+      "ratio": 0.6185779018313518,
+      "shared_frobenius": 11.04076099395752,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.7130818367004395,
+      "module": "mixtures.action.blocks.6.self_attn.o",
+      "ratio": 0.608027095267657,
+      "shared_frobenius": 11.04076099395752,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 7.046207427978516,
+      "module": "mixtures.action.blocks.6.self_attn.o",
+      "ratio": 0.6381994349696387,
+      "shared_frobenius": 11.04076099395752,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.946272850036621,
+      "module": "mixtures.action.blocks.6.cross_attn.q",
+      "ratio": 0.9146391550541569,
+      "shared_frobenius": 13.061186790466309,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.813549041748047,
+      "module": "mixtures.action.blocks.6.cross_attn.q",
+      "ratio": 0.8279147381646154,
+      "shared_frobenius": 13.061186790466309,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.839123725891113,
+      "module": "mixtures.action.blocks.6.cross_attn.q",
+      "ratio": 0.8298728055709964,
+      "shared_frobenius": 13.061186790466309,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.754319190979004,
+      "module": "mixtures.action.blocks.6.cross_attn.q",
+      "ratio": 0.8233799396260725,
+      "shared_frobenius": 13.061186790466309,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.752592086791992,
+      "module": "mixtures.action.blocks.6.cross_attn.k",
+      "ratio": 0.8798850888214994,
+      "shared_frobenius": 12.220450401306152,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.411192893981934,
+      "module": "mixtures.action.blocks.6.cross_attn.k",
+      "ratio": 0.8519483776857487,
+      "shared_frobenius": 12.220450401306152,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.60951042175293,
+      "module": "mixtures.action.blocks.6.cross_attn.k",
+      "ratio": 0.8681767098059625,
+      "shared_frobenius": 12.220450401306152,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.385115623474121,
+      "module": "mixtures.action.blocks.6.cross_attn.k",
+      "ratio": 0.8498144734799737,
+      "shared_frobenius": 12.220450401306152,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.164822578430176,
+      "module": "mixtures.action.blocks.6.cross_attn.v",
+      "ratio": 0.8128016337882789,
+      "shared_frobenius": 11.275595664978027,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.643375396728516,
+      "module": "mixtures.action.blocks.6.cross_attn.v",
+      "ratio": 0.8552431005202515,
+      "shared_frobenius": 11.275595664978027,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 7.900354862213135,
+      "module": "mixtures.action.blocks.6.cross_attn.v",
+      "ratio": 0.7006596455699114,
+      "shared_frobenius": 11.275595664978027,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 7.917591571807861,
+      "module": "mixtures.action.blocks.6.cross_attn.v",
+      "ratio": 0.7021883195403931,
+      "shared_frobenius": 11.275595664978027,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 5.360766410827637,
+      "module": "mixtures.action.blocks.6.cross_attn.o",
+      "ratio": 0.8614132325352669,
+      "shared_frobenius": 6.223222732543945,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 5.358100891113281,
+      "module": "mixtures.action.blocks.6.cross_attn.o",
+      "ratio": 0.8609849143103034,
+      "shared_frobenius": 6.223222732543945,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 4.862252235412598,
+      "module": "mixtures.action.blocks.6.cross_attn.o",
+      "ratio": 0.7813077635781475,
+      "shared_frobenius": 6.223222732543945,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 4.875816822052002,
+      "module": "mixtures.action.blocks.6.cross_attn.o",
+      "ratio": 0.7834874359476529,
+      "shared_frobenius": 6.223222732543945,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.011006355285645,
+      "module": "mixtures.action.blocks.6.ffn.0",
+      "ratio": 0.6958933250796809,
+      "shared_frobenius": 18.696840286254883,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.547185897827148,
+      "module": "mixtures.action.blocks.6.ffn.0",
+      "ratio": 0.6710859003834623,
+      "shared_frobenius": 18.696840286254883,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.499444961547852,
+      "module": "mixtures.action.blocks.6.ffn.0",
+      "ratio": 0.6150475045776452,
+      "shared_frobenius": 18.696840286254883,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.56055736541748,
+      "module": "mixtures.action.blocks.6.ffn.0",
+      "ratio": 0.6183160998554557,
+      "shared_frobenius": 18.696840286254883,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.129875183105469,
+      "module": "mixtures.action.blocks.6.ffn.2",
+      "ratio": 0.5897936294509671,
+      "shared_frobenius": 15.479779243469238,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.207437515258789,
+      "module": "mixtures.action.blocks.6.ffn.2",
+      "ratio": 0.5948041874785336,
+      "shared_frobenius": 15.479779243469238,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.695795059204102,
+      "module": "mixtures.action.blocks.6.ffn.2",
+      "ratio": 0.5617518778811248,
+      "shared_frobenius": 15.479779243469238,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.490004539489746,
+      "module": "mixtures.action.blocks.6.ffn.2",
+      "ratio": 0.5484577270746024,
+      "shared_frobenius": 15.479779243469238,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 15.991564750671387,
+      "module": "mixtures.action.blocks.7.self_attn.q",
+      "ratio": 0.7709828397582934,
+      "shared_frobenius": 20.741790771484375,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 15.455965995788574,
+      "module": "mixtures.action.blocks.7.self_attn.q",
+      "ratio": 0.7451606356495166,
+      "shared_frobenius": 20.741790771484375,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 15.55525016784668,
+      "module": "mixtures.action.blocks.7.self_attn.q",
+      "ratio": 0.7499473087556112,
+      "shared_frobenius": 20.741790771484375,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 15.495452880859375,
+      "module": "mixtures.action.blocks.7.self_attn.q",
+      "ratio": 0.7470643712288518,
+      "shared_frobenius": 20.741790771484375,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.534217834472656,
+      "module": "mixtures.action.blocks.7.self_attn.k",
+      "ratio": 0.8363320994383108,
+      "shared_frobenius": 20.96561622619629,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.003238677978516,
+      "module": "mixtures.action.blocks.7.self_attn.k",
+      "ratio": 0.8110059105600326,
+      "shared_frobenius": 20.96561622619629,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.346355438232422,
+      "module": "mixtures.action.blocks.7.self_attn.k",
+      "ratio": 0.8273715998177223,
+      "shared_frobenius": 20.96561622619629,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.345989227294922,
+      "module": "mixtures.action.blocks.7.self_attn.k",
+      "ratio": 0.7796569893743834,
+      "shared_frobenius": 20.96561622619629,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.571738243103027,
+      "module": "mixtures.action.blocks.7.self_attn.v",
+      "ratio": 0.6363683153932994,
+      "shared_frobenius": 21.326860427856445,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.181979179382324,
+      "module": "mixtures.action.blocks.7.self_attn.v",
+      "ratio": 0.61809281417552,
+      "shared_frobenius": 21.326860427856445,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.931746482849121,
+      "module": "mixtures.action.blocks.7.self_attn.v",
+      "ratio": 0.6063595964625951,
+      "shared_frobenius": 21.326860427856445,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.046358108520508,
+      "module": "mixtures.action.blocks.7.self_attn.v",
+      "ratio": 0.6117336469966195,
+      "shared_frobenius": 21.326860427856445,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.676527976989746,
+      "module": "mixtures.action.blocks.7.self_attn.o",
+      "ratio": 0.5988352011594784,
+      "shared_frobenius": 11.149190902709961,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.7480692863464355,
+      "module": "mixtures.action.blocks.7.self_attn.o",
+      "ratio": 0.6052519277166765,
+      "shared_frobenius": 11.149190902709961,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.746325969696045,
+      "module": "mixtures.action.blocks.7.self_attn.o",
+      "ratio": 0.6050955651011644,
+      "shared_frobenius": 11.149190902709961,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 7.096490383148193,
+      "module": "mixtures.action.blocks.7.self_attn.o",
+      "ratio": 0.6365027242849789,
+      "shared_frobenius": 11.149190902709961,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.879626274108887,
+      "module": "mixtures.action.blocks.7.cross_attn.q",
+      "ratio": 0.9214512318141648,
+      "shared_frobenius": 12.892300605773926,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.604125022888184,
+      "module": "mixtures.action.blocks.7.cross_attn.q",
+      "ratio": 0.8225161161801515,
+      "shared_frobenius": 12.892300605773926,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.546628952026367,
+      "module": "mixtures.action.blocks.7.cross_attn.q",
+      "ratio": 0.8180563946285095,
+      "shared_frobenius": 12.892300605773926,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.654419898986816,
+      "module": "mixtures.action.blocks.7.cross_attn.q",
+      "ratio": 0.8264172721985046,
+      "shared_frobenius": 12.892300605773926,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.451406478881836,
+      "module": "mixtures.action.blocks.7.cross_attn.k",
+      "ratio": 0.9377054557168376,
+      "shared_frobenius": 12.212157249450684,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.657292366027832,
+      "module": "mixtures.action.blocks.7.cross_attn.k",
+      "ratio": 0.9545645480901574,
+      "shared_frobenius": 12.212157249450684,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.521706581115723,
+      "module": "mixtures.action.blocks.7.cross_attn.k",
+      "ratio": 0.8615764083441524,
+      "shared_frobenius": 12.212157249450684,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.542088508605957,
+      "module": "mixtures.action.blocks.7.cross_attn.k",
+      "ratio": 0.8632453950001464,
+      "shared_frobenius": 12.212157249450684,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.056591033935547,
+      "module": "mixtures.action.blocks.7.cross_attn.v",
+      "ratio": 0.7848389644102276,
+      "shared_frobenius": 11.53942584991455,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.181394577026367,
+      "module": "mixtures.action.blocks.7.cross_attn.v",
+      "ratio": 0.9689732160382282,
+      "shared_frobenius": 11.53942584991455,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 7.7892985343933105,
+      "module": "mixtures.action.blocks.7.cross_attn.v",
+      "ratio": 0.6750161260797035,
+      "shared_frobenius": 11.53942584991455,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.365009307861328,
+      "module": "mixtures.action.blocks.7.cross_attn.v",
+      "ratio": 0.724906890226542,
+      "shared_frobenius": 11.53942584991455,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 5.348119258880615,
+      "module": "mixtures.action.blocks.7.cross_attn.o",
+      "ratio": 0.8528213169838806,
+      "shared_frobenius": 6.271090030670166,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 5.922299385070801,
+      "module": "mixtures.action.blocks.7.cross_attn.o",
+      "ratio": 0.9443811771329184,
+      "shared_frobenius": 6.271090030670166,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 4.807379245758057,
+      "module": "mixtures.action.blocks.7.cross_attn.o",
+      "ratio": 0.7665938811668298,
+      "shared_frobenius": 6.271090030670166,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 4.948795795440674,
+      "module": "mixtures.action.blocks.7.cross_attn.o",
+      "ratio": 0.7891444344184955,
+      "shared_frobenius": 6.271090030670166,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.082950592041016,
+      "module": "mixtures.action.blocks.7.ffn.0",
+      "ratio": 0.7018943747934885,
+      "shared_frobenius": 18.63948631286621,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.380175590515137,
+      "module": "mixtures.action.blocks.7.ffn.0",
+      "ratio": 0.6641908142055136,
+      "shared_frobenius": 18.63948631286621,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.398696899414062,
+      "module": "mixtures.action.blocks.7.ffn.0",
+      "ratio": 0.6115349268797137,
+      "shared_frobenius": 18.63948631286621,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.766230583190918,
+      "module": "mixtures.action.blocks.7.ffn.0",
+      "ratio": 0.6312529425807772,
+      "shared_frobenius": 18.63948631286621,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.163269996643066,
+      "module": "mixtures.action.blocks.7.ffn.2",
+      "ratio": 0.5910170363307137,
+      "shared_frobenius": 15.504240036010742,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.252918243408203,
+      "module": "mixtures.action.blocks.7.ffn.2",
+      "ratio": 0.596799212468139,
+      "shared_frobenius": 15.504240036010742,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.697246551513672,
+      "module": "mixtures.action.blocks.7.ffn.2",
+      "ratio": 0.5609592299469767,
+      "shared_frobenius": 15.504240036010742,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.67326545715332,
+      "module": "mixtures.action.blocks.7.ffn.2",
+      "ratio": 0.559412485681882,
+      "shared_frobenius": 15.504240036010742,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.565258026123047,
+      "module": "mixtures.action.blocks.8.self_attn.q",
+      "ratio": 0.810573579416409,
+      "shared_frobenius": 20.436464309692383,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 15.824480056762695,
+      "module": "mixtures.action.blocks.8.self_attn.q",
+      "ratio": 0.774325725671521,
+      "shared_frobenius": 20.436464309692383,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 15.183510780334473,
+      "module": "mixtures.action.blocks.8.self_attn.q",
+      "ratio": 0.7429617251910549,
+      "shared_frobenius": 20.436464309692383,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 14.884085655212402,
+      "module": "mixtures.action.blocks.8.self_attn.q",
+      "ratio": 0.7283102120631181,
+      "shared_frobenius": 20.436464309692383,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 18.312829971313477,
+      "module": "mixtures.action.blocks.8.self_attn.k",
+      "ratio": 0.8710931918128537,
+      "shared_frobenius": 21.02281379699707,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.98699951171875,
+      "module": "mixtures.action.blocks.8.self_attn.k",
+      "ratio": 0.8555942932000872,
+      "shared_frobenius": 21.02281379699707,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 17.014522552490234,
+      "module": "mixtures.action.blocks.8.self_attn.k",
+      "ratio": 0.809336120121114,
+      "shared_frobenius": 21.02281379699707,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 16.904356002807617,
+      "module": "mixtures.action.blocks.8.self_attn.k",
+      "ratio": 0.8040957868932969,
+      "shared_frobenius": 21.02281379699707,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.365778923034668,
+      "module": "mixtures.action.blocks.8.self_attn.v",
+      "ratio": 0.6357070328209075,
+      "shared_frobenius": 21.025060653686523,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.210077285766602,
+      "module": "mixtures.action.blocks.8.self_attn.v",
+      "ratio": 0.628301506633245,
+      "shared_frobenius": 21.025060653686523,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.645247459411621,
+      "module": "mixtures.action.blocks.8.self_attn.v",
+      "ratio": 0.6014369074932685,
+      "shared_frobenius": 21.025060653686523,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.171427726745605,
+      "module": "mixtures.action.blocks.8.self_attn.v",
+      "ratio": 0.6264632451576845,
+      "shared_frobenius": 21.025060653686523,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.619409561157227,
+      "module": "mixtures.action.blocks.8.self_attn.o",
+      "ratio": 0.6038750748976229,
+      "shared_frobenius": 10.961554527282715,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.88913631439209,
+      "module": "mixtures.action.blocks.8.self_attn.o",
+      "ratio": 0.6284816900053184,
+      "shared_frobenius": 10.961554527282715,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.692347049713135,
+      "module": "mixtures.action.blocks.8.self_attn.o",
+      "ratio": 0.6105290114697004,
+      "shared_frobenius": 10.961554527282715,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 6.732234477996826,
+      "module": "mixtures.action.blocks.8.self_attn.o",
+      "ratio": 0.614167859243017,
+      "shared_frobenius": 10.961554527282715,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.443129539489746,
+      "module": "mixtures.action.blocks.8.cross_attn.q",
+      "ratio": 0.8858328285507258,
+      "shared_frobenius": 12.917933464050293,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.951187133789062,
+      "module": "mixtures.action.blocks.8.cross_attn.q",
+      "ratio": 0.8477506997744997,
+      "shared_frobenius": 12.917933464050293,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.546395301818848,
+      "module": "mixtures.action.blocks.8.cross_attn.q",
+      "ratio": 0.8164150505317843,
+      "shared_frobenius": 12.917933464050293,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.526630401611328,
+      "module": "mixtures.action.blocks.8.cross_attn.q",
+      "ratio": 0.7374732520587194,
+      "shared_frobenius": 12.917933464050293,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.889531135559082,
+      "module": "mixtures.action.blocks.8.cross_attn.k",
+      "ratio": 0.8976255708767635,
+      "shared_frobenius": 12.131484985351562,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.71226978302002,
+      "module": "mixtures.action.blocks.8.cross_attn.k",
+      "ratio": 0.9654440323803941,
+      "shared_frobenius": 12.131484985351562,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.638948440551758,
+      "module": "mixtures.action.blocks.8.cross_attn.k",
+      "ratio": 0.8769700043645109,
+      "shared_frobenius": 12.131484985351562,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 10.880566596984863,
+      "module": "mixtures.action.blocks.8.cross_attn.k",
+      "ratio": 0.8968866227113046,
+      "shared_frobenius": 12.131484985351562,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.374900817871094,
+      "module": "mixtures.action.blocks.8.cross_attn.v",
+      "ratio": 0.8567735628731712,
+      "shared_frobenius": 10.942098617553711,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.625467300415039,
+      "module": "mixtures.action.blocks.8.cross_attn.v",
+      "ratio": 0.7882827236246758,
+      "shared_frobenius": 10.942098617553711,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 7.919615268707275,
+      "module": "mixtures.action.blocks.8.cross_attn.v",
+      "ratio": 0.7237748027606278,
+      "shared_frobenius": 10.942098617553711,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 7.773078441619873,
+      "module": "mixtures.action.blocks.8.cross_attn.v",
+      "ratio": 0.7103827806075536,
+      "shared_frobenius": 10.942098617553711,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 5.400008678436279,
+      "module": "mixtures.action.blocks.8.cross_attn.o",
+      "ratio": 0.8934508712981849,
+      "shared_frobenius": 6.043990612030029,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 5.07455587387085,
+      "module": "mixtures.action.blocks.8.cross_attn.o",
+      "ratio": 0.8396035334287903,
+      "shared_frobenius": 6.043990612030029,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 4.892824172973633,
+      "module": "mixtures.action.blocks.8.cross_attn.o",
+      "ratio": 0.8095353694353692,
+      "shared_frobenius": 6.043990612030029,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 4.725773334503174,
+      "module": "mixtures.action.blocks.8.cross_attn.o",
+      "ratio": 0.7818962069691074,
+      "shared_frobenius": 6.043990612030029,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 13.234099388122559,
+      "module": "mixtures.action.blocks.8.ffn.0",
+      "ratio": 0.7142177252100816,
+      "shared_frobenius": 18.529502868652344,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 12.078520774841309,
+      "module": "mixtures.action.blocks.8.ffn.0",
+      "ratio": 0.651853471755866,
+      "shared_frobenius": 18.529502868652344,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.628171920776367,
+      "module": "mixtures.action.blocks.8.ffn.0",
+      "ratio": 0.6275490499234364,
+      "shared_frobenius": 18.529502868652344,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 11.509765625,
+      "module": "mixtures.action.blocks.8.ffn.0",
+      "ratio": 0.6211589003001196,
+      "shared_frobenius": 18.529502868652344,
+      "slot": 3,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.110815048217773,
+      "module": "mixtures.action.blocks.8.ffn.2",
+      "ratio": 0.592579952605424,
+      "shared_frobenius": 15.374828338623047,
+      "slot": 0,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 9.082198143005371,
+      "module": "mixtures.action.blocks.8.ffn.2",
+      "ratio": 0.5907186696966246,
+      "shared_frobenius": 15.374828338623047,
+      "slot": 1,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.487870216369629,
+      "module": "mixtures.action.blocks.8.ffn.2",
+      "ratio": 0.552062763201543,
+      "shared_frobenius": 15.374828338623047,
+      "slot": 2,
+      "status": "ok"
+    },
+    {
+      "adapter_frobenius": 8.54054069519043,
+      "module": "mixtures.action.blocks.8.ffn.2",
+      "ratio": 0.5554885236497744,
+      "shared_frobenius": 15.374828338623047,
+      "slot": 3,
+      "status": "ok"
+    }
+  ],
+  "metrics": {
+    "4_4": {
+      "ol1": 0.25987818997353307,
+      "ol2": 0.2557510033249855,
+      "ol3": 0.6480068650841715
+    }
+  },
+  "mode": "fixed",
+  "panel": "one fixed unpadded midpoint clip per held-out demonstration",
+  "seconds": 43.847657134756446,
+  "seed": 1234,
+  "stats_sha256": "30f81ad7d5076e97323e3328bce003e01a04cb21327b5bacd21bb72846768638",
+  "tau_grid": [
+    0.1,
+    0.3,
+    0.5,
+    0.7,
+    0.9
+  ],
+  "weights": "ema",
+  "window_ids": [
+    922,
+    8733,
+    16537,
+    18047,
+    21746,
+    22633,
+    32250,
+    39341,
+    47443,
+    51629,
+    56608,
+    57419,
+    70381,
+    73729,
+    82145,
+    82655,
+    90960,
+    95790,
+    100668,
+    102721
+  ]
+}

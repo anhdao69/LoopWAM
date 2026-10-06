@@ -1,0 +1,60 @@
+{
+  "checkpoint_seconds": 27.426751820370555,
+  "complete": true,
+  "data_wait_seconds_per_step": null,
+  "dataset_counts": {
+    "train": {
+      "episodes": 368,
+      "unpadded_windows": 87066,
+      "windows": 98842
+    },
+    "validation": {
+      "episodes": 20,
+      "unpadded_windows": 4798,
+      "windows": 5438
+    }
+  },
+  "diagnostic_seconds": 0.0,
+  "ema_checkpoint": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/fork_fixed12/ema.pt",
+  "global_batch": 128,
+  "global_step": 12,
+  "grad_accum": 2,
+  "init": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/loopwam_r32.pt",
+  "initialization_seconds": 169.11555103212595,
+  "interrupted": false,
+  "loss": "L3",
+  "manifest_sha256": "11f9bb815dcdb07e441bd7d00a4acf638979d6dffa69be2c72b8e650a0982082",
+  "max_memory_allocated_gb": 68.219712512,
+  "max_rank_data_wait_seconds_per_step": null,
+  "max_steps": 12,
+  "mean_samples_per_second": 12.717858719574037,
+  "mean_seconds_per_step": 10.064587350934744,
+  "micro_batch": 16,
+  "mode": "fixed",
+  "output": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/fork_fixed12",
+  "raw_checkpoint": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/fork_fixed12/raw.pt",
+  "samples_per_second": null,
+  "seconds_per_step": null,
+  "seed": 42,
+  "signal": null,
+  "stage2_mode": "coupled",
+  "stage3_mode": "decoupled",
+  "start_step": 11,
+  "state_path": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/fork_fixed12/state",
+  "stats_sha256": "30f81ad7d5076e97323e3328bce003e01a04cb21327b5bacd21bb72846768638",
+  "steps": 1,
+  "steps_completed": 1,
+  "teacher": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/fastwam_release/libero_uncond_2cam224.pt",
+  "teacher_identity": {
+    "mtime_ns": 1791217740000000000,
+    "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/fastwam_release/libero_uncond_2cam224.pt",
+    "size": 12041735140
+  },
+  "timing_measured_seconds": 0.00697372667491436,
+  "timing_measured_steps": 0,
+  "timing_warmup_steps": 1,
+  "training_seconds": 10.064587350934744,
+  "version": 2,
+  "world_size": 4,
+  "zero_stage": 1
+}

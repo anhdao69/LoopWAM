@@ -1,0 +1,174 @@
+{
+  "status": "incomplete",
+  "points": [
+    {
+      "run": "teacher",
+      "pair": "4,4",
+      "training_steps": null,
+      "training_seed": null,
+      "loss_recipe": "released_unknown",
+      "eval_seeds": [
+        42,
+        43
+      ],
+      "episodes": 1000,
+      "success_pct": 95.0,
+      "wilson_low": 93.46861797557492,
+      "wilson_high": 96.18697376072512,
+      "p50_ms": 55.43078202754259,
+      "p90_ms": 56.613376550376415,
+      "p99_ms": 57.27666215971112,
+      "peak_memory_bytes": 13644205056,
+      "profile_path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/teacher/eval/kv4_ka4/seed42/latency.json",
+      "profile_sha256": "3fbacb195212d25242d9670aefdc9ce9549ca2251f165dab16a912b5c794306e"
+    },
+    {
+      "run": "C1",
+      "pair": "4,4",
+      "training_steps": 8000,
+      "training_seed": 42,
+      "loss_recipe": "L3",
+      "eval_seeds": [
+        42,
+        43
+      ],
+      "episodes": 1000,
+      "success_pct": 91.5,
+      "wilson_low": 89.60871089966437,
+      "wilson_high": 93.07366814603455,
+      "p50_ms": 41.36895202100277,
+      "p90_ms": 44.72263567149639,
+      "p99_ms": 44.93464482948184,
+      "peak_memory_bytes": 6662205952,
+      "profile_path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C1/eval/kv4_ka4/seed42/latency.json",
+      "profile_sha256": "2041edd78808ce0e360e132e8ccda6fc4a82d83b4d2c3703e9d425744191ce15"
+    },
+    {
+      "run": "C2",
+      "pair": "4,4",
+      "training_steps": 8000,
+      "training_seed": 42,
+      "loss_recipe": "L3",
+      "eval_seeds": [
+        42,
+        43
+      ],
+      "episodes": 1000,
+      "success_pct": 63.5,
+      "wilson_low": 60.46972526360328,
+      "wilson_high": 66.42695225728674,
+      "p50_ms": 21.93752769380808,
+      "p90_ms": 21.978583186864853,
+      "p99_ms": 22.135049663484097,
+      "peak_memory_bytes": 3683729920,
+      "profile_path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C2/eval/kv4_ka4/seed42/latency.json",
+      "profile_sha256": "05f3216b0cef104acb8d477db3e03daf4d1e044393e378975f055fb609a5ef8d"
+    },
+    {
+      "run": "C3",
+      "pair": "4,4",
+      "training_steps": 8000,
+      "training_seed": 42,
+      "loss_recipe": "L3",
+      "eval_seeds": [
+        42,
+        43
+      ],
+      "episodes": 1000,
+      "success_pct": 91.6,
+      "wilson_low": 89.71749506177824,
+      "wilson_high": 93.16411863222358,
+      "p50_ms": 25.459477677941322,
+      "p90_ms": 25.50913691520691,
+      "p99_ms": 25.603380408138037,
+      "peak_memory_bytes": 6116393472,
+      "profile_path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/eval/kv4_ka4/seed42/latency.json",
+      "profile_sha256": "6f4d8c9dd49565a379d6de4f90a1595970abfdd3448361ea57ccdf781903e5fb"
+    }
+  ],
+  "missing": [
+    {
+      "point": "F-Long-s1/(1, 1)",
+      "reason": "No complete primary evaluation"
+    },
+    {
+      "point": "F-Long-s1/(2, 1)",
+      "reason": "No complete primary evaluation"
+    },
+    {
+      "point": "F-Long-s1/(2, 2)",
+      "reason": "No complete primary evaluation"
+    },
+    {
+      "point": "F-Long-s1/(3, 1)",
+      "reason": "No complete primary evaluation"
+    },
+    {
+      "point": "F-Long-s1/(3, 2)",
+      "reason": "No complete primary evaluation"
+    },
+    {
+      "point": "F-Long-s1/(3, 3)",
+      "reason": "No complete primary evaluation"
+    },
+    {
+      "point": "F-Long-s1/(4, 1)",
+      "reason": "No complete primary evaluation"
+    },
+    {
+      "point": "F-Long-s1/(4, 2)",
+      "reason": "No complete primary evaluation"
+    },
+    {
+      "point": "F-Long-s1/(4, 3)",
+      "reason": "No complete primary evaluation"
+    },
+    {
+      "point": "F-Long-s1/(4, 4)",
+      "reason": "No complete primary evaluation"
+    },
+    {
+      "point": "F-Long-s2/(1, 1)",
+      "reason": "No complete primary evaluation"
+    },
+    {
+      "point": "F-Long-s2/(2, 1)",
+      "reason": "No complete primary evaluation"
+    },
+    {
+      "point": "F-Long-s2/(2, 2)",
+      "reason": "No complete primary evaluation"
+    },
+    {
+      "point": "F-Long-s2/(3, 1)",
+      "reason": "No complete primary evaluation"
+    },
+    {
+      "point": "F-Long-s2/(3, 2)",
+      "reason": "No complete primary evaluation"
+    },
+    {
+      "point": "F-Long-s2/(3, 3)",
+      "reason": "No complete primary evaluation"
+    },
+    {
+      "point": "F-Long-s2/(4, 1)",
+      "reason": "No complete primary evaluation"
+    },
+    {
+      "point": "F-Long-s2/(4, 2)",
+      "reason": "No complete primary evaluation"
+    },
+    {
+      "point": "F-Long-s2/(4, 3)",
+      "reason": "No complete primary evaluation"
+    },
+    {
+      "point": "F-Long-s2/(4, 4)",
+      "reason": "No complete primary evaluation"
+    }
+  ],
+  "selection_scope": "LIBERO-Long only; primary paused-simulator EMA outcomes",
+  "budget_caveat": "Screening controls8k/L3; confirmation LoopWAM22k/chosen loss; released teacher training differs. Unequal steps and possibly unequal losses confound architecture-only comparisons.",
+  "intervals": "Wilson95 per checkpoint/configuration; training seeds remain separate"
+}

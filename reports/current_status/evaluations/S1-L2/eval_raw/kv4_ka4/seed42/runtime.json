@@ -1,0 +1,10 @@
+{
+  "status": "running",
+  "started_at": 1791309472.2408726,
+  "deadline": 1791363191.0,
+  "job_id": "872933",
+  "wall_seconds": 836.9220414161682,
+  "completed_tasks": 5,
+  "operation": "evaluation",
+  "updated_at": 1791310309.162914
+}

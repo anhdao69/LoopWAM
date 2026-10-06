@@ -1,0 +1,58 @@
+{
+  "ema_decay": 0.999,
+  "ema_updates": 4000,
+  "evaluated_pairs": [
+    [
+      4,
+      4
+    ]
+  ],
+  "global_step": 4000,
+  "loop_dynamics": {
+    "architecture": "untied_v30a12",
+    "status": "not_applicable"
+  },
+  "lora_norm_ratios": [],
+  "metrics": {
+    "4_4": {
+      "ol1": 0.10103275838308039,
+      "ol2": 0.10611101239919662,
+      "ol3": 0.12109962083399291
+    }
+  },
+  "mode": "fixed",
+  "panel": "one fixed unpadded midpoint clip per held-out demonstration",
+  "seconds": 12.605786107480526,
+  "seed": 1234,
+  "stats_sha256": "30f81ad7d5076e97323e3328bce003e01a04cb21327b5bacd21bb72846768638",
+  "tau_grid": [
+    0.1,
+    0.3,
+    0.5,
+    0.7,
+    0.9
+  ],
+  "weights": "ema",
+  "window_ids": [
+    922,
+    8733,
+    16537,
+    18047,
+    21746,
+    22633,
+    32250,
+    39341,
+    47443,
+    51629,
+    56608,
+    57419,
+    70381,
+    73729,
+    82145,
+    82655,
+    90960,
+    95790,
+    100668,
+    102721
+  ]
+}

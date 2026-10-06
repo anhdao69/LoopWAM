@@ -1,0 +1,9 @@
+{
+  "coordinator_job": "872933",
+  "child": {
+    "job": "873007",
+    "step": "8"
+  },
+  "child_step_removed": true,
+  "checked_at": 1791307911.4481175
+}

@@ -1,0 +1,6 @@
+{
+  "at": 1791298186.8623085,
+  "rank0_pid": 698458,
+  "signal": "SIGUSR1",
+  "reason": "Graceful checkpoint for metadata-only launch-wrapper upgrade; preserve queued Slurm job priority"
+}

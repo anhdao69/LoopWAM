@@ -1,0 +1,3106 @@
+{
+  "status": "complete",
+  "seed": 43,
+  "episodes": 500,
+  "successes": 453,
+  "success_pct": 90.6,
+  "wilson95_pct": [
+    87.7235444137441,
+    92.85735914077787
+  ],
+  "outcomes": [
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 0,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 1,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 2,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 3,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 4,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 5,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 6,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 7,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 8,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 9,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 10,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 11,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 12,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 13,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 14,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 15,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 16,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 17,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 18,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 19,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 20,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 21,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 22,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 23,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 24,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 25,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 26,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 27,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 28,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 29,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 30,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 31,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 32,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 33,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 34,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 35,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 36,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 37,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 38,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 39,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 40,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 41,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 42,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 43,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 44,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 45,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 46,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 47,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 48,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 0,
+      "episode_id": 49,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 0,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 1,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 2,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 3,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 4,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 5,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 6,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 7,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 8,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 9,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 10,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 11,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 12,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 13,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 14,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 15,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 16,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 17,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 18,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 19,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 20,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 21,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 22,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 23,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 24,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 25,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 26,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 27,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 28,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 29,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 30,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 31,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 32,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 33,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 34,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 35,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 36,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 37,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 38,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 39,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 40,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 41,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 42,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 43,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 44,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 45,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 46,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 47,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 48,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 1,
+      "episode_id": 49,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 0,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 1,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 2,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 3,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 4,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 5,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 6,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 7,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 8,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 9,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 10,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 11,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 12,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 13,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 14,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 15,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 16,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 17,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 18,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 19,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 20,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 21,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 22,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 23,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 24,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 25,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 26,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 27,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 28,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 29,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 30,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 31,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 32,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 33,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 34,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 35,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 36,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 37,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 38,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 39,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 40,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 41,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 42,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 43,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 44,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 45,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 46,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 47,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 48,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 2,
+      "episode_id": 49,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 0,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 1,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 2,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 3,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 4,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 5,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 6,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 7,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 8,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 9,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 10,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 11,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 12,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 13,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 14,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 15,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 16,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 17,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 18,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 19,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 20,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 21,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 22,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 23,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 24,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 25,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 26,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 27,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 28,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 29,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 30,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 31,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 32,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 33,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 34,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 35,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 36,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 37,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 38,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 39,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 40,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 41,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 42,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 43,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 44,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 45,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 46,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 47,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 48,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 3,
+      "episode_id": 49,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 0,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 1,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 2,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 3,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 4,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 5,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 6,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 7,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 8,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 9,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 10,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 11,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 12,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 13,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 14,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 15,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 16,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 17,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 18,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 19,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 20,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 21,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 22,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 23,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 24,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 25,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 26,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 27,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 28,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 29,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 30,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 31,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 32,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 33,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 34,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 35,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 36,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 37,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 38,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 39,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 40,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 41,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 42,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 43,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 44,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 45,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 46,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 47,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 48,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 4,
+      "episode_id": 49,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 0,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 1,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 2,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 3,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 4,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 5,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 6,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 7,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 8,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 9,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 10,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 11,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 12,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 13,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 14,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 15,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 16,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 17,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 18,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 19,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 20,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 21,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 22,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 23,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 24,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 25,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 26,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 27,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 28,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 29,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 30,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 31,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 32,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 33,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 34,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 35,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 36,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 37,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 38,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 39,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 40,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 41,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 42,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 43,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 44,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 45,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 46,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 47,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 48,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 5,
+      "episode_id": 49,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 0,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 1,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 2,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 3,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 4,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 5,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 6,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 7,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 8,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 9,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 10,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 11,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 12,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 13,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 14,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 15,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 16,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 17,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 18,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 19,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 20,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 21,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 22,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 23,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 24,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 25,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 26,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 27,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 28,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 29,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 30,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 31,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 32,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 33,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 34,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 35,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 36,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 37,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 38,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 39,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 40,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 41,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 42,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 43,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 44,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 45,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 46,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 47,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 48,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 6,
+      "episode_id": 49,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 0,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 1,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 2,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 3,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 4,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 5,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 6,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 7,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 8,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 9,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 10,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 11,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 12,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 13,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 14,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 15,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 16,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 17,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 18,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 19,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 20,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 21,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 22,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 23,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 24,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 25,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 26,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 27,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 28,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 29,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 30,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 31,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 32,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 33,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 34,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 35,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 36,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 37,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 38,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 39,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 40,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 41,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 42,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 43,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 44,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 45,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 46,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 47,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 48,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 7,
+      "episode_id": 49,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 0,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 1,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 2,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 3,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 4,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 5,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 6,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 7,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 8,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 9,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 10,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 11,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 12,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 13,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 14,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 15,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 16,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 17,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 18,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 19,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 20,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 21,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 22,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 23,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 24,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 25,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 26,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 27,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 28,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 29,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 30,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 31,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 32,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 33,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 34,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 35,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 36,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 37,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 38,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 39,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 40,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 41,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 42,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 43,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 44,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 45,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 46,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 47,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 48,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 8,
+      "episode_id": 49,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 0,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 1,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 2,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 3,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 4,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 5,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 6,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 7,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 8,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 9,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 10,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 11,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 12,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 13,
+      "success": false
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 14,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 15,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 16,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 17,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 18,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 19,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 20,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 21,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 22,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 23,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 24,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 25,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 26,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 27,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 28,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 29,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 30,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 31,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 32,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 33,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 34,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 35,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 36,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 37,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 38,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 39,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 40,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 41,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 42,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 43,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 44,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 45,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 46,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 47,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 48,
+      "success": true
+    },
+    {
+      "seed": 43,
+      "task_id": 9,
+      "episode_id": 49,
+      "success": true
+    }
+  ],
+  "task_seconds": 3554.052026098594,
+  "protocol": {
+    "suite": "libero_10",
+    "tasks": 10,
+    "initial_states": 50,
+    "initial_state_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ],
+    "action_horizon": 32,
+    "euler_steps": 10,
+    "sigma_shift": 5.0,
+    "replan_steps": 10,
+    "max_steps": 700,
+    "num_steps_wait": 30,
+    "compiled": true,
+    "text_cfg_scale": 1.0,
+    "binarize_gripper": true,
+    "weights": "stage_end_ema",
+    "seed": 43,
+    "kv": 4,
+    "ka": 4,
+    "teacher": false,
+    "checkpoint": {
+      "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/C3/ema.pt",
+      "bytes": 4454227783,
+      "mtime_ns": 1791272923000000000
+    },
+    "stats_sha256": "30f81ad7d5076e97323e3328bce003e01a04cb21327b5bacd21bb72846768638",
+    "text_cache": "/lustre/fs1/groups/yshang/an221229/data/FastWAM/text_embeds_cache/libero"
+  },
+  "wall_seconds": 1125.9372341260314,
+  "invocation_wall_seconds": 1125.9372341260314,
+  "initial_state_sha256": {
+    "0": "1899fe54c51e24a41d5f9e32254730d6777f4894ab68e0e873f1fa7ae2062030",
+    "1": "f8ac06ea8f43bb328d40cba1e6a9767da2f8f5386fd7ff3f845c64a96bf6d2ce",
+    "2": "02a8401f8d59f5447fc8c5a16f4c158dd8c426c3eaed6779927a2a53e9abf3c5",
+    "3": "e98ded151f64a036c74c872336dd09b968c379f3c9db7bc333aba37e7c235b86",
+    "4": "b6f20784b381c75d715f4fdaadda1fb460cbe24adcbad76f381a009419b8474e",
+    "5": "6cd3937ba18d64e72223222af36888d26ea201840415adbc4dae590454d0a5a8",
+    "6": "6e811394c4ff9a43ae23515d8512e9b657c04344b94dd5baed121b595490514f",
+    "7": "2113ea5923fcbbe1b57b428383934496072f062729d0b72d3021573d55d25abc",
+    "8": "44f992e911c84a1340589510ecdaf947a4872966f7678c8364d8bb5d13dc4dac",
+    "9": "6b75c8d4d1e1c40b5d99c78ceea380d99ccffb0a484a4cb2d3153488a0afbbe2"
+  }
+}

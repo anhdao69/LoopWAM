@@ -1,0 +1,172 @@
+{
+  "status": "pass",
+  "all_14_tests_passed": true,
+  "requirements": [
+    {
+      "id": 1,
+      "requirement": "conversion equality",
+      "tests": [
+        "test_end_to_end_velocity_full_rank_conversion_equality"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": 2,
+      "requirement": "target shapes and head maps",
+      "tests": [
+        "test_width_slicing_preserves_whole_heads_and_segmented_modulation"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": 3,
+      "requirement": "shared storage and compact serialization",
+      "tests": [
+        "test_rank_zero_retains_exact_bias_and_shares_base_weights",
+        "test_checkpoint_export_drops_unused_teacher_backing_storage"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": 4,
+      "requirement": "residual composition",
+      "tests": [
+        "test_full_rank_fold_reproduces_thirty_layer_composition"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": 5,
+      "requirement": "all ten schedules and suffix alignment",
+      "tests": [
+        "test_schedule_all_pairs_and_suffix_slots"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": 6,
+      "requirement": "future/action branch isolation",
+      "tests": [
+        "test_cache_causality_and_future_isolation",
+        "test_dense_separate_stream_equals_joint_attention"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": 7,
+      "requirement": "first-frame cache causality",
+      "tests": [
+        "test_cache_causality_and_future_isolation"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": 8,
+      "requirement": "first-frame coda equality",
+      "tests": [
+        "test_prefix_and_first_frame_coda_at_all_exits"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": 9,
+      "requirement": "prefix elasticity",
+      "tests": [
+        "test_prefix_and_first_frame_coda_at_all_exits"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": 10,
+      "requirement": "distributed deterministic sampling and boundaries",
+      "tests": [
+        "test_stage_sampler_reproducible_and_uniform",
+        "test_sampler_resume_is_independent_of_prefetch_and_microbatch"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": 11,
+      "requirement": "teacher/student shift guard",
+      "tests": [
+        "test_shift_guard"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": 12,
+      "requirement": "teacher normalization and gripper",
+      "tests": [
+        "test_teacher_action_and_proprio_normalization_roundtrip"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": 13,
+      "requirement": "finite gradient coverage and shallow distributed training",
+      "tests": [
+        "test_teacher_receives_identical_noisy_inputs_and_own_context",
+        "test_checkpointed_gradient_equals_uncheckpointed"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": 14,
+      "requirement": "strict checkpoint roundtrip at all budgets",
+      "tests": [
+        "test_canonical_save_reload_every_budget"
+      ],
+      "status": "pass"
+    }
+  ],
+  "scope": "P0-T infrastructure only; overfit, P0-S and teacher reproduction have separate gates",
+  "generated_at": 1791227509.139978,
+  "executed_pytest_cases": 153,
+  "junit": {
+    "path": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/pytest_final.xml",
+    "sha256": "5ed873250b1dc9801e327f039b04ea3e1a8784b70dea615ef57db19874c98ba7"
+  },
+  "production_evidence": [
+    {
+      "path": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/conversion_audit.json",
+      "sha256": "164745a68f9ff61580acf3265ce7a59d8b22186a66db163379b5979640eb5fe1"
+    },
+    {
+      "path": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/coupled16/gradient_coverage.json",
+      "sha256": "81118311093d55c02f4de484b00b5bcce77425c3acdd36f2b967fa84463bd1a8"
+    },
+    {
+      "path": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/coupled16/timing_initial10.json",
+      "sha256": "cc7ad8e0a1d68a1968d40d0f545f2ae3fa8e6593c688021886203a01f070ce13"
+    },
+    {
+      "path": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/coupled16/timing.json",
+      "sha256": "21a8018d7ea6b4dc4378da48ba7554aa15fc401d9f09199441f136f0e87c2c75"
+    },
+    {
+      "path": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/fork_fixed12/timing.json",
+      "sha256": "b8a4f084003856cf12ea6889262457db5e7b5d1de933955aee65e41d7e82c62d"
+    },
+    {
+      "path": "/lustre/fs1/home/an221229/code/FastWAM/runs/loopwam_validation/coupled16/open_loop/step_00000011.json",
+      "sha256": "028018c71a45658cd54fd81b9721c53f3db62d3ebe931e4c9d13282aa324a618"
+    }
+  ],
+  "commit": "acaeca88081037cedbad488e0459de92ad00701c",
+  "overfit_evidence": {
+    "status": "pass",
+    "path": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/overfit_diagnostic_protocol.json",
+    "sha256": "af0a87c9b73d3f044b5c98cabc87136025dfbb6115e2dc0503c53a9470c91216"
+  },
+  "cached_training_evidence": {
+    "status": "pass",
+    "path": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/cached_training_evidence.json",
+    "sha256": "3a86f15e6b99298f83332108beee82291aac3c3241c9a648ca0070127b492e86"
+  },
+  "delay_integration_evidence": {
+    "status": "pass",
+    "path": "/lustre/fs1/home/an221229/code/FastWAM/outputs/loopwam_v1/delay_smoke/result.json",
+    "sha256": "165dc142f3682cfbc43d972f457cdada01e944bf0612d97a2dd26a78b076ab9f",
+    "scope": "one real episode integration smoke; not campaign success-rate evidence"
+  }
+}

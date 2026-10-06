@@ -1,0 +1,54 @@
+{
+  "complete": true,
+  "dataset_counts": {
+    "train": {
+      "episodes": 368,
+      "unpadded_windows": 87066,
+      "windows": 98842
+    },
+    "validation": {
+      "episodes": 20,
+      "unpadded_windows": 4798,
+      "windows": 5438
+    }
+  },
+  "diagnostic_pairs": [
+    [
+      4,
+      4
+    ]
+  ],
+  "global_batch": 128,
+  "global_step": 8000,
+  "grad_accum": 2,
+  "init": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/loopwam_r32.pt",
+  "interrupted": false,
+  "latent_cache_identity": {
+    "cache_id": "9e3e14e18e97edaa4f620177f8e54b2ee621d78c0a61c3cf9af83c1cadce27c4",
+    "metadata_sha256": "5fda7d9a915134f63b1e4b2ae29dc87ee6753ae1297bf300dbc128cf0750cd15",
+    "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/latent_cache"
+  },
+  "loss": "L2",
+  "manifest_sha256": "11f9bb815dcdb07e441bd7d00a4acf638979d6dffa69be2c72b8e650a0982082",
+  "max_steps": 8000,
+  "micro_batch": 16,
+  "mode": "fixed",
+  "output": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2",
+  "seed": 42,
+  "signal": null,
+  "stage2_mode": "coupled",
+  "stage3_mode": "decoupled",
+  "state_path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/S1-L2/state",
+  "stats_sha256": "30f81ad7d5076e97323e3328bce003e01a04cb21327b5bacd21bb72846768638",
+  "tag": "step_00008000",
+  "teacher": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/fastwam_release/libero_uncond_2cam224.pt",
+  "teacher_identity": {
+    "mtime_ns": 1791217740000000000,
+    "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/fastwam_release/libero_uncond_2cam224.pt",
+    "size": 12041735140
+  },
+  "version": 2,
+  "warmup_steps": 500,
+  "world_size": 4,
+  "zero_stage": 1
+}

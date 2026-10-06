@@ -1,0 +1,8 @@
+{
+  "campaign_root": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign",
+  "allocation_ids": [
+    "872933",
+    "873007"
+  ],
+  "authorization": "User requested both existing interactive four-H100 allocations for independent ablation training"
+}

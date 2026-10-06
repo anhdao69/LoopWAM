@@ -1,0 +1,57 @@
+{
+  "captured_at": "2026-10-06T14:11:48-04:00",
+  "jobs": {
+    "872933": {
+      "JobId": "872933",
+      "JobName": "bash",
+      "JobState": "RUNNING",
+      "NodeList": "evc102",
+      "StartTime": "2026-10-06T08:53:11",
+      "EndTime": "2026-10-07T04:53:11",
+      "TimeLimit": "20:00:00",
+      "Dependency": "(null)",
+      "NumCPUs": "16",
+      "AllocTRES": "cpu=16,mem=512G,node=1,billing=16,gres/gpu=4",
+      "Reason": "None"
+    },
+    "873007": {
+      "JobId": "873007",
+      "JobName": "bash",
+      "JobState": "RUNNING",
+      "NodeList": "evc104",
+      "StartTime": "2026-10-06T08:53:11",
+      "EndTime": "2026-10-07T04:53:11",
+      "TimeLimit": "20:00:00",
+      "Dependency": "(null)",
+      "NumCPUs": "16",
+      "AllocTRES": "cpu=16,mem=512G,node=1,billing=16,gres/gpu=4",
+      "Reason": "None"
+    },
+    "873269": {
+      "JobId": "873269",
+      "JobName": "loopwam-v1",
+      "JobState": "PENDING",
+      "NodeList": "",
+      "StartTime": "Unknown",
+      "EndTime": "Unknown",
+      "TimeLimit": "20:00:00",
+      "Dependency": "afterany:872933(unfulfilled),afterany:873007(unfulfilled)",
+      "NumCPUs": "16",
+      "AllocTRES": "(null)",
+      "Reason": "Dependency"
+    },
+    "878362": {
+      "JobId": "878362",
+      "JobName": "bash",
+      "JobState": "PENDING",
+      "NodeList": "",
+      "StartTime": "2026-10-07T04:53:11",
+      "EndTime": "2026-10-08T00:53:11",
+      "TimeLimit": "20:00:00",
+      "Dependency": "(null)",
+      "NumCPUs": "16",
+      "AllocTRES": "(null)",
+      "Reason": "Priority"
+    }
+  }
+}

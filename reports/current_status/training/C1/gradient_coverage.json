@@ -1,0 +1,98 @@
+{
+  "all_ranks_complete": true,
+  "global_step": 1,
+  "ranks": [
+    {
+      "complete": true,
+      "groups": {
+        "norm": {
+          "expected": 360,
+          "nonzero": 360,
+          "observed": 360
+        },
+        "proprio": {
+          "expected": 2,
+          "nonzero": 2,
+          "observed": 2
+        },
+        "shared_or_inherited": {
+          "expected": 1289,
+          "nonzero": 1289,
+          "observed": 1289
+        }
+      },
+      "missing": [],
+      "nonfinite": [],
+      "zero_gradient": []
+    },
+    {
+      "complete": true,
+      "groups": {
+        "norm": {
+          "expected": 360,
+          "nonzero": 360,
+          "observed": 360
+        },
+        "proprio": {
+          "expected": 2,
+          "nonzero": 2,
+          "observed": 2
+        },
+        "shared_or_inherited": {
+          "expected": 1289,
+          "nonzero": 1289,
+          "observed": 1289
+        }
+      },
+      "missing": [],
+      "nonfinite": [],
+      "zero_gradient": []
+    },
+    {
+      "complete": true,
+      "groups": {
+        "norm": {
+          "expected": 360,
+          "nonzero": 360,
+          "observed": 360
+        },
+        "proprio": {
+          "expected": 2,
+          "nonzero": 2,
+          "observed": 2
+        },
+        "shared_or_inherited": {
+          "expected": 1289,
+          "nonzero": 1289,
+          "observed": 1289
+        }
+      },
+      "missing": [],
+      "nonfinite": [],
+      "zero_gradient": []
+    },
+    {
+      "complete": true,
+      "groups": {
+        "norm": {
+          "expected": 360,
+          "nonzero": 360,
+          "observed": 360
+        },
+        "proprio": {
+          "expected": 2,
+          "nonzero": 2,
+          "observed": 2
+        },
+        "shared_or_inherited": {
+          "expected": 1289,
+          "nonzero": 1289,
+          "observed": 1289
+        }
+      },
+      "missing": [],
+      "nonfinite": [],
+      "zero_gradient": []
+    }
+  ]
+}

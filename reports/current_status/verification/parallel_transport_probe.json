@@ -1,0 +1,12 @@
+[
+  {
+    "returncode": 0,
+    "stdout": "{\"job\": \"872933\", \"node\": \"evc102\", \"cuda\": \"0,1,2,3\"}\n",
+    "stderr": ""
+  },
+  {
+    "returncode": 0,
+    "stdout": "{\"job\": \"873007\", \"node\": \"evc104\", \"cuda\": \"0,1,2,3\"}\n",
+    "stderr": ""
+  }
+]

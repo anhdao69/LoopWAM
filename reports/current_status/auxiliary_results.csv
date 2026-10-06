@@ -1,0 +1,1 @@
+run,variant,pair,seed,episodes,success_pct,wilson_low,wilson_high,wall_seconds,delay_steps,control_period_seconds,decision_p50_ms,checkpoint

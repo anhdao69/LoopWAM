@@ -1,0 +1,15 @@
+{
+  "at": 1791298301.9436917,
+  "reason": "Audited allocation bootstrap change only; model/trainer/evaluator/configuration bytes unchanged",
+  "previous_sha256": "dd2c30054f41546bc3c4a592c73197d3077091ef66e0bd7ac0970d25c0a94028",
+  "new_sha256": "02741f8e43f6f7c357b566c68857da2a639cec66240381da35a28a4ade5f3753",
+  "changed_paths": [
+    "scripts/loopwam/run_campaign.sh"
+  ],
+  "previous_file_sha256": "91b71d29b451138dab2d38bd8d77142e774082bee663d1c7b642fca877cd3349",
+  "new_file_sha256": "0d52d69bc3e5407f1fa8aabd601415894713cb94b318ef81517d79d5882e3582",
+  "checkpoint_step": 1896,
+  "existing_artifacts": "trusted: numerical code and protocols unchanged",
+  "metadata_bootstrap": "scripts/operations/capture_gpu_metadata.py",
+  "metadata_wrapper": "scripts/operations/bin/nvidia-smi"
+}

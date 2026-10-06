@@ -1,0 +1,41 @@
+{
+  "at": 1791309510.5124269,
+  "kind": "read_only_precheck",
+  "official_controller_decision_pending": "raw-vs-EMA diagnostic",
+  "result": {
+    "gate": "G1",
+    "status": "fail",
+    "checks": {
+      "recovery": {
+        "status": "fail",
+        "margin_pp": -2,
+        "comparison": {
+          "status": "clear",
+          "gap_pp": -14.8,
+          "mcnemar_p": 6.74813608304105e-13,
+          "gain": 19,
+          "loss": 93,
+          "episodes": 500,
+          "eval_seeds": [
+            42
+          ]
+        }
+      },
+      "control": {
+        "status": "pass",
+        "margin_pp": 0,
+        "comparison": {
+          "status": "clear",
+          "gap_pp": 10.4,
+          "mcnemar_p": 4.7995357310018904e-05,
+          "gain": 106,
+          "loss": 54,
+          "episodes": 500,
+          "eval_seeds": [
+            42
+          ]
+        }
+      }
+    }
+  }
+}

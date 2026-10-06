@@ -1,0 +1,453 @@
+{
+  "status": "complete",
+  "profile_version": 2,
+  "device": "NVIDIA H100 80GB HBM3",
+  "batch": 1,
+  "warmup": 50,
+  "calls": 500,
+  "initial_state_sha256": "1899fe54c51e24a41d5f9e32254730d6777f4894ab68e0e873f1fa7ae2062030",
+  "scope": "infer_action total: VAE + video prefill + 10 action steps",
+  "components": {
+    "eager": {
+      "status": "complete",
+      "calls": 100,
+      "denoise_steps": 10,
+      "metrics": {
+        "vae_encode_gpu": {
+          "samples": 100,
+          "p50_ms": 4.784031867980957,
+          "p90_ms": 4.879788827896118,
+          "p99_ms": 4.951574416160583
+        },
+        "video_prefill_gpu": {
+          "samples": 100,
+          "p50_ms": 28.101856231689453,
+          "p90_ms": 29.039225769042968,
+          "p99_ms": 29.794698295593264
+        },
+        "action_step_gpu": {
+          "samples": 1000,
+          "p50_ms": 28.302207946777344,
+          "p90_ms": 29.16681365966797,
+          "p99_ms": 30.112016468048097
+        },
+        "action_denoise_10_gpu": {
+          "samples": 100,
+          "p50_ms": 284.05990409851074,
+          "p90_ms": 289.3356405258179,
+          "p99_ms": 293.1795100975037
+        },
+        "action_decode_10_gpu": {
+          "samples": 100,
+          "p50_ms": 284.4271240234375,
+          "p90_ms": 289.7270782470703,
+          "p99_ms": 293.58044891357423
+        },
+        "total_gpu_timeline": {
+          "samples": 100,
+          "p50_ms": 320.36004638671875,
+          "p90_ms": 326.19643249511716,
+          "p99_ms": 330.8936709594727
+        },
+        "total_wall": {
+          "samples": 100,
+          "p50_ms": 320.3966021537781,
+          "p90_ms": 326.23755540698767,
+          "p99_ms": 330.9364986233413
+        },
+        "unattributed_gpu_timeline": {
+          "samples": 100,
+          "p50_ms": 2.8670127391815186,
+          "p90_ms": 3.1112789630889894,
+          "p99_ms": 3.238389482498169
+        },
+        "wall_minus_gpu_timeline": {
+          "samples": 100,
+          "p50_ms": 0.035635195672512054,
+          "p90_ms": 0.04240121394395829,
+          "p99_ms": 0.04777998000383384
+        },
+        "unattributed_wall": {
+          "samples": 100,
+          "p50_ms": 2.9008785113692284,
+          "p90_ms": 3.1523257896304133,
+          "p99_ms": 3.2793249888718132
+        }
+      },
+      "action_steps_by_index": [
+        {
+          "samples": 100,
+          "p50_ms": 28.43779182434082,
+          "p90_ms": 29.283176994323732,
+          "p99_ms": 30.21232189178467
+        },
+        {
+          "samples": 100,
+          "p50_ms": 28.333728790283203,
+          "p90_ms": 29.13887004852295,
+          "p99_ms": 30.115569744110108
+        },
+        {
+          "samples": 100,
+          "p50_ms": 28.345919609069824,
+          "p90_ms": 29.160661506652833,
+          "p99_ms": 29.741280040740968
+        },
+        {
+          "samples": 100,
+          "p50_ms": 28.327903747558594,
+          "p90_ms": 29.230563354492187,
+          "p99_ms": 29.617811145782472
+        },
+        {
+          "samples": 100,
+          "p50_ms": 28.28921604156494,
+          "p90_ms": 29.003612899780272,
+          "p99_ms": 29.629291667938233
+        },
+        {
+          "samples": 100,
+          "p50_ms": 28.324079513549805,
+          "p90_ms": 29.076710128784182,
+          "p99_ms": 29.7053444480896
+        },
+        {
+          "samples": 100,
+          "p50_ms": 28.265311241149902,
+          "p90_ms": 29.002870750427245,
+          "p99_ms": 30.063177795410162
+        },
+        {
+          "samples": 100,
+          "p50_ms": 28.243456840515137,
+          "p90_ms": 29.204874420166014,
+          "p99_ms": 30.18706327438355
+        },
+        {
+          "samples": 100,
+          "p50_ms": 28.247248649597168,
+          "p90_ms": 29.196706771850586,
+          "p99_ms": 30.030398082733154
+        },
+        {
+          "samples": 100,
+          "p50_ms": 28.28104019165039,
+          "p90_ms": 29.054870796203613,
+          "p99_ms": 30.023836803436282
+        }
+      ],
+      "warmup": 50,
+      "method": "CUDA events on the current stream, isolated after primary wall profiling",
+      "action_decode_scope": "First denoise start through tenth Euler update end",
+      "unattributed_scope": "Context/proprio/video preparation, cache clones, transfers and CPU enqueue gaps; not pure CPU time",
+      "note": "Component instrumentation overhead is excluded from the primary500-call wall profile"
+    },
+    "compiled": {
+      "status": "complete",
+      "calls": 100,
+      "denoise_steps": 10,
+      "metrics": {
+        "vae_encode_gpu": {
+          "samples": 100,
+          "p50_ms": 4.684111833572388,
+          "p90_ms": 4.7146909713745115,
+          "p99_ms": 4.733129439353943
+        },
+        "video_prefill_gpu": {
+          "samples": 100,
+          "p50_ms": 6.370928049087524,
+          "p90_ms": 6.3922656059265135,
+          "p99_ms": 6.4693258762359624
+        },
+        "action_step_gpu": {
+          "samples": 1000,
+          "p50_ms": 4.83187198638916,
+          "p90_ms": 4.836646270751953,
+          "p99_ms": 4.839969482421875
+        },
+        "action_denoise_10_gpu": {
+          "samples": 100,
+          "p50_ms": 48.319071531295776,
+          "p90_ms": 48.33774394989014,
+          "p99_ms": 48.3422457075119
+        },
+        "action_decode_10_gpu": {
+          "samples": 100,
+          "p50_ms": 48.40670394897461,
+          "p90_ms": 48.42612915039062,
+          "p99_ms": 48.43095478057862
+        },
+        "total_gpu_timeline": {
+          "samples": 100,
+          "p50_ms": 62.38118362426758,
+          "p90_ms": 62.55837173461914,
+          "p99_ms": 62.717526550292966
+        },
+        "total_wall": {
+          "samples": 100,
+          "p50_ms": 62.41145916283131,
+          "p90_ms": 62.588442489504814,
+          "p99_ms": 62.744400817900896
+        },
+        "unattributed_gpu_timeline": {
+          "samples": 100,
+          "p50_ms": 2.927967071533203,
+          "p90_ms": 3.0577044010162355,
+          "p99_ms": 3.1254523324966432
+        },
+        "wall_minus_gpu_timeline": {
+          "samples": 100,
+          "p50_ms": 0.027798675000667572,
+          "p90_ms": 0.03006018102169037,
+          "p99_ms": 0.034394711107015724
+        },
+        "unattributed_wall": {
+          "samples": 100,
+          "p50_ms": 2.957158647477627,
+          "p90_ms": 3.087766556441784,
+          "p99_ms": 3.1534455063939095
+        }
+      },
+      "action_steps_by_index": [
+        {
+          "samples": 100,
+          "p50_ms": 4.8297600746154785,
+          "p90_ms": 4.8347968578338625,
+          "p99_ms": 4.838086009025574
+        },
+        {
+          "samples": 100,
+          "p50_ms": 4.831440210342407,
+          "p90_ms": 4.835312128067017,
+          "p99_ms": 4.837068319320679
+        },
+        {
+          "samples": 100,
+          "p50_ms": 4.831424236297607,
+          "p90_ms": 4.837388896942139,
+          "p99_ms": 4.8406419897079465
+        },
+        {
+          "samples": 100,
+          "p50_ms": 4.833039999008179,
+          "p90_ms": 4.8382433414459225,
+          "p99_ms": 4.839974603652954
+        },
+        {
+          "samples": 100,
+          "p50_ms": 4.832159996032715,
+          "p90_ms": 4.836147022247315,
+          "p99_ms": 4.839904475212097
+        },
+        {
+          "samples": 100,
+          "p50_ms": 4.832863807678223,
+          "p90_ms": 4.836934280395508,
+          "p99_ms": 4.839521255493164
+        },
+        {
+          "samples": 100,
+          "p50_ms": 4.8328962326049805,
+          "p90_ms": 4.837139320373535,
+          "p99_ms": 4.84061644077301
+        },
+        {
+          "samples": 100,
+          "p50_ms": 4.832224130630493,
+          "p90_ms": 4.836575984954834,
+          "p99_ms": 4.839859776496887
+        },
+        {
+          "samples": 100,
+          "p50_ms": 4.829952001571655,
+          "p90_ms": 4.834515333175659,
+          "p99_ms": 4.8389820909500125
+        },
+        {
+          "samples": 100,
+          "p50_ms": 4.833024024963379,
+          "p90_ms": 4.837193584442138,
+          "p99_ms": 4.8402936029434205
+        }
+      ],
+      "warmup": 50,
+      "method": "CUDA events on the current stream, isolated after primary wall profiling",
+      "action_decode_scope": "First denoise start through tenth Euler update end",
+      "unattributed_scope": "Context/proprio/video preparation, cache clones, transfers and CPU enqueue gaps; not pure CPU time",
+      "note": "Component instrumentation overhead is excluded from the primary500-call wall profile"
+    }
+  },
+  "torch_version": "2.7.1+cu128",
+  "protocol": {
+    "suite": "libero_10",
+    "tasks": 10,
+    "initial_states": 50,
+    "initial_state_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ],
+    "action_horizon": 32,
+    "euler_steps": 10,
+    "sigma_shift": 5.0,
+    "replan_steps": 10,
+    "max_steps": 700,
+    "num_steps_wait": 30,
+    "compiled": true,
+    "text_cfg_scale": 1.0,
+    "binarize_gripper": true,
+    "weights": "stage_end_ema"
+  },
+  "kv": 4,
+  "ka": 4,
+  "checkpoint": {
+    "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/campaign/P0-S/ema.pt",
+    "bytes": 2160251803,
+    "mtime_ns": 1791230650000000000
+  },
+  "eager": {
+    "p50_ms": 316.4216335862875,
+    "p90_ms": 322.3829794675112,
+    "p99_ms": 332.2279579564925,
+    "peak_memory_bytes": 3801693696
+  },
+  "compiled": {
+    "p50_ms": 62.107572332024574,
+    "p90_ms": 62.29410879313946,
+    "p99_ms": 62.64232503250241,
+    "peak_memory_bytes": 3801694720
+  },
+  "cache_key": {
+    "profile_version": 2,
+    "architecture": {
+      "arch": "loopwam",
+      "initialization": {
+        "bytes": 2160261923,
+        "mtime_ns": 1791220939000000000,
+        "path": "/lustre/fs1/groups/yshang/an221229/checkpoints/FastWAM/loopwam_v1/loopwam_r32.pt"
+      }
+    },
+    "budget": [
+      4,
+      4
+    ],
+    "device_driver": "NVIDIA H100 80GB HBM3, 580.105.08",
+    "torch_version": "2.7.1+cu128",
+    "source_sha256": "bdd11e6f121bc6e3ea537c2cd889b42ec6a855bbbc283d5067b7259b939d62ca",
+    "stats_sha256": "30f81ad7d5076e97323e3328bce003e01a04cb21327b5bacd21bb72846768638",
+    "protocol": {
+      "suite": "libero_10",
+      "tasks": 10,
+      "initial_states": 50,
+      "initial_state_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49
+      ],
+      "action_horizon": 32,
+      "euler_steps": 10,
+      "sigma_shift": 5.0,
+      "replan_steps": 10,
+      "max_steps": 700,
+      "num_steps_wait": 30,
+      "compiled": true,
+      "text_cfg_scale": 1.0,
+      "binarize_gripper": true,
+      "weights": "stage_end_ema"
+    }
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "all_ranks_complete": true,
+  "global_step": 1897,
+  "ranks": [
+    {
+      "complete": true,
+      "groups": {
+        "lora": {
+          "expected": 240,
+          "nonzero": 240,
+          "observed": 240
+        },
+        "norm": {
+          "expected": 144,
+          "nonzero": 144,
+          "observed": 144
+        },
+        "proprio": {
+          "expected": 2,
+          "nonzero": 2,
+          "observed": 2
+        },
+        "shared_or_inherited": {
+          "expected": 533,
+          "nonzero": 533,
+          "observed": 533
+        },
+        "slot": {
+          "expected": 132,
+          "nonzero": 132,
+          "observed": 132
+        }
+      },
+      "missing": [],
+      "nonfinite": [],
+      "zero_gradient": []
+    },
+    {
+      "complete": true,
+      "groups": {
+        "lora": {
+          "expected": 240,
+          "nonzero": 240,
+          "observed": 240
+        },
+        "norm": {
+          "expected": 144,
+          "nonzero": 144,
+          "observed": 144
+        },
+        "proprio": {
+          "expected": 2,
+          "nonzero": 2,
+          "observed": 2
+        },
+        "shared_or_inherited": {
+          "expected": 533,
+          "nonzero": 533,
+          "observed": 533
+        },
+        "slot": {
+          "expected": 132,
+          "nonzero": 132,
+          "observed": 132
+        }
+      },
+      "missing": [],
+      "nonfinite": [],
+      "zero_gradient": []
+    },
+    {
+      "complete": true,
+      "groups": {
+        "lora": {
+          "expected": 240,
+          "nonzero": 240,
+          "observed": 240
+        },
+        "norm": {
+          "expected": 144,
+          "nonzero": 144,
+          "observed": 144
+        },
+        "proprio": {
+          "expected": 2,
+          "nonzero": 2,
+          "observed": 2
+        },
+        "shared_or_inherited": {
+          "expected": 533,
+          "nonzero": 533,
+          "observed": 533
+        },
+        "slot": {
+          "expected": 132,
+          "nonzero": 132,
+          "observed": 132
+        }
+      },
+      "missing": [],
+      "nonfinite": [],
+      "zero_gradient": []
+    },
+    {
+      "complete": true,
+      "groups": {
+        "lora": {
+          "expected": 240,
+          "nonzero": 240,
+          "observed": 240
+        },
+        "norm": {
+          "expected": 144,
+          "nonzero": 144,
+          "observed": 144
+        },
+        "proprio": {
+          "expected": 2,
+          "nonzero": 2,
+          "observed": 2
+        },
+        "shared_or_inherited": {
+          "expected": 533,
+          "nonzero": 533,
+          "observed": 533
+        },
+        "slot": {
+          "expected": 132,
+          "nonzero": 132,
+          "observed": 132
+        }
+      },
+      "missing": [],
+      "nonfinite": [],
+      "zero_gradient": []
+    }
+  ]
+}

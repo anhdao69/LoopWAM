@@ -1,0 +1,32 @@
+{
+  "bf16": {
+    "enabled": false
+  },
+  "checkpoint": {
+    "use_node_local_storage": false
+  },
+  "fp16": {
+    "enabled": false
+  },
+  "gradient_accumulation_steps": 4,
+  "gradient_clipping": 1.0,
+  "steps_per_print": 1000000,
+  "torch_autocast": {
+    "dtype": "bfloat16",
+    "enabled": true,
+    "lower_precision_safe_modules": []
+  },
+  "train_batch_size": 128,
+  "train_micro_batch_size_per_gpu": 8,
+  "wall_clock_breakdown": false,
+  "zero_allow_untested_optimizer": true,
+  "zero_optimization": {
+    "allgather_bucket_size": 50000000,
+    "contiguous_gradients": true,
+    "ignore_unused_parameters": true,
+    "overlap_comm": true,
+    "reduce_bucket_size": 50000000,
+    "reduce_scatter": true,
+    "stage": 1
+  }
+}

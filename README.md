@@ -1,5 +1,16 @@
 # FastWAM
 
+## LoopWAM v1 experiment branch
+
+This branch contains the LoopWAM implementation and the LIBERO-Long ablation campaign.
+
+- **[Current status, results and runtime report](reports/LoopWAM_v1_current_status.md)** — timestamped October 6, 2026; six training endpoints complete, Stage-1 selection finished, G1 recovery precheck failed.
+- [Detailed implementation report](reports/LoopWAM_v1_implementation.md)
+- [Two-allocation training scheduler and handoff](reports/LoopWAM_v1_parallel_training.md)
+- [Results CSV](reports/current_status/results.csv), [training runtime CSV](reports/current_status/training_runtime.csv), and [evidence inventory](reports/current_status/snapshot_inventory.json)
+
+The reports distinguish completed measurements from pending experiments. The original FastWAM documentation follows.
+
 Official codebase for **Fast-WAM: Do World Action Models Need Test-time Future Imagination?**
 
 [![English](https://img.shields.io/badge/README-English-111111.svg)](./README.md)

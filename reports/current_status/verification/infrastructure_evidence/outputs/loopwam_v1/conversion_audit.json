@@ -1,0 +1,41 @@
+{
+  "path": "checkpoints/loopwam_v1/loopwam_r32.pt",
+  "arch": "loopwam",
+  "file_bytes": 2160261923,
+  "strict_load": true,
+  "video": {
+    "parameters": 891250880,
+    "tensor_bytes": 1782501760,
+    "compact_storage": true,
+    "all_finite": true
+  },
+  "action": {
+    "parameters": 188658439,
+    "tensor_bytes": 377316878,
+    "compact_storage": true,
+    "all_finite": true
+  },
+  "proprio": {
+    "parameters": 36864,
+    "tensor_bytes": 73728,
+    "compact_storage": true,
+    "all_finite": true
+  },
+  "svd": {
+    "count": 480,
+    "under_30_percent": 479,
+    "video": {
+      "minimum": 0.042283117846634,
+      "mean": 0.12701315481456266,
+      "maximum": 0.27556960244941137,
+      "energy_weighted": 0.10811548369296642
+    },
+    "action": {
+      "minimum": 0.10295095198260289,
+      "mean": 0.18952290350418702,
+      "maximum": 0.30898700584604194,
+      "energy_weighted": 0.18152802113965222
+    }
+  },
+  "sha256": "9cad6f63e97dc532e1b6f2fd3d2407190a527194ae64bf6b521e1de561f13957"
+}
